@@ -1,16 +1,18 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import './App.css'
-import Home from './pages/Home/Home'
-import FeedPage from './pages/FeedPage/FeedPage'
+import Welcome from './routes/Welcome'
+import Home from './routes/Home'
+import Navigation from './routes/Navigation'
 
 function App() {
-  return (<BrowserRouter>
+  return (
     <Routes>
-      <Route path='/' element={<Home />} />
-      <Route path='/feed' element={<FeedPage />} />
+      <Route path='/' element={<Navigation />}>
+        <Route index element={<Home />} />
+        <Route path='welcome' element={<Welcome />} />
+      </Route>
     </Routes>
-  </BrowserRouter>
   )}
 
 export default App
