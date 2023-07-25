@@ -14,8 +14,10 @@ function NavBar() {
           />
         </Link>
       </div>
-      <div className='absolute right-0'>
-        <Button addedClasses='py-1 px-2 text-xl mx-20 my-5'>Login</Button>
+      <div className='absolute right-20'>
+        <Button addedClasses='py-1 px-2 text-xl my-5 w-full mx-10'>
+          Login
+        </Button>
       </div>
     </div>
   )
