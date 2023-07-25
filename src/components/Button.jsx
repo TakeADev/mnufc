@@ -1,9 +1,9 @@
 import React from 'react'
 
-function Button({ label }) {
+function Button({ addedClasses, children }) {
   return (
-    <button className='text-black text-3xl bg-cyan-300 rounded-full w-2/5 py-2 px-3 mr-10'>
-      {label}
+    <button className={`text-black bg-cyan-300 rounded-full ` + addedClasses}>
+      {children}
     </button>
   )
 }
