@@ -1,5 +1,4 @@
-const placeholderPic =
-  'https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png'
+const placeholderPic = 'https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png'
 
 export const posts = [
   {
@@ -12,26 +11,26 @@ export const posts = [
   },
   {
     id: 2,
-    name: 'Dave',
-    handle: '@davethedude',
+    name: 'Minnesota United Threads',
+    handle: '@mnufc',
     time: '9:45pm',
     profilePic: placeholderPic,
-    content: "Wow I can't believe the goal!!!",
+    content: "Match update: Reynoso scores free kick outside the box at 83' to bring the Loons to a lead at 3-2.",
   },
   {
     id: 3,
-    name: 'Dave',
-    handle: '@davethedude',
+    name: 'Terry',
+    handle: '@terrydoessoccer',
     time: '9:45pm',
     profilePic: placeholderPic,
-    content: "Wow I can't believe the goal!!!",
+    content: 'THE GOAT!!!!!',
   },
   {
     id: 4,
-    name: 'Dave',
-    handle: '@davethedude',
+    name: 'Minnesota United Fans',
+    handle: '@MNUFanClub',
     time: '9:45pm',
     profilePic: placeholderPic,
-    content: "Wow I can't believe the goal!!!",
+    content: "We love Reynoso don't we folks?",
   },
 ]
