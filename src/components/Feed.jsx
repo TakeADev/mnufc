@@ -6,26 +6,25 @@ import PostInfo from './PostInfo'
 import PostContent from './PostContent'
 
 import { posts } from '../../post-data'
+import FeedContainer from './FeedContainer'
 
 function Feed() {
   return (
-    <div className='flex w-full'>
-      <div className='w-2/5 mx-auto'>
-        {posts.map((post) => {
-          return (
-            <PostContainer key={post.id}>
-              <PostInfoContainer>
-                <ProfilePicBubble profilePic={post.profilePic} />
+    <FeedContainer>
+      {posts.map((post) => {
+        return (
+          <PostContainer key={post.id}>
+            <PostInfoContainer>
+              <ProfilePicBubble profilePic={post.profilePic} />
 
-                <PostInfo post={post} />
-              </PostInfoContainer>
+              <PostInfo post={post} />
+            </PostInfoContainer>
 
-              <PostContent content={post.content} />
-            </PostContainer>
-          )
-        })}
-      </div>
-    </div>
+            <PostContent content={post.content} />
+          </PostContainer>
+        )
+      })}
+    </FeedContainer>
   )
 }
 
