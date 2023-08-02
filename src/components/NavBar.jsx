@@ -15,11 +15,11 @@ function NavBar() {
       </div>
       <div className='absolute right-20'>
         {currentUser ? (
-          <Link to='/auth'>
-            <Button addedClasses='py-1 px-2 text-xl my-5 w-full mx-10'>Sign Out</Button>
-          </Link>
+          <Button addedClasses='py-1 px-2 text-xl my-5 w-full mx-10'>Sign Out</Button>
         ) : (
-          <Button addedClasses='py-1 px-2 text-xl my-5 w-full mx-10'>Login</Button>
+          <Link to='/auth'>
+            <Button addedClasses='py-1 px-2 text-xl my-5 w-full mx-10'>Login</Button>
+          </Link>
         )}
       </div>
     </div>
