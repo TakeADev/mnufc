@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 
 import { initializeApp } from 'firebase/app'
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 
 import { UserContext } from '../../contexts/User'
 
@@ -14,8 +14,19 @@ const firebaseConfig = {
   appId: '1:894858335699:web:c5fec932c71b53f7f5cb26',
 }
 
-const user = useContext(UserContext)
-
 const app = initializeApp(firebaseConfig)
 
 const auth = getAuth()
+
+export const createNewUserWithEmailAndPassword = (email, password, username) => {
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user
+    })
+    .catch((error) => {
+      const errorCode = error.code
+      const errorMessage = error.message
+
+      alert(errorCode + errorMessage)
+    })
+}
