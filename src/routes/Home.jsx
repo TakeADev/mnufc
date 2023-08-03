@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Feed from '../components/Feed'
+import Feed from '../components/Feed/Feed'
 
 function Home() {
   return <Feed />
