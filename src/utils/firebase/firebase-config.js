@@ -4,6 +4,7 @@ import firebase from 'firebase/compat/app'
 import { initializeApp } from 'firebase/app'
 import 'firebase/firestore'
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
+import { getFirestore, collection, getDoc } from 'firebase/firestore'
 
 import { UserContext } from '../../contexts/User'
 
@@ -19,6 +20,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 
 const auth = getAuth()
+const db = getFirestore(app)
 
 export const createNewUserWithEmailAndPassword = (email, password, username) => {
   createUserWithEmailAndPassword(auth, email, password)
