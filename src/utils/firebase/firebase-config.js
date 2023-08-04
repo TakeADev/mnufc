@@ -1,6 +1,8 @@
 import { useContext } from 'react'
 
+import firebase from 'firebase/compat/app'
 import { initializeApp } from 'firebase/app'
+import 'firebase/firestore'
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 
 import { UserContext } from '../../contexts/User'
