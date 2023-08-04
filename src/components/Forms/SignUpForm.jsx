@@ -1,17 +1,26 @@
 import React, { useState, useContext } from 'react'
 
-import { createNewUserWithEmailAndPassword, logCurrentUser } from '../../utils/firebase/firebase-config'
+import { createNewUserWithEmailAndPassword } from '../../utils/firebase/firebase-config'
+
+const defaultFormFields = {
+  username: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+}
 
 function SignUpForm() {
-  const [formValue, setFormValue] = useState({})
+  const [formValue, setFormValue] = useState(defaultFormFields)
+
+  const { username, email, password, confirmPassword } = formValue
 
   const onSubmitHandler = (e) => {
     e.preventDefault()
-    if (formValue.password !== formValue.confirmPassowrd) {
+    if (password !== confirmPassword) {
       return alert('Passwords do not match.')
     }
-    createNewUserWithEmailAndPassword(formValue.email, formValue.password, formValue.username)
-    setFormValue({})
+    createNewUserWithEmailAndPassword(email, password, username)
+    setFormValue(defaultFormFields)
   }
 
   const onChangeHandler = (e) => {
@@ -19,7 +28,6 @@ function SignUpForm() {
 
     e.preventDefault()
     setFormValue({ ...formValue, [name]: e.target.value })
-    logCurrentUser()
   }
 
   return (
@@ -33,7 +41,7 @@ function SignUpForm() {
             name='email'
             placeholder='Email'
             className='bg-slate-800 ml-3 rounded-lg w-3/4 focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
-            value={formValue.email || ''}
+            value={formValue.email}
             onChange={onChangeHandler}
           />
         </div>
@@ -63,10 +71,10 @@ function SignUpForm() {
           <input
             required
             type='password'
-            name='confirmPassowrd'
+            name='confirmPassword'
             placeholder='Confirm Password'
             className='bg-slate-800 ml-3 rounded-lg w-3/4 focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
-            value={formValue.confirmPassowrd || ''}
+            value={formValue.confirmPassword || ''}
             onChange={onChangeHandler}
           />
           <input type='submit' value='' />
