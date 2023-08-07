@@ -4,7 +4,7 @@ import firebase from 'firebase/compat/app'
 import { initializeApp } from 'firebase/app'
 import 'firebase/firestore'
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
-import { getFirestore, collection, getDoc } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, getDoc } from 'firebase/firestore'
 
 import { UserContext } from '../../contexts/User'
 
@@ -22,10 +22,24 @@ const app = initializeApp(firebaseConfig)
 const auth = getAuth()
 const db = getFirestore(app)
 
-export const createNewUserWithEmailAndPassword = (email, password, username) => {
+const createUserDocItem = async (user) => {
+  const { username, email } = user
+  try {
+    const docRef = await addDoc(collection(db, 'users'), {
+      username: username,
+      email: email,
+    })
+    console.log('Document written with ID: ', docRef.id)
+  } catch (e) {
+    console.error('Error adding document: ', e)
+  }
+}
+
+export const createNewUserWithEmailAndPassword = async (email, password, username) => {
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user
+      createUserDocItem(user)
     })
     .catch((error) => {
       const errorCode = error.code
@@ -34,3 +48,8 @@ export const createNewUserWithEmailAndPassword = (email, password, username) => 
       alert(errorCode + errorMessage)
     })
 }
+
+const querySnapshot = await getDocs(collection(db, 'users'))
+querySnapshot.forEach((doc) => {
+  console.log(`${doc.id} => ${doc.data()}`)
+})
