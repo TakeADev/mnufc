@@ -1,33 +1,47 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 
-import { createNewUserWithEmailAndPassword } from '../../utils/firebase/firebase-config'
+import { createNewUserWithEmailAndPassword, createUserDocumentFromAuth } from '../../utils/firebase/firebase-config'
 
 const defaultFormFields = {
-  username: '',
+  displayName: '',
   email: '',
   password: '',
   confirmPassword: '',
 }
 
 function SignUpForm() {
-  const [formValue, setFormValue] = useState(defaultFormFields)
+  const [formFields, setFormFields] = useState(defaultFormFields)
+  const { displayName, email, password, confirmPassword } = formFields
 
-  const { username, email, password, confirmPassword } = formValue
+  const resetFormFields = () => {
+    setFormFields(defaultFormFields)
+  }
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault()
+
     if (password !== confirmPassword) {
       return alert('Passwords do not match.')
     }
-    createNewUserWithEmailAndPassword(email, password, username)
-    setFormValue(defaultFormFields)
+    try {
+      const user = await createNewUserWithEmailAndPassword(email, password)
+
+      await createUserDocumentFromAuth(user, displayName)
+      resetFormFields()
+    } catch (err) {
+      if (err.code === 'auth/email-already-in-use') {
+        alert('Cannot create user. Email already in use.')
+      } else {
+        console.error('user creation encountered an error', err)
+      }
+    }
   }
 
   const onChangeHandler = (e) => {
     const { name } = e.target
 
     e.preventDefault()
-    setFormValue({ ...formValue, [name]: e.target.value })
+    setFormFields({ ...formFields, [name]: e.target.value })
   }
 
   return (
@@ -41,7 +55,7 @@ function SignUpForm() {
             name='email'
             placeholder='Email'
             className='bg-slate-800 ml-3 rounded-lg w-3/4 focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
-            value={formValue.email}
+            value={formFields.email || ''}
             onChange={onChangeHandler}
           />
         </div>
@@ -49,10 +63,10 @@ function SignUpForm() {
           <input
             required
             type='text'
-            name='username'
+            name='displayName'
             placeholder='Username'
             className='bg-slate-800 ml-3 rounded-lg w-3/4 focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
-            value={formValue.username || ''}
+            value={formFields.displayName || ''}
             onChange={onChangeHandler}
           />
         </div>
@@ -63,7 +77,7 @@ function SignUpForm() {
             name='password'
             placeholder='Password'
             className='bg-slate-800 ml-3 rounded-lg w-3/4 focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
-            value={formValue.password || ''}
+            value={formFields.password || ''}
             onChange={onChangeHandler}
           />
         </div>
@@ -74,10 +88,10 @@ function SignUpForm() {
             name='confirmPassword'
             placeholder='Confirm Password'
             className='bg-slate-800 ml-3 rounded-lg w-3/4 focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
-            value={formValue.confirmPassword || ''}
+            value={formFields.confirmPassword || ''}
             onChange={onChangeHandler}
           />
-          <input type='submit' value='' />
+          <button type='submit'>Sign Up</button>
         </div>
       </form>
     </>

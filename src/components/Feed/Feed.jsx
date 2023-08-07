@@ -1,7 +1,7 @@
 import React from 'react'
 import PostContainer from '../Posts/PostContainer'
 import PostInfoContainer from '../Posts/PostInfoContainer'
-import ProfilePicBubble from '../ProfilePicBubble'
+import ProfilePicBubble from '../Profile/ProfilePicBubble'
 import PostInfo from '../Posts/PostInfo'
 import PostContent from '../Posts/PostContent'
 

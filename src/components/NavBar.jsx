@@ -4,6 +4,8 @@ import Button from './Button'
 
 import { UserContext } from '../contexts/User'
 
+import { signOutUser } from '../utils/firebase/firebase-config'
+
 function NavBar() {
   const { currentUser } = useContext(UserContext)
   return (
@@ -14,8 +16,10 @@ function NavBar() {
         </Link>
       </div>
       <div className='absolute right-20'>
-        {currentUser ? (
-          <Button addedClasses='py-1 px-2 text-xl my-5 w-full mx-10'>Sign Out</Button>
+        {currentUser == false ? (
+          <Button addedClasses='py-1 px-2 text-xl my-5 w-full mx-10' onClick={signOutUser}>
+            Sign Out
+          </Button>
         ) : (
           <Link to='/auth'>
             <Button addedClasses='py-1 px-2 text-xl my-5 w-full mx-10'>Login</Button>
