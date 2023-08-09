@@ -21,7 +21,7 @@ const auth = getAuth()
 const db = getFirestore(app)
 
 export const createNewUserWithEmailAndPassword = async (email, password) => {
-  createUserWithEmailAndPassword(auth, email, password).catch((error) => {
+  return createUserWithEmailAndPassword(auth, email, password).catch((error) => {
     const errorCode = error.code
     const errorMessage = error.message
 
@@ -42,29 +42,14 @@ export const signInUserWithEmailAndPassword = async (email, password) => {
 }
 
 export const createUserDocumentFromAuth = async (userAuth, additionalInfo) => {
-  if (!userAuth) return
+  const userDocRef = doc(db, 'users', userAuth.user.uid)
+  const createdAt = new Date()
 
-  const userDocRef = doc(db, 'users', userAuth.uid)
-
-  const userSnapshot = await getDoc(userDocRef)
-
-  if (!userSnapshot.exists()) {
-    const { displayName, email } = userAuth
-    const createdAt = new Date()
-
-    try {
-      await setDoc(userDocRef, {
-        displayName,
-        email,
-        createdAt,
-        ...additionalInfo,
-      })
-    } catch (err) {
-      alert('Something went wrong' + err)
-      console.log('error creating the user', err)
-    }
-  }
-  return userDocRef
+  setDoc(userDocRef, {
+    email: userAuth.user.email,
+    displayName: additionalInfo.displayName,
+    createdAt: createdAt,
+  })
 }
 
 export const signOutUser = () => {
