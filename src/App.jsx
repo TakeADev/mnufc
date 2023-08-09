@@ -19,7 +19,6 @@ function App() {
     const unsubscribe = onAuthStateChangedListener((user) => {
       setCurrentUser(user)
     })
-    console.log(currentUser)
     return unsubscribe
   })
 
