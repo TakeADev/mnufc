@@ -1,4 +1,7 @@
 import React from 'react'
+
+import { Link } from 'react-router-dom'
+
 import Button from './Button'
 
 function Hero() {
@@ -7,7 +10,9 @@ function Hero() {
       <div className='mx-auto w-1/2  max-w-xl'>
         <span className='text-7xl'>Minnesota United Fan Club</span>
         <h2 className='text-4xl my-10'>Swim with the Loons!</h2>
-        <Button addedClasses='text-3xl w-3/4 py-2 px-3 mr-10'>Login or Sign Up</Button>
+        <Link to='/auth'>
+          <Button addedClasses='text-3xl w-3/4 py-2 px-3 mr-10'>Login or Sign Up</Button>
+        </Link>
       </div>
       <div className='w-1/2 text-left pl-10 max-w-3xl h-screen mr-0'>
         <img
