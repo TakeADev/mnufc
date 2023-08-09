@@ -25,7 +25,7 @@ function App() {
   return (
     <Routes>
       <Route path='/' element={<Navigation />}>
-        <Route index element={currentUser ? <Home /> : <Navigate to='auth' replace />} />
+        <Route index element={currentUser ? <Home /> : <Navigate to='welcome' replace />} />
         <Route path='welcome' element={currentUser ? <Navigate to='/' replace /> : <Welcome />} />
         <Route path='auth' element={currentUser ? <Navigate to='/' replace /> : <Authentication />} />
         <Route path='profile' element={<Profile />} />
