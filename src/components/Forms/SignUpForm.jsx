@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import { createNewUserWithEmailAndPassword, createUserDocumentFromAuth } from '../../utils/firebase/firebase-config'
+import Button from '../Button'
 
 const defaultFormFields = {
   displayName: '',
@@ -25,9 +26,7 @@ function SignUpForm() {
     }
     try {
       const user = await createNewUserWithEmailAndPassword(email, password)
-
-      await createUserDocumentFromAuth(user, displayName)
-      resetFormFields()
+      await createUserDocumentFromAuth(user, { displayName: displayName })
     } catch (err) {
       if (err.code === 'auth/email-already-in-use') {
         alert('Cannot create user. Email already in use.')
@@ -35,6 +34,7 @@ function SignUpForm() {
         console.error('user creation encountered an error', err)
       }
     }
+    resetFormFields()
   }
 
   const onChangeHandler = (e) => {
@@ -55,7 +55,7 @@ function SignUpForm() {
             name='email'
             placeholder='Email'
             className='bg-slate-800 ml-3 rounded-lg w-3/4 focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
-            value={formFields.email || ''}
+            value={email}
             onChange={onChangeHandler}
           />
         </div>
@@ -66,7 +66,7 @@ function SignUpForm() {
             name='displayName'
             placeholder='Username'
             className='bg-slate-800 ml-3 rounded-lg w-3/4 focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
-            value={formFields.displayName || ''}
+            value={displayName}
             onChange={onChangeHandler}
           />
         </div>
@@ -77,7 +77,7 @@ function SignUpForm() {
             name='password'
             placeholder='Password'
             className='bg-slate-800 ml-3 rounded-lg w-3/4 focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
-            value={formFields.password || ''}
+            value={password}
             onChange={onChangeHandler}
           />
         </div>
@@ -88,11 +88,13 @@ function SignUpForm() {
             name='confirmPassword'
             placeholder='Confirm Password'
             className='bg-slate-800 ml-3 rounded-lg w-3/4 focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
-            value={formFields.confirmPassword || ''}
+            value={confirmPassword}
             onChange={onChangeHandler}
           />
-          <button type='submit'>Sign Up</button>
         </div>
+        <Button type='submit' addedClasses='w-1/3 ml-20 mt-5'>
+          Sign Up
+        </Button>
       </form>
     </>
   )
