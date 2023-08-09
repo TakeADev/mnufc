@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import { signInUserWithEmailAndPassword } from '../../utils/firebase/firebase-config'
+import Button from '../Button'
 
 function LoginForm() {
   const defaultFormFields = {
@@ -12,14 +13,14 @@ function LoginForm() {
 
   const { email, password } = formValue
 
-  const clearFormFields = () => {
+  const resetFormFields = () => {
     setFormValue(defaultFormFields)
   }
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault()
-    signInUserWithEmailAndPassword(email, password)
-    clearFormFields()
+    await signInUserWithEmailAndPassword(email, password)
+    resetFormFields()
   }
 
   const onChangeHandler = (e) => {
@@ -38,8 +39,9 @@ function LoginForm() {
             type='text'
             name='email'
             placeholder='Email'
-            className='bg-slate-800 ml-3 rounded-lg w-1/2 focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 focus:w-3/4 p-2'
+            className='bg-slate-800 ml-3 rounded-lg w-3/4 focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
             onChange={onChangeHandler}
+            value={email}
             required
           />
         </div>
@@ -48,12 +50,15 @@ function LoginForm() {
             type='password'
             name='password'
             placeholder='Password'
-            className='bg-slate-800 ml-3 rounded-lg w-1/2 focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 focus:w-3/4 p-2'
+            className='bg-slate-800 ml-3 rounded-lg w-3/4 focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
             onChange={onChangeHandler}
+            value={password}
             required
           />
         </div>
-        <input type='submit' value='' />
+        <Button type='submit' addedClasses='w-1/3 ml-20 mt-5'>
+          Sign In
+        </Button>
       </form>
     </>
   )
