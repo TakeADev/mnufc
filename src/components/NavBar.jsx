@@ -16,7 +16,7 @@ function NavBar() {
         </Link>
       </div>
       <div className='absolute right-20'>
-        {currentUser == false ? (
+        {currentUser ? (
           <Button addedClasses='py-1 px-2 text-xl my-5 w-full mx-10' onClick={signOutUser}>
             Sign Out
           </Button>
