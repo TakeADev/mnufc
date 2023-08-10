@@ -1,14 +1,14 @@
 import React from 'react'
 
 function PostInfo({ post }) {
-  const { name, handle, time } = post
+  const { name, user_id, timestamp } = post
   return (
     <div className='w-max mt-5 max-h-10 mb-0'>
       <span className=''>
-        <b>{name}</b>
+        <b>User</b>
       </span>
-      <span className='ml-3 text-gray-500'>{handle}</span>
-      <span className='ml-3 text-gray-500'>{time}</span>
+      <span className='ml-3 text-gray-500'>{user_id}</span>
+      <span className='ml-3 text-gray-500'>{timestamp}</span>
     </div>
   )
 }
