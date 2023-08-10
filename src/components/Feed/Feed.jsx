@@ -1,19 +1,21 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PostContainer from '../Posts/PostContainer'
 import PostInfoContainer from '../Posts/PostInfoContainer'
 import ProfilePicBubble from '../Profile/ProfilePicBubble'
 import PostInfo from '../Posts/PostInfo'
 import PostContent from '../Posts/PostContent'
-
-import { posts } from '../../../post-data'
 import FeedContainer from './FeedContainer'
 
+import { UserPostsContext } from '../../contexts/UserPosts'
+
 function Feed() {
+  const { userPosts } = useContext(UserPostsContext)
+
   return (
     <FeedContainer>
-      {posts.map((post) => {
+      {userPosts.map((post) => {
         return (
-          <PostContainer key={post.id}>
+          <PostContainer key={post.post_id}>
             <PostInfoContainer>
               <ProfilePicBubble profilePic={post.profilePic} />
 
