@@ -15,7 +15,7 @@ function Feed() {
     <FeedContainer>
       {userPosts.map((post) => {
         return (
-          <PostContainer key={post.post_id}>
+          <PostContainer key={post.postId}>
             <PostInfoContainer>
               <ProfilePicBubble profilePic={post.profilePic} />
 
