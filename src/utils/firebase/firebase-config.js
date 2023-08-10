@@ -1,10 +1,7 @@
-import { useContext } from 'react'
-
-import firebase from 'firebase/compat/app'
 import { initializeApp } from 'firebase/app'
 import 'firebase/firestore'
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from 'firebase/auth'
-import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore'
+import { getFirestore, doc, setDoc, writeBatch, getDocs, query, collection } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBEVSu6KdPg1-45MRNndbPOxpIu08GH5pA',
@@ -58,4 +55,15 @@ export const signOutUser = () => {
 
 export const onAuthStateChangedListener = (callback) => {
   onAuthStateChanged(auth, callback)
+}
+
+const q = query(collection(db, 'userPosts'))
+const postsSnapshot = await getDocs(q).catch((err) => console.log(err))
+
+export const getUserPosts = () => {
+  const posts = []
+  postsSnapshot.forEach((post) => {
+    posts.push(post.data())
+  })
+  return posts
 }
