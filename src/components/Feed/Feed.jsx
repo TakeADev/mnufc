@@ -7,12 +7,14 @@ import PostContent from '../Posts/PostContent'
 import FeedContainer from './FeedContainer'
 
 import { UserPostsContext } from '../../contexts/UserPosts'
+import CreatePost from '../CreatePost/CreatePost'
 
 function Feed() {
   const { userPosts } = useContext(UserPostsContext)
 
   return (
     <FeedContainer>
+      <CreatePost />
       {userPosts.map((post) => {
         return (
           <PostContainer key={post.postId}>
