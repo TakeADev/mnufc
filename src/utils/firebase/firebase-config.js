@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app'
 import 'firebase/firestore'
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from 'firebase/auth'
-import { getFirestore, doc, setDoc, writeBatch, getDocs, query, collection } from 'firebase/firestore'
+import { getFirestore, doc, setDoc, writeBatch, getDocs, query, collection, addDoc, getDoc, updateDoc } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBEVSu6KdPg1-45MRNndbPOxpIu08GH5pA',
@@ -65,5 +65,35 @@ export const getUserPosts = () => {
   postsSnapshot.forEach((post) => {
     posts.push(post.data())
   })
-  return posts
+
+  const postsSorted = posts.sort((a, b) => {
+    return new Date(a.timestamp) - new Date(b.timestamp)
+  })
+
+  return postsSorted.reverse()
+}
+
+export const getUserDocFromAuth = async (user) => {
+  const { uid } = user
+  const userDocRef = doc(db, 'users', uid)
+  const userSnap = await getDoc(userDocRef)
+
+  return userSnap.data()
+}
+
+export const createUserPost = async (user, postContent) => {
+  const userDoc = await getUserDocFromAuth(user)
+  const timestamp = new Date().toLocaleString()
+  await addDoc(collection(db, 'userPosts'), {
+    uid: userDoc.uid,
+    content: postContent,
+    timestamp: timestamp,
+    username: userDoc.displayName,
+    name: 'User',
+    likes: 0,
+  }).then((docRef) => {
+    updateDoc(docRef, {
+      postId: docRef.id,
+    })
+  })
 }
