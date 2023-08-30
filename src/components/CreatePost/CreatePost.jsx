@@ -31,7 +31,7 @@ function CreatePost() {
   }
 
   return (
-    <div className='mb-5 flex'>
+    <div className='mb-5 flex mx-3'>
       <form action='submit' onSubmit={onSubmitHandler}>
         <textarea
           name='postContent'

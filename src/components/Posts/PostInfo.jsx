@@ -7,8 +7,8 @@ function PostInfo({ post }) {
       <span className=''>
         <b>{name}</b>
       </span>
-      <span className='ml-3 text-gray-500'>@{username}</span>
-      <span className='ml-3 text-gray-500'>{timestamp}</span>
+      <span className='ml-3 text-gray-500 text-sm'>@{username}</span>
+      <span className='ml-3 text-gray-500 text-xs'>{timestamp}</span>
     </div>
   )
 }
