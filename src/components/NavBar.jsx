@@ -9,8 +9,8 @@ import { signOutUser } from '../utils/firebase/firebase-config'
 function NavBar() {
   const { currentUser } = useContext(UserContext)
   return (
-    <div className='dark:bg-gray-950 sticky top-0 flex mb-5 max-w-2xl mx-auto'>
-      <div className='w-14 mt-3'>
+    <div className='dark:bg-gray-950 sticky top-0 flex mb-5 mx-auto pb-5'>
+      <div className='w-14 mt-3 ml-5'>
         <Link to='/'>
           <img className='' src='https://gravectory.com/wp-content/uploads/2023/03/minnesota_united_24.png' alt='Loon' />
         </Link>
