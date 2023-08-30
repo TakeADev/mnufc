@@ -1,7 +1,20 @@
 import { initializeApp } from 'firebase/app'
 import 'firebase/firestore'
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from 'firebase/auth'
-import { getFirestore, doc, setDoc, writeBatch, getDocs, query, collection, addDoc, getDoc, updateDoc } from 'firebase/firestore'
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  writeBatch,
+  getDocs,
+  query,
+  collection,
+  addDoc,
+  getDoc,
+  updateDoc,
+  onSnapshot,
+  QuerySnapshot,
+} from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBEVSu6KdPg1-45MRNndbPOxpIu08GH5pA',
@@ -60,16 +73,22 @@ export const onAuthStateChangedListener = (callback) => {
 const q = query(collection(db, 'userPosts'))
 const postsSnapshot = await getDocs(q).catch((err) => console.log(err))
 
-export const getUserPosts = () => {
-  const posts = []
-  postsSnapshot.forEach((post) => {
-    posts.push(post.data())
-  })
+export const onUserPostsSnapshotListener = (callback) => {
+  return onSnapshot(q, callback)
+}
 
+export const getUserPosts = async () => {
+  const posts = []
+  try {
+    postsSnapshot.forEach((post) => {
+      posts.push(post.data())
+    })
+  } catch (err) {
+    console.log(err)
+  }
   const postsSorted = posts.sort((a, b) => {
     return new Date(a.timestamp) - new Date(b.timestamp)
   })
-
   return postsSorted.reverse()
 }
 

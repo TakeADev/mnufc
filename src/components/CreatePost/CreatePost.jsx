@@ -3,10 +3,12 @@ import React, { useState, useContext } from 'react'
 import Button from '../Button'
 import { UserContext } from '../../contexts/User'
 import { createUserPost } from '../../utils/firebase/firebase-config'
+import { UserPostsContext } from '../../contexts/UserPosts'
 
 function CreatePost() {
   const [postData, setPostData] = useState('')
   const { currentUser } = useContext(UserContext)
+  const { createNewUserPost } = useContext(UserPostsContext)
 
   const resetFormValue = () => {
     setPostData('')
@@ -16,10 +18,10 @@ function CreatePost() {
     setPostData(e.target.value)
   }
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault()
-    createUserPost(currentUser, postData)
     resetFormValue()
+    createNewUserPost(currentUser, postData)
   }
 
   const postEnterSubmit = (e) => {

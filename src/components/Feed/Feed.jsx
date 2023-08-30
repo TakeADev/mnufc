@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import PostContainer from '../Posts/PostContainer'
 import PostInfoContainer from '../Posts/PostInfoContainer'
 import ProfilePicBubble from '../Profile/ProfilePicBubble'
@@ -15,19 +15,20 @@ function Feed() {
   return (
     <FeedContainer>
       <CreatePost />
-      {userPosts.map((post) => {
-        return (
-          <PostContainer key={post.postId}>
-            <PostInfoContainer>
-              <ProfilePicBubble profilePic={post.profilePic} />
+      {userPosts &&
+        userPosts.map((post) => {
+          return (
+            <PostContainer key={post.postId}>
+              <PostInfoContainer>
+                <ProfilePicBubble profilePic={post.profilePic} />
 
-              <PostInfo post={post} />
-            </PostInfoContainer>
+                <PostInfo post={post} />
+              </PostInfoContainer>
 
-            <PostContent content={post.content} />
-          </PostContainer>
-        )
-      })}
+              <PostContent content={post.content} />
+            </PostContainer>
+          )
+        })}
     </FeedContainer>
   )
 }

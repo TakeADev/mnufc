@@ -1,18 +1,30 @@
-import React, { createContext, useEffect, useState } from 'react'
-import { getUserPosts } from '../utils/firebase/firebase-config'
+import React, { createContext, useState } from 'react'
+import { createUserPost } from '../utils/firebase/firebase-config'
 
-export const UserPostsContext = createContext({ userPosts: null, setUserPosts: () => {} })
+export const UserPostsContext = createContext({
+  userPosts: null,
+  setUserPosts: () => {},
+  postCreated: false,
+  setPostCreated: () => {},
+  createNewUserPost: () => {},
+})
 
 function UserPostsProvider({ children }) {
   const [userPosts, setUserPosts] = useState(null)
 
-  useEffect(() => {
-    setUserPosts(getUserPosts)
-  }, [])
+  const createNewUserPost = async (currentUser, postData) => {
+    try {
+      await createUserPost(currentUser, postData)
+      console.log('Post created with data: ' + postData)
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   const value = {
     userPosts,
     setUserPosts,
+    createNewUserPost,
   }
 
   return <UserPostsContext.Provider value={value}>{children}</UserPostsContext.Provider>
