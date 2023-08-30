@@ -9,18 +9,34 @@ import Navigation from './routes/Navigation'
 import Authentication from './routes/Authentication'
 import Profile from './routes/Profile'
 
-import { onAuthStateChangedListener } from './utils/firebase/firebase-config'
+import { onAuthStateChangedListener, onUserPostsSnapshotListener } from './utils/firebase/firebase-config'
 import { UserContext } from './contexts/User'
+import { UserPostsContext } from './contexts/UserPosts'
 
 function App() {
   const { setCurrentUser, currentUser } = useContext(UserContext)
+  const { setUserPosts } = useContext(UserPostsContext)
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
       setCurrentUser(user)
     })
     return unsubscribe
-  })
+  }, [])
+
+  useEffect(() => {
+    const unsubscribe = onUserPostsSnapshotListener((snapshot) => {
+      const posts = []
+      snapshot.forEach((doc) => {
+        posts.push(doc.data())
+      })
+      const postsSorted = posts.sort((a, b) => {
+        return new Date(a.timestamp) - new Date(b.timestamp)
+      })
+      setUserPosts(postsSorted.reverse())
+    })
+    return unsubscribe
+  }, [])
 
   return (
     <Routes>
