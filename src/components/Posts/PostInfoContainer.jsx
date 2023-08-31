@@ -1,6 +1,6 @@
 import React from 'react'
 
-function PostInfoContainer({ children, id }) {
+function PostInfoContainer({ children }) {
   return <div className='flex w-full'>{children}</div>
 }
 
