@@ -24,7 +24,7 @@ function NavBar() {
             Sign Out
           </Button>
         ) : (
-          <Link to='/auth'>
+          <Link to='/login'>
             <Button addedClasses='py-1 px-2 text-lg my-5 w-full mx-10'>Login</Button>
           </Link>
         )}

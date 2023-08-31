@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+import { Link } from 'react-router-dom'
+
 import { signInUserWithEmailAndPassword } from '../../utils/firebase/firebase-config'
 import Button from '../Button'
 
@@ -32,14 +34,14 @@ function LoginForm() {
 
   return (
     <>
-      <span className='text-3xl'>Log In</span>
+      <span className='text-3xl'>Login</span>
       <form action='post' className='text-left mt-5 text-2xl' onSubmit={onSubmitHandler}>
         <div className='mt-10 text-center'>
           <input
             type='text'
             name='email'
             placeholder='Email'
-            className='bg-slate-800 ml-3 rounded-lg w-3/4 focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
+            className='bg-slate-800 ml-3 rounded-lg focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
             onChange={onChangeHandler}
             value={email}
             required
@@ -50,16 +52,24 @@ function LoginForm() {
             type='password'
             name='password'
             placeholder='Password'
-            className='bg-slate-800 ml-3 rounded-lg w-3/4 focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
+            className='bg-slate-800 ml-3 rounded-lg focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
             onChange={onChangeHandler}
             value={password}
             required
           />
         </div>
-        <Button type='submit' addedClasses='w-1/3 ml-20 mt-5'>
-          Sign In
+        <Button type='submit' addedClasses='w-1/2 ml-20 mt-5'>
+          Login
         </Button>
       </form>
+      <div className='text-center mt-5'>
+        <span>
+          Don't have an account?{' '}
+          <Link to='/signup'>
+            <span className=' text-cyan-500'>Sign Up!</span>
+          </Link>
+        </span>
+      </div>
     </>
   )
 }

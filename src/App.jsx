@@ -6,8 +6,9 @@ import './App.css'
 import Welcome from './routes/Welcome'
 import Home from './routes/Home'
 import Navigation from './routes/Navigation'
-import Authentication from './routes/Authentication'
+import Login from './routes/Login'
 import Profile from './routes/Profile'
+import SignUp from './routes/SignUp'
 
 import { onAuthStateChangedListener, onUserPostsSnapshotListener } from './utils/firebase/firebase-config'
 import { UserContext } from './contexts/User'
@@ -43,7 +44,8 @@ function App() {
       <Route path='/' element={<Navigation />}>
         <Route index element={currentUser ? <Home /> : <Navigate to='welcome' replace />} />
         <Route path='welcome' element={currentUser ? <Navigate to='/' replace /> : <Welcome />} />
-        <Route path='auth' element={currentUser ? <Navigate to='/' replace /> : <Authentication />} />
+        <Route path='login' element={currentUser ? <Navigate to='/' replace /> : <Login />} />
+        <Route path='signup' element={currentUser ? <Navigate to='/' replace /> : <SignUp />} />
         <Route path='profile' element={<Profile />} />
       </Route>
     </Routes>

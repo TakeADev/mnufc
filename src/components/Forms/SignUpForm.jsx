@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+import { Link } from 'react-router-dom'
+
 import { createNewUserWithEmailAndPassword, createUserDocumentFromAuth } from '../../utils/firebase/firebase-config'
 import Button from '../Button'
 
@@ -54,7 +56,7 @@ function SignUpForm() {
             type='text'
             name='email'
             placeholder='Email'
-            className='bg-slate-800 ml-3 rounded-lg w-3/4 focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
+            className='bg-slate-800 ml-3 rounded-lg focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
             value={email}
             onChange={onChangeHandler}
           />
@@ -65,7 +67,7 @@ function SignUpForm() {
             type='text'
             name='displayName'
             placeholder='Username'
-            className='bg-slate-800 ml-3 rounded-lg w-3/4 focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
+            className='bg-slate-800 ml-3 rounded-lg focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
             value={displayName}
             onChange={onChangeHandler}
           />
@@ -76,7 +78,7 @@ function SignUpForm() {
             type='password'
             name='password'
             placeholder='Password'
-            className='bg-slate-800 ml-3 rounded-lg w-3/4 focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
+            className='bg-slate-800 ml-3 rounded-lg focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
             value={password}
             onChange={onChangeHandler}
           />
@@ -87,15 +89,23 @@ function SignUpForm() {
             type='password'
             name='confirmPassword'
             placeholder='Confirm Password'
-            className='bg-slate-800 ml-3 rounded-lg w-3/4 focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
+            className='bg-slate-800 ml-3 rounded-lg focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
             value={confirmPassword}
             onChange={onChangeHandler}
           />
         </div>
-        <Button type='submit' addedClasses='w-1/3 ml-20 mt-5'>
+        <Button type='submit' addedClasses='w-1/2 ml-20 mt-5'>
           Sign Up
         </Button>
       </form>
+      <div className='text-center mt-5'>
+        <span>
+          Already have an account?{' '}
+          <Link to='/login'>
+            <span className=' text-cyan-500'>Login!</span>
+          </Link>
+        </span>
+      </div>
     </>
   )
 }
