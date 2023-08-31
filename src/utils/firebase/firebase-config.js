@@ -59,6 +59,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInfo) => {
     email: userAuth.user.email,
     displayName: additionalInfo.displayName,
     createdAt: createdAt,
+    uid: userAuth.user.uid,
   })
 }
 
