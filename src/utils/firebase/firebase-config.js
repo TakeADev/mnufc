@@ -1,20 +1,7 @@
 import { initializeApp } from 'firebase/app'
 import 'firebase/firestore'
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from 'firebase/auth'
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  writeBatch,
-  getDocs,
-  query,
-  collection,
-  addDoc,
-  getDoc,
-  updateDoc,
-  onSnapshot,
-  QuerySnapshot,
-} from 'firebase/firestore'
+import { getFirestore, doc, setDoc, getDocs, query, collection, addDoc, getDoc, updateDoc, onSnapshot } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBEVSu6KdPg1-45MRNndbPOxpIu08GH5pA',
@@ -30,6 +17,12 @@ const app = initializeApp(firebaseConfig)
 const auth = getAuth()
 const db = getFirestore(app)
 
+//------------------------USERS/AUTH-----------------------------------------------------
+
+export const onAuthStateChangedListener = (callback) => {
+  onAuthStateChanged(auth, callback)
+}
+
 export const createNewUserWithEmailAndPassword = async (email, password) => {
   return createUserWithEmailAndPassword(auth, email, password).catch((error) => {
     const errorCode = error.code
@@ -37,18 +30,6 @@ export const createNewUserWithEmailAndPassword = async (email, password) => {
 
     alert(errorCode + errorMessage)
   })
-}
-
-export const signInUserWithEmailAndPassword = async (email, password) => {
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      console.log('User logged in ' + userCredential.user.email)
-    })
-    .catch((error) => {
-      const errorCode = error.code
-      const errorMessage = error.message
-      alert(errorCode, errorMessage)
-    })
 }
 
 export const createUserDocumentFromAuth = async (userAuth, additionalInfo) => {
@@ -64,19 +45,49 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInfo) => {
   })
 }
 
+export const signInUserWithEmailAndPassword = async (email, password) => {
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      console.log('User logged in ' + userCredential.user.email)
+    })
+    .catch((error) => {
+      const errorCode = error.code
+      const errorMessage = error.message
+      alert(errorCode, errorMessage)
+    })
+}
+
 export const signOutUser = () => {
   signOut(auth)
 }
 
-export const onAuthStateChangedListener = (callback) => {
-  onAuthStateChanged(auth, callback)
+export const getUserDocFromAuth = async (user) => {
+  const { uid } = user
+  const userDocRef = doc(db, 'users', uid)
+  const userSnap = await getDoc(userDocRef)
+
+  return userSnap.data()
 }
 
-const q = query(collection(db, 'userPosts'))
-const postsSnapshot = await getDocs(q).catch((err) => console.log(err))
+export const getUserDocFromUid = async (uid) => {
+  const userDocRef = doc(db, 'users', uid)
+  try {
+    console.log('Trying to get user doc from uid...')
+    const userSnap = await getDoc(userDocRef)
+    console.log('User doc found: ' + userSnap.data().uid)
+    return userSnap.data()
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+//-----------------------------USER POSTS--------------------------------------
+
+const userPostsQuery = query(collection(db, 'userPosts'))
+const postsSnapshot = await getDocs(userPostsQuery).catch((err) => console.log(err))
 
 export const onUserPostsSnapshotListener = (callback) => {
-  return onSnapshot(q, callback)
+  return onSnapshot(userPostsQuery, callback)
 }
 
 export const getUserPosts = async () => {
@@ -94,14 +105,6 @@ export const getUserPosts = async () => {
   return postsSorted.reverse()
 }
 
-export const getUserDocFromAuth = async (user) => {
-  const { uid } = user
-  const userDocRef = doc(db, 'users', uid)
-  const userSnap = await getDoc(userDocRef)
-
-  return userSnap.data()
-}
-
 export const createUserPost = async (user, postContent) => {
   const userDoc = await getUserDocFromAuth(user)
   const timestamp = new Date().toLocaleString()
@@ -109,8 +112,8 @@ export const createUserPost = async (user, postContent) => {
     uid: userDoc.uid,
     content: postContent,
     timestamp: timestamp,
-    username: userDoc.displayName,
-    name: 'User',
+    username: userDoc.username,
+    displayName: userDoc.displayName,
     likes: 0,
   }).then((docRef) => {
     updateDoc(docRef, {
