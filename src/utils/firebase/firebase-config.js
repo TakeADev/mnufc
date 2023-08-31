@@ -57,7 +57,8 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInfo) => {
 
   setDoc(userDocRef, {
     email: userAuth.user.email,
-    displayName: additionalInfo.displayName,
+    username: additionalInfo.username,
+    displayName: additionalInfo.username,
     createdAt: createdAt,
     uid: userAuth.user.uid,
   })
