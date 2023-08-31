@@ -6,7 +6,7 @@ import { createNewUserWithEmailAndPassword, createUserDocumentFromAuth } from '.
 import Button from '../Button'
 
 const defaultFormFields = {
-  displayName: '',
+  username: '',
   email: '',
   password: '',
   confirmPassword: '',
@@ -14,7 +14,7 @@ const defaultFormFields = {
 
 function SignUpForm() {
   const [formFields, setFormFields] = useState(defaultFormFields)
-  const { displayName, email, password, confirmPassword } = formFields
+  const { username, email, password, confirmPassword } = formFields
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields)
@@ -28,7 +28,7 @@ function SignUpForm() {
     }
     try {
       const user = await createNewUserWithEmailAndPassword(email, password)
-      await createUserDocumentFromAuth(user, { displayName: displayName })
+      await createUserDocumentFromAuth(user, { username: username })
     } catch (err) {
       if (err.code === 'auth/email-already-in-use') {
         alert('Cannot create user. Email already in use.')
@@ -65,10 +65,10 @@ function SignUpForm() {
           <input
             required
             type='text'
-            name='displayName'
+            name='username'
             placeholder='Username'
             className='bg-slate-800 ml-3 rounded-lg focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
-            value={displayName}
+            value={username}
             onChange={onChangeHandler}
           />
         </div>
