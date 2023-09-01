@@ -13,8 +13,9 @@ import { FeedContext } from '../../contexts/FeedContext'
 
 function Feed() {
   const { userPosts } = useContext(UserPostsContext)
-  const { isLoading } = useContext(FeedContext)
+  const { isLoading, setIsLoading } = useContext(FeedContext)
 
+  setIsLoading(true)
   return (
     <FeedContainer>
       <CreatePost />
