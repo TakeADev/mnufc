@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { getUserDocFromUid } from '../../utils/firebase/firebase-config'
+import { FeedContext } from '../../contexts/FeedContext'
+import LoadingSpinner from '../LoadingSpinner'
 
 function PostInfo({ post }) {
-  const { username, timestamp, uid } = post
   const [postUser, setPostUser] = useState(null)
+
+  const { setIsLoading } = useContext(FeedContext)
+
+  const { username, timestamp, uid } = post
 
   useEffect(() => {
     getUserDocFromUid(uid).then((snap) => {
       setPostUser(snap)
+      setIsLoading(false)
     })
   }, [])
-
   if (postUser) {
     return (
       <div className='w-max mt-5 max-h-10 mb-0'>
@@ -22,13 +27,7 @@ function PostInfo({ post }) {
       </div>
     )
   } else {
-    return (
-      <div className='w-max mt-5 max-h-10 mb-0'>
-        <span className=''> </span>
-        <span className='ml-3 text-gray-500 text-sm'>@{username}</span>
-        <span className='ml-3 text-gray-500 text-xs'>{timestamp}</span>
-      </div>
-    )
+    return
   }
 }
 
