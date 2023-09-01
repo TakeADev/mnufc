@@ -7,16 +7,19 @@ import { BrowserRouter } from 'react-router-dom'
 import UserProvider from './contexts/User.jsx'
 import UserPostsProvider from './contexts/UserPosts.jsx'
 import FeedProvider from './contexts/FeedContext.jsx'
+import MenuProvider from './contexts/MenuContext.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <UserProvider>
-        <FeedProvider>
-          <UserPostsProvider>
-            <App />
-          </UserPostsProvider>
-        </FeedProvider>
+        <MenuProvider>
+          <FeedProvider>
+            <UserPostsProvider>
+              <App />
+            </UserPostsProvider>
+          </FeedProvider>
+        </MenuProvider>
       </UserProvider>
     </BrowserRouter>
   </React.StrictMode>
