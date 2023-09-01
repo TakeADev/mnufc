@@ -10,7 +10,7 @@ function Hero() {
       <div className='mx-auto w-full max-w-xl text-center'>
         <span className='text-5xl'>Minnesota United Fan Club</span>
         <h2 className='text-3xl my-10 '>Swim with the Loons!</h2>
-        <Link to='/auth'>
+        <Link to='/login'>
           <Button addedClasses='text-3xl w-1/2 py-2 px-3'>Login</Button>
         </Link>
       </div>
