@@ -48,7 +48,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInfo) => {
 export const signInUserWithEmailAndPassword = async (email, password) => {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      console.log('User logged in ' + userCredential.user.email)
+      return userCredential
     })
     .catch((error) => {
       const errorCode = error.code
@@ -72,9 +72,7 @@ export const getUserDocFromAuth = async (user) => {
 export const getUserDocFromUid = async (uid) => {
   const userDocRef = doc(db, 'users', uid)
   try {
-    console.log('Trying to get user doc from uid...')
     const userSnap = await getDoc(userDocRef)
-    console.log('User doc found: ' + userSnap.data().uid)
     return userSnap.data()
   } catch (err) {
     console.log(err)

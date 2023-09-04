@@ -15,7 +15,6 @@ function UserPostsProvider({ children }) {
   const createNewUserPost = async (currentUser, postData) => {
     try {
       await createUserPost(currentUser, postData)
-      console.log('Post created with data: ' + postData)
     } catch (err) {
       console.log(err)
     }

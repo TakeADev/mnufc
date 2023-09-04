@@ -10,9 +10,7 @@ function Profile() {
   useEffect(() => {
     setIsOpen(false)
   }, [])
-  const currentUser = useContext(UserContext)
   const username = useParams().username
-  console.log(username)
   return <div>Test</div>
 }
 
