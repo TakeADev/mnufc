@@ -10,8 +10,9 @@ function Profile() {
   useEffect(() => {
     setIsOpen(false)
   }, [])
+  const currentUser = useContext(UserContext)
   const username = useParams().username
-  return <div>Test</div>
+  return <div></div>
 }
 
 export default Profile
