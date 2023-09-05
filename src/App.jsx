@@ -10,12 +10,12 @@ import Login from './routes/Login'
 import Profile from './routes/Profile'
 import SignUp from './routes/SignUp'
 
-import { onAuthStateChangedListener, onUserPostsSnapshotListener } from './utils/firebase/firebase-config'
+import { getUserDocFromAuth, onAuthStateChangedListener, onUserPostsSnapshotListener } from './utils/firebase/firebase-config'
 import { UserContext } from './contexts/User'
 import { UserPostsContext } from './contexts/UserPosts'
 
 function App() {
-  const { setCurrentAuthUser, currentAuthUser } = useContext(UserContext)
+  const { setCurrentAuthUser, currentAuthUser, setCurrentUserDoc } = useContext(UserContext)
   const { setUserPosts } = useContext(UserPostsContext)
 
   useEffect(() => {
@@ -24,6 +24,14 @@ function App() {
     })
     return unsubscribe
   }, [])
+
+  useEffect(() => {
+    if (currentAuthUser) {
+      getUserDocFromAuth(currentAuthUser).then((userDoc) => {
+        setCurrentUserDoc(userDoc)
+      })
+    }
+  }, [currentAuthUser])
 
   useEffect(() => {
     const unsubscribe = onUserPostsSnapshotListener((snapshot) => {
