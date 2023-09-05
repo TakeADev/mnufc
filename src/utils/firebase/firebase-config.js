@@ -104,7 +104,6 @@ export const getUserPosts = async () => {
 }
 
 export const getUserPostsByUsername = (username) => {
-  console.log(username)
   const posts = []
   try {
     postsSnapshot.forEach((post) => {
