@@ -103,6 +103,22 @@ export const getUserPosts = async () => {
   return postsSorted.reverse()
 }
 
+export const getUserPostsByUsername = (username) => {
+  console.log(username)
+  const posts = []
+  try {
+    postsSnapshot.forEach((post) => {
+      if (post.data().username.toLowerCase() === username.toLowerCase()) posts.push(post.data())
+    })
+  } catch (err) {
+    console.log(err)
+  }
+  const postsSorted = posts.sort((a, b) => {
+    return new Date(a.timestamp) - new Date(b.timestamp)
+  })
+  return postsSorted.reverse()
+}
+
 export const createUserPost = async (user, postContent) => {
   const userDoc = await getUserDocFromAuth(user)
   const timestamp = new Date().toLocaleString()
