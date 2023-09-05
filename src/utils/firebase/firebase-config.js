@@ -1,7 +1,19 @@
 import { initializeApp } from 'firebase/app'
 import 'firebase/firestore'
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from 'firebase/auth'
-import { getFirestore, doc, setDoc, getDocs, query, collection, addDoc, getDoc, updateDoc, onSnapshot } from 'firebase/firestore'
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDocs,
+  query,
+  collection,
+  addDoc,
+  getDoc,
+  updateDoc,
+  onSnapshot,
+  where,
+} from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBEVSu6KdPg1-45MRNndbPOxpIu08GH5pA',
@@ -79,6 +91,22 @@ export const getUserDocFromUid = async (uid) => {
   }
 }
 
+export const getUserDocFromUsername = async (username) => {
+  const userQ = query(collection(db, 'users'), where('username', '==', username))
+  const userSnap = await getDocs(userQ)
+  try {
+    let user = null
+    userSnap.forEach((snap) => {
+      if (snap.data().username === username) {
+        user = snap.data()
+      }
+    })
+    return user
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 //-----------------------------USER POSTS--------------------------------------
 
 const userPostsQuery = query(collection(db, 'userPosts'))
@@ -107,7 +135,7 @@ export const getUserPostsByUsername = (username) => {
   const posts = []
   try {
     postsSnapshot.forEach((post) => {
-      if (post.data().username.toLowerCase() === username.toLowerCase()) posts.push(post.data())
+      if (post.data().username === username) posts.push(post.data())
     })
   } catch (err) {
     console.log(err)
