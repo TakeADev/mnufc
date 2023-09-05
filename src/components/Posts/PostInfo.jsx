@@ -18,7 +18,7 @@ function PostInfo({ post }) {
 
   if (postUser) {
     return (
-      <div className='w-max mt-5 max-h-10 mb-0'>
+      <div className='w-max mt-5 max-h-10 mb-0 -ml-2'>
         <span className=''>
           <b>{postUser.displayName}</b>
         </span>
