@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 import { signOutUser } from '../../utils/firebase/firebase-config'
 
 import { MenuContext } from '../../contexts/MenuContext'
+import { UserContext } from '../../contexts/User'
 
 import Button from '../Button'
 import MenuItem from './MenuItem'
@@ -13,6 +14,7 @@ import '../../styles/animations.scss'
 
 function Menu() {
   const { isOpen, setIsOpen } = useContext(MenuContext)
+  const { currentUserDoc } = useContext(UserContext)
 
   const menuClickHandler = (e) => {
     e.preventDefault()
@@ -26,7 +28,7 @@ function Menu() {
         <div className='absolute right-0 flex-col bg-slate-900 rounded-xl w-1/2 md:w-2/5 lg:w-1/3 xl:w-1/4 h-screen slide-from-right'>
           <MenuHeader onClick={menuClickHandler} />
           <MenuItem linkPath='/' title='Feed' />
-          <MenuItem linkPath='/profile/test' title='Profile' />
+          <MenuItem linkPath={`/${currentUserDoc.username}`} title='Profile' />
           <Button
             addedClasses='py-1 px-1 text-lg my-5 w-4/5 mx-10 bg-slate-950 text-white border border-white'
             onClick={signOutUser}
