@@ -14,7 +14,6 @@ import PostContainer from '../components/Posts/PostContainer'
 import PostInfoContainer from '../components/Posts/PostInfoContainer'
 import PostInfo from '../components/Posts/PostInfo'
 import PostContent from '../components/Posts/PostContent'
-import CreatePost from '../components/CreatePost/CreatePost'
 
 function Profile() {
   const { setIsOpen } = useContext(MenuContext)
@@ -27,7 +26,6 @@ function Profile() {
   const username = useParams().username
   const profilePosts = getUserPostsByUsername(username)
 
-  console.log(profilePosts)
   return (
     <FeedContainer>
       <div>
