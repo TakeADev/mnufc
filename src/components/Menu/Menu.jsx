@@ -30,7 +30,7 @@ function Menu() {
           <MenuItem linkPath='/' title='Feed' />
           <MenuItem linkPath={`/${currentUserDoc.username}`} title='Profile' />
           <Button
-            addedClasses='py-1 px-1 text-lg my-5 w-4/5 mx-10 bg-slate-950 text-white border border-white'
+            addedClasses='py-1 px-1 text-lg my-5 w-4/5 mx-10 bg-slate-900 text-white border border-white hover:bg-gray-800'
             onClick={signOutUser}
           >
             Sign Out
