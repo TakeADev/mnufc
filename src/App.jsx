@@ -15,12 +15,12 @@ import { UserContext } from './contexts/User'
 import { UserPostsContext } from './contexts/UserPosts'
 
 function App() {
-  const { setCurrentUser, currentUser } = useContext(UserContext)
+  const { setCurrentAuthUser, currentAuthUser } = useContext(UserContext)
   const { setUserPosts } = useContext(UserPostsContext)
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
-      setCurrentUser(user)
+      setCurrentAuthUser(user)
     })
     return unsubscribe
   }, [])
@@ -42,10 +42,10 @@ function App() {
   return (
     <Routes>
       <Route path='/' element={<Navigation />}>
-        <Route index element={currentUser ? <Home /> : <Navigate to='welcome' replace />} />
-        <Route path='welcome' element={currentUser ? <Navigate to='/' replace /> : <Welcome />} />
-        <Route path='login' element={currentUser ? <Navigate to='/' replace /> : <Login />} />
-        <Route path='signup' element={currentUser ? <Navigate to='/' replace /> : <SignUp />} />
+        <Route index element={currentAuthUser ? <Home /> : <Navigate to='welcome' replace />} />
+        <Route path='welcome' element={currentAuthUser ? <Navigate to='/' replace /> : <Welcome />} />
+        <Route path='login' element={currentAuthUser ? <Navigate to='/' replace /> : <Login />} />
+        <Route path='signup' element={currentAuthUser ? <Navigate to='/' replace /> : <SignUp />} />
         <Route path='profile/:username' element={<Profile />} />
       </Route>
     </Routes>

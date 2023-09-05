@@ -7,7 +7,7 @@ import Menu from './Menu/Menu'
 import { UserContext } from '../contexts/User'
 
 function NavBar() {
-  const { currentUser } = useContext(UserContext)
+  const { currentAuthUser } = useContext(UserContext)
 
   return (
     <div className='dark:bg-gray-950 sticky top-0 flex mb-5 mx-auto pb-5'>
@@ -17,7 +17,7 @@ function NavBar() {
         </Link>
       </div>
 
-      {currentUser ? (
+      {currentAuthUser ? (
         <Menu />
       ) : (
         <div className='absolute right-12'>

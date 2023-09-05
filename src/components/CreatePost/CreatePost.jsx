@@ -7,7 +7,7 @@ import { UserPostsContext } from '../../contexts/UserPosts'
 
 function CreatePost() {
   const [postData, setPostData] = useState('')
-  const { currentUser } = useContext(UserContext)
+  const { currentAuthUser } = useContext(UserContext)
   const { createNewUserPost } = useContext(UserPostsContext)
 
   const resetFormValue = () => {
@@ -21,7 +21,7 @@ function CreatePost() {
   const onSubmitHandler = async (e) => {
     e.preventDefault()
     resetFormValue()
-    createNewUserPost(currentUser, postData)
+    createNewUserPost(currentAuthUser, postData)
   }
 
   const postEnterSubmit = (e) => {
