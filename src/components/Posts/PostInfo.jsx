@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { getUserDocFromUid } from '../../utils/firebase/firebase-config'
 import { FeedContext } from '../../contexts/FeedContext'
-import LoadingSpinner from '../LoadingSpinner'
 
 function PostInfo({ post }) {
   const [postUser, setPostUser] = useState(null)
@@ -16,6 +15,7 @@ function PostInfo({ post }) {
       setIsLoading(false)
     })
   }, [])
+
   if (postUser) {
     return (
       <div className='w-max mt-5 max-h-10 mb-0'>
