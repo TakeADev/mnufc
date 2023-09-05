@@ -15,7 +15,7 @@ function ProfileBanner({ currentAuthUser, profileUserDoc }) {
           </div>
           {currentAuthUser.uid === profileUserDoc.uid && (
             <div className='w-2-5'>
-              <Button addedClasses='right-0 bg-slate-950 text-white border border-white px-5 h-10 mt-24 text-sm'>
+              <Button addedClasses='right-0 bg-slate-950 text-white border border-white px-5 h-10 mt-24 text-sm hover:bg-gray-900'>
                 <b>Edit Profile</b>
               </Button>
             </div>
