@@ -54,7 +54,7 @@ function App() {
         <Route path='welcome' element={currentAuthUser ? <Navigate to='/' replace /> : <Welcome />} />
         <Route path='login' element={currentAuthUser ? <Navigate to='/' replace /> : <Login />} />
         <Route path='signup' element={currentAuthUser ? <Navigate to='/' replace /> : <SignUp />} />
-        <Route path='profile/:username' element={<Profile />} />
+        <Route path=':username' element={<Profile />} />
       </Route>
     </Routes>
   )
