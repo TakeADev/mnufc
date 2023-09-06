@@ -4,10 +4,8 @@ import { useParams } from 'react-router-dom'
 import { getUserDocFromUsername, getUserPostsByUsername } from '../utils/firebase/firebase-config'
 
 import { MenuContext } from '../contexts/MenuContext'
-import { FeedContext } from '../contexts/FeedContext'
 import { UserContext } from '../contexts/User'
 
-import ProfilePicBubble from '../components/Profile/ProfilePicBubble'
 import FeedContainer from '../components/Feed/FeedContainer'
 import Post from '../components/Posts/Post'
 import LoadingSpinner from '../components/LoadingSpinner'
