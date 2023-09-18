@@ -13,7 +13,7 @@ function Post({ post }) {
   return (
     <PostContainer isLoading={isLoading}>
       <PostInfoContainer>
-        <ProfilePicBubble profilePic={post.profilePic} addedClasses='mx-5 h-8 w-8' />
+        <ProfilePicBubble profilePic={post.profilePic} addedClasses='mx-5 h-8 w-8 mt-5' />
         <PostInfo post={post} />
       </PostInfoContainer>
       <PostContent content={post.content} />

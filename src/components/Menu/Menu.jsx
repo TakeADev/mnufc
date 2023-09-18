@@ -41,7 +41,7 @@ function Menu() {
   } else {
     return (
       <div className='absolute right-5'>
-        <ProfilePicBubble addedClasses='w-10 h-10 cursor-pointer' onClick={menuClickHandler} />
+        <ProfilePicBubble addedClasses='w-10 h-10 cursor-pointer mt-5' onClick={menuClickHandler} />
       </div>
     )
   }
