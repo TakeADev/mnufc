@@ -3,7 +3,7 @@ import React from 'react'
 function FeedContainer({ children }) {
   return (
     <div className='flex w-full'>
-      <div className='lg:w-3/5 max-w-3xl mx-auto'>{children}</div>
+      <div className='lg:w-3/5 max-w-3xl mx-auto border-l border-r'>{children}</div>
     </div>
   )
 }
