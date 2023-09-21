@@ -8,6 +8,7 @@ import UserProvider from './contexts/User.jsx'
 import UserPostsProvider from './contexts/UserPosts.jsx'
 import FeedProvider from './contexts/FeedContext.jsx'
 import MenuProvider from './contexts/MenuContext.jsx'
+import ModalProvider from './contexts/ModalContext.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -16,7 +17,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <MenuProvider>
           <FeedProvider>
             <UserPostsProvider>
-              <App />
+              <ModalProvider>
+                <App />
+              </ModalProvider>
             </UserPostsProvider>
           </FeedProvider>
         </MenuProvider>
