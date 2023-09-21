@@ -9,7 +9,7 @@ import Button from '../Button'
 import ProfileBannerImage from './ProfileBannerImage'
 
 function ProfileBanner({ currentAuthUser, profileUserDoc }) {
-  const { setModalIsOpen } = useContext(ModalContext)
+  const { setModalIsOpen, setModalType } = useContext(ModalContext)
   return (
     <>
       <ProfileBannerImage />
@@ -23,7 +23,7 @@ function ProfileBanner({ currentAuthUser, profileUserDoc }) {
               <Button
                 addedClasses='right-0 bg-slate-950 text-white border border-white px-5 h-10 mt-24 text-sm hover:bg-gray-900'
                 onClick={() => {
-                  setModalIsOpen(true)
+                  setModalIsOpen(true), setModalType('editProfile')
                 }}
               >
                 <b>Edit Profile</b>
