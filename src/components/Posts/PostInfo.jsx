@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { getUserDocFromUid } from '../../utils/firebase/firebase-config'
 import { FeedContext } from '../../contexts/FeedContext'
+import { UserContext } from '../../contexts/User'
 
 function PostInfo({ post }) {
   const [postUser, setPostUser] = useState(null)
 
   const { setIsLoading } = useContext(FeedContext)
+  const { currentUserDoc } = useContext(UserContext)
 
   const { username, timestamp, uid } = post
 
@@ -14,7 +16,7 @@ function PostInfo({ post }) {
       setPostUser(snap)
       setIsLoading(false)
     })
-  }, [])
+  }, [currentUserDoc])
 
   if (postUser) {
     return (
