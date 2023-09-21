@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 
 import { UserContext } from '../../contexts/User'
 
@@ -9,9 +9,9 @@ function MenuHeader() {
   const { currentUserDoc } = useContext(UserContext)
   return (
     <Link to={`/${currentUserDoc.username}`}>
-      <div className='flex ml-5 pl-0'>
+      <div className='flex ml-5 pl-0 mt-4'>
         <ProfilePicBubble addedClasses='w-10 h-10' />
-        <span className='w-3/4 mt-7 ml-3'>
+        <span className='w-3/4 ml-3 text-xl'>
           <b>{currentUserDoc.displayName}</b>
         </span>
       </div>
