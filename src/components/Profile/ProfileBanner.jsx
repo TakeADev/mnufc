@@ -2,6 +2,8 @@ import { useContext } from 'react'
 
 import { ModalContext } from '../../contexts/ModalContext'
 
+import { MdLocationOn } from 'react-icons/md'
+
 import ProfilePicBubble from './ProfilePicBubble'
 import Button from '../Button'
 import ProfileBannerImage from './ProfileBannerImage'
@@ -36,8 +38,19 @@ function ProfileBanner({ currentAuthUser, profileUserDoc }) {
             </span>
           </div>
           <div>
-            <span className='text-md'>@{profileUserDoc.username}</span>
+            <span className='text-md text-gray-500'>@{profileUserDoc.username}</span>
           </div>
+          <div className='mt-5'>
+            <span className='text-lg'>{profileUserDoc.bio}</span>
+          </div>
+          {profileUserDoc.location && (
+            <div className='mt-5 flex-row'>
+              <span className='text-lg'>
+                <MdLocationOn className='inline mr-2 -mt-1' />
+                {profileUserDoc.location}
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </>
