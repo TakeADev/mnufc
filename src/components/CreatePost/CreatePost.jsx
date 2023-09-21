@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react'
 
 import Button from '../Button'
 import { UserContext } from '../../contexts/User'
-import { createUserPost } from '../../utils/firebase/firebase-config'
 import { UserPostsContext } from '../../contexts/UserPosts'
 
 function CreatePost() {
@@ -31,7 +30,7 @@ function CreatePost() {
   }
 
   return (
-    <div className='mb-5 flex mx-3'>
+    <div className='mb-5 mt-5 flex px-3'>
       <form action='submit' onSubmit={onSubmitHandler}>
         <textarea
           name='postContent'
