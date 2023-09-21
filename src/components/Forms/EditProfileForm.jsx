@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from 'react'
 
-import { getUserDocFromAuth } from '../../utils/firebase/firebase-config'
+import { getUserDocFromAuth, updateUserProfile } from '../../utils/firebase/firebase-config'
 
 import { UserContext } from '../../contexts/User.jsx'
 import { ModalContext } from '../../contexts/ModalContext'
@@ -11,8 +11,7 @@ import Button from '../Button'
 import FormInput from './FormInput'
 
 const EditProfileForm = () => {
-  const { currentAuthUser, setCurrentUserDoc, currentUserDoc } =
-    useContext(UserContext)
+  const { currentAuthUser, setCurrentUserDoc, currentUserDoc } = useContext(UserContext)
   const { modalIsOpen, setModalIsOpen } = useContext(ModalContext)
 
   const defaultFormFields = {
@@ -27,9 +26,7 @@ const EditProfileForm = () => {
   useEffect(() => {
     if (currentAuthUser) {
       try {
-        getUserDocFromAuth(currentAuthUser).then((res) =>
-          setCurrentUserDoc(res)
-        )
+        getUserDocFromAuth(currentAuthUser).then((res) => setCurrentUserDoc(res))
       } catch (err) {
         console.log(err)
       }
@@ -41,7 +38,7 @@ const EditProfileForm = () => {
       setFormFields({
         displayName: currentUserDoc.displayName,
         bio: currentUserDoc.bio ? currentUserDoc.bio : '',
-        location: '',
+        location: currentUserDoc.location ? currentUserDoc.location : '',
         birthDate: '',
       })
   }, [currentUserDoc])
@@ -64,6 +61,10 @@ const EditProfileForm = () => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault()
+    console.log(formFields)
+    updateUserProfile(currentAuthUser, formFields).then(() => {
+      setCurrentUserDoc(getUserDocFromAuth(currentAuthUser))
+    })
     modalCloseHandler()
     resetFormFields()
   }
@@ -73,9 +74,9 @@ const EditProfileForm = () => {
       <div className='flex pt-2 mb-2'>
         <div
           onClick={modalCloseHandler}
-          className=' text-center text-xl w-1/12 mt-1 ml-1'
+          className='hover:cursor-pointer text-center text-xl w-1/12 mt-1 ml-1'
         >
-          <span className='hover:cursor-pointer '>X</span>
+          <span className=' '>X</span>
         </div>
         <div className='w-10/12 text-center mt-1 text-xl'>
           <span className=''>
@@ -96,12 +97,7 @@ const EditProfileForm = () => {
         value={formFields.displayName}
         onChange={onChangeHandler}
       />
-      <FormInput
-        label='Bio'
-        name='bio'
-        value={formFields.bio}
-        onChange={onChangeHandler}
-      />
+      <FormInput label='Bio' name='bio' value={formFields.bio} onChange={onChangeHandler} />
       <FormInput
         label='Location'
         name='location'
