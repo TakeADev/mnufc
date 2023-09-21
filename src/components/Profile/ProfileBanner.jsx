@@ -1,10 +1,13 @@
-import React from 'react'
+import { useContext } from 'react'
+
+import { ModalContext } from '../../contexts/ModalContext'
 
 import ProfilePicBubble from './ProfilePicBubble'
 import Button from '../Button'
 import ProfileBannerImage from './ProfileBannerImage'
 
 function ProfileBanner({ currentAuthUser, profileUserDoc }) {
+  const { setModalIsOpen } = useContext(ModalContext)
   return (
     <>
       <ProfileBannerImage />
@@ -15,7 +18,12 @@ function ProfileBanner({ currentAuthUser, profileUserDoc }) {
           </div>
           {currentAuthUser.uid === profileUserDoc.uid && (
             <div className='w-2-5'>
-              <Button addedClasses='right-0 bg-slate-950 text-white border border-white px-5 h-10 mt-24 text-sm hover:bg-gray-900'>
+              <Button
+                addedClasses='right-0 bg-slate-950 text-white border border-white px-5 h-10 mt-24 text-sm hover:bg-gray-900'
+                onClick={() => {
+                  setModalIsOpen(true)
+                }}
+              >
                 <b>Edit Profile</b>
               </Button>
             </div>
