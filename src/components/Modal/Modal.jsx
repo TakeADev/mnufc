@@ -4,14 +4,14 @@ import EditProfileForm from '../Forms/EditProfileForm'
 import { ModalContext } from '../../contexts/ModalContext'
 
 function Modal({ children }) {
-  const { modalIsOpen, setModalIsOpen } = useContext(ModalContext)
+  const { modalIsOpen, modalType } = useContext(ModalContext)
 
   return (
     <div className=''>
       {modalIsOpen && (
-        <div className={`mt-28 fixed mx-auto z-50 h-screen`}>
-          <div className='bg-slate-900 h-3/4 w-3/5 lg:w-1/2 xl:w-1/3 z-0 mx-auto flex-row rounded-xl'>
-            <EditProfileForm />
+        <div className={`mt-28 fixed mx-auto w-full z-50 h-screen `}>
+          <div className='bg-slate-900 h-3/4 w-3/5 lg:w-1/2 max-w-xl z-0 mx-auto rounded-xl'>
+            {modalType == 'editProfile' && <EditProfileForm />}
           </div>
         </div>
       )}
