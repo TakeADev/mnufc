@@ -1,7 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { getUserDocFromUsername, getUserPostsByUsername } from '../utils/firebase/firebase-config'
+import {
+  getUserDocFromUsername,
+  getUserPostsByUsername,
+} from '../utils/firebase/firebase-config'
 
 import { MenuContext } from '../contexts/MenuContext'
 import { UserContext } from '../contexts/User'
@@ -34,7 +37,10 @@ function Profile() {
   if (profileUserDoc) {
     return (
       <FeedContainer>
-        <ProfileBanner currentAuthUser={currentAuthUser} profileUserDoc={profileUserDoc} />
+        <ProfileBanner
+          currentAuthUser={currentAuthUser}
+          profileUserDoc={profileUserDoc}
+        />
         <div className='text-center text-lg my-5'>
           <span>
             <u>
@@ -51,9 +57,7 @@ function Profile() {
         )}
       </FeedContainer>
     )
-  } else {
-    return <LoadingSpinner />
-  }
+  } else return <LoadingSpinner />
 }
 
 export default Profile
