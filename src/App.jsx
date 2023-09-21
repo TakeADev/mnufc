@@ -19,8 +19,7 @@ import { UserContext } from './contexts/User'
 import { UserPostsContext } from './contexts/UserPosts'
 
 function App() {
-  const { setCurrentAuthUser, currentAuthUser, setCurrentUserDoc } =
-    useContext(UserContext)
+  const { setCurrentAuthUser, currentAuthUser, setCurrentUserDoc } = useContext(UserContext)
   const { setUserPosts } = useContext(UserPostsContext)
 
   useEffect(() => {
@@ -55,24 +54,13 @@ function App() {
   return (
     <Routes>
       <Route path='/' element={<Navigation />}>
-        <Route
-          index
-          element={
-            currentAuthUser ? <Home /> : <Navigate to='welcome' replace />
-          }
-        />
+        <Route index element={currentAuthUser ? <Home /> : <Navigate to='welcome' replace />} />
         <Route
           path='welcome'
           element={currentAuthUser ? <Navigate to='/' replace /> : <Welcome />}
         />
-        <Route
-          path='login'
-          element={currentAuthUser ? <Navigate to='/' replace /> : <Login />}
-        />
-        <Route
-          path='signup'
-          element={currentAuthUser ? <Navigate to='/' replace /> : <SignUp />}
-        />
+        <Route path='login' element={currentAuthUser ? <Navigate to='/' replace /> : <Login />} />
+        <Route path='signup' element={currentAuthUser ? <Navigate to='/' replace /> : <SignUp />} />
         <Route path=':username' element={<Profile />} />
       </Route>
     </Routes>
