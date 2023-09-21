@@ -1,10 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import {
-  getUserDocFromUsername,
-  getUserPostsByUsername,
-} from '../utils/firebase/firebase-config'
+import { getUserDocFromUsername, getUserPostsByUsername } from '../utils/firebase/firebase-config'
 
 import { MenuContext } from '../contexts/MenuContext'
 import { UserContext } from '../contexts/User'
@@ -16,7 +13,7 @@ import ProfileBanner from '../components/Profile/ProfileBanner'
 
 function Profile() {
   const { setIsOpen } = useContext(MenuContext)
-  const { currentAuthUser } = useContext(UserContext)
+  const { currentAuthUser, currentUserDoc } = useContext(UserContext)
 
   const [profileUserDoc, setProfileUserDoc] = useState(null)
 
@@ -34,13 +31,16 @@ function Profile() {
     })
   }, [username])
 
+  useEffect(() => {
+    userProfile.then((user) => {
+      setProfileUserDoc(user)
+    })
+  }, [currentUserDoc])
+
   if (profileUserDoc) {
     return (
       <FeedContainer>
-        <ProfileBanner
-          currentAuthUser={currentAuthUser}
-          profileUserDoc={profileUserDoc}
-        />
+        <ProfileBanner currentAuthUser={currentAuthUser} profileUserDoc={profileUserDoc} />
         <div className='text-center text-lg my-5'>
           <span>
             <u>
