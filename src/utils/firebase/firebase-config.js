@@ -1,6 +1,12 @@
 import { initializeApp } from 'firebase/app'
 import 'firebase/firestore'
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from 'firebase/auth'
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+  signInWithEmailAndPassword,
+} from 'firebase/auth'
 import {
   getFirestore,
   doc,
@@ -102,6 +108,17 @@ export const getUserDocFromUsername = async (username) => {
       }
     })
     return user
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+export const updateUserProfile = async (user, info) => {
+  const userRef = doc(db, 'users', user.uid)
+  try {
+    await updateDoc(userRef, {
+      ...info,
+    })
   } catch (err) {
     console.log(err)
   }
