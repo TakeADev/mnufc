@@ -5,7 +5,7 @@ function PostContainer({ children, isLoading }) {
   return (
     <>
       <div className='hidden'>{children}</div>
-      <div id='post-holder' className='border border-slate-200'>
+      <div id='post-holder' className='border-t border-b border-slate-200'>
         {isLoading ? <LoadingSpinner addedClasses='my-10' /> : children}
       </div>
     </>
