@@ -30,6 +30,7 @@ const PostPage = () => {
           <div className='text-2xl'>
             <MdArrowBack className='inline mx-5' />
             <span>Post</span>
+	      <span>Test</span>
           </div>
           <Post post={pagePost} />
           <CreatePost isReply={true} />
