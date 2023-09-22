@@ -4,7 +4,7 @@ import Button from '../Button'
 import { UserContext } from '../../contexts/User'
 import { UserPostsContext } from '../../contexts/UserPosts'
 
-function CreatePost() {
+function CreatePost({ isReply }) {
   const [postData, setPostData] = useState('')
   const { currentAuthUser } = useContext(UserContext)
   const { createNewUserPost } = useContext(UserPostsContext)
@@ -30,7 +30,7 @@ function CreatePost() {
   }
 
   return (
-    <div className='mb-5 mt-5 flex px-3'>
+    <div className='pb-3 mt-5 flex px-3 border-b border-slate-700'>
       <form action='submit' onSubmit={onSubmitHandler}>
         <textarea
           name='postContent'
@@ -41,7 +41,7 @@ function CreatePost() {
           value={postData}
           onChange={onChangeHandler}
           onKeyDown={postEnterSubmit}
-          placeholder='Write a post...'
+          placeholder={isReply ? `Write a reply...` : `Write a post...`}
           className='bg-slate-800 focus:ring-0 focus:border focus:border-cyan-600 focus:outline-none p-3 rounded-lg resize-none w-full'
         />
         <div className='text-right mt-2'>
