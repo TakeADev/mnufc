@@ -61,7 +61,6 @@ const EditProfileForm = () => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault()
-    console.log(formFields)
     updateUserProfile(currentAuthUser, formFields).then(() => {
       setCurrentUserDoc(getUserDocFromAuth(currentAuthUser))
     })
