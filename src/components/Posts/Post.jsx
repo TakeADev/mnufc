@@ -1,5 +1,7 @@
 import React, { useContext } from 'react'
 
+import { Link } from 'react-router-dom'
+
 import { FeedContext } from '../../contexts/FeedContext'
 
 import PostContainer from './PostContainer'
@@ -7,17 +9,21 @@ import PostInfoContainer from './PostInfoContainer'
 import PostInfo from './PostInfo'
 import ProfilePicBubble from '../Profile/ProfilePicBubble'
 import PostContent from './PostContent'
+import PostInteractionBar from './PostInteractionBar'
 
 function Post({ post }) {
   const { isLoading } = useContext(FeedContext)
   return (
-    <PostContainer isLoading={isLoading}>
-      <PostInfoContainer>
-        <ProfilePicBubble profilePic={post.profilePic} addedClasses='mx-5 h-8 w-8 mt-5' />
-        <PostInfo post={post} />
-      </PostInfoContainer>
-      <PostContent content={post.content} />
-    </PostContainer>
+    <Link to={`/${post.username}/status/${post.postId}`}>
+      <PostContainer isLoading={isLoading}>
+        <PostInfoContainer>
+          <ProfilePicBubble profilePic={post.profilePic} addedClasses='mx-5 h-8 w-8 mt-5' />
+          <PostInfo post={post} />
+        </PostInfoContainer>
+        <PostContent content={post.content} />
+        <PostInteractionBar />
+      </PostContainer>
+    </Link>
   )
 }
 
