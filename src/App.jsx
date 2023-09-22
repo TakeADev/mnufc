@@ -9,6 +9,7 @@ import Navigation from './routes/Navigation'
 import Login from './routes/Login'
 import Profile from './routes/Profile'
 import SignUp from './routes/SignUp'
+import PostPage from './components/Posts/PostPage'
 
 import {
   getUserDocFromAuth,
@@ -62,6 +63,7 @@ function App() {
         <Route path='login' element={currentAuthUser ? <Navigate to='/' replace /> : <Login />} />
         <Route path='signup' element={currentAuthUser ? <Navigate to='/' replace /> : <SignUp />} />
         <Route path=':username' element={<Profile />} />
+        <Route path=':username/status/:postId' element={<PostPage />} />
       </Route>
     </Routes>
   )
