@@ -163,6 +163,17 @@ export const getUserPostsByUsername = (username) => {
   return postsSorted.reverse()
 }
 
+export const getPostByPostId = async (postId) => {
+  const postRef = doc(db, 'userPosts', postId)
+  const postSnap = await getDoc(postRef)
+
+  if (postSnap.exists()) {
+    return postSnap.data()
+  } else {
+    console.log('Post does not exist.')
+  }
+}
+
 export const createUserPost = async (user, postContent) => {
   const userDoc = await getUserDocFromAuth(user)
   const timestamp = new Date().toLocaleString()
