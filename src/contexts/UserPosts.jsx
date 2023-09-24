@@ -12,9 +12,9 @@ export const UserPostsContext = createContext({
 function UserPostsProvider({ children }) {
   const [userPosts, setUserPosts] = useState(null)
 
-  const createNewUserPost = async (currentAuthUser, postData) => {
+  const createNewUserPost = async (currentAuthUser, postContent, replyTo) => {
     try {
-      await createUserPost(currentAuthUser, postData)
+      await createUserPost(currentAuthUser, postContent, replyTo)
     } catch (err) {
       console.log(err)
     }
