@@ -41,11 +41,9 @@ function Profile() {
     return (
       <FeedContainer>
         <ProfileBanner currentAuthUser={currentAuthUser} profileUserDoc={profileUserDoc} />
-        <div className='text-center text-lg my-5'>
+        <div className='text-center text-lg mt-5 pb-3 border-b border-slate-700'>
           <span>
-            <u>
-              <b>Posts</b>
-            </u>
+            <b>Posts</b>
           </span>
         </div>
         {profilePosts ? (
