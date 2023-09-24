@@ -1,5 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import { getUserDocFromUid } from '../../utils/firebase/firebase-config'
+
 import { FeedContext } from '../../contexts/FeedContext'
 import { UserContext } from '../../contexts/User'
 
@@ -11,6 +14,13 @@ function PostInfo({ post }) {
 
   const { username, timestamp, uid } = post
 
+  const navigate = useNavigate()
+
+  const navigateToProfileOnClick = (e) => {
+    e.preventDefault()
+    navigate(`/${post.username}`)
+  }
+
   useEffect(() => {
     getUserDocFromUid(uid).then((snap) => {
       setPostUser(snap)
@@ -21,10 +31,12 @@ function PostInfo({ post }) {
   if (postUser) {
     return (
       <div className='w-max mt-5 max-h-10 mb-0 -ml-2'>
-        <span className=''>
+        <span onClick={navigateToProfileOnClick} className=''>
           <b>{postUser.displayName}</b>
         </span>
-        <span className='ml-3 text-gray-500 text-sm'>@{username}</span>
+        <span onClick={navigateToProfileOnClick} className='ml-3 text-gray-500 text-sm'>
+          @{username}
+        </span>
         <span className='ml-3 text-gray-500 text-xs'>{timestamp}</span>
       </div>
     )
