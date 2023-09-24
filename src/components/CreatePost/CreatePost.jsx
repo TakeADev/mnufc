@@ -1,5 +1,7 @@
 import React, { useState, useContext } from 'react'
 
+import { useParams } from 'react-router-dom'
+
 import Button from '../Button'
 import { UserContext } from '../../contexts/User'
 import { UserPostsContext } from '../../contexts/UserPosts'
@@ -17,10 +19,16 @@ function CreatePost({ isReply }) {
     setPostData(e.target.value)
   }
 
+  let replyTo = false
+
+  if (isReply) {
+    replyTo = useParams().postId
+  }
+
   const onSubmitHandler = async (e) => {
     e.preventDefault()
     resetFormValue()
-    createNewUserPost(currentAuthUser, postData)
+    createNewUserPost(currentAuthUser, postData, replyTo)
   }
 
   const postEnterSubmit = (e) => {
@@ -30,7 +38,7 @@ function CreatePost({ isReply }) {
   }
 
   return (
-    <div className='pb-3 mt-5 flex px-3 border-b border-slate-700'>
+    <div className='pb-3 mt-5 mx-auto px-3 border-b border-slate-700'>
       <form action='submit' onSubmit={onSubmitHandler}>
         <textarea
           name='postContent'
