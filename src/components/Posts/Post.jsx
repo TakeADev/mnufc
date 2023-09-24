@@ -1,6 +1,6 @@
-import React, { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { FeedContext } from '../../contexts/FeedContext'
 
@@ -10,14 +10,42 @@ import PostInfo from './PostInfo'
 import ProfilePicBubble from '../Profile/ProfilePicBubble'
 import PostContent from './PostContent'
 import PostInteractionBar from './PostInteractionBar'
+import { getPostByPostId } from '../../utils/firebase/firebase-config'
 
 function Post({ post }) {
+  const [replyPost, setReplyPost] = useState(null)
   const { isLoading } = useContext(FeedContext)
+  const { replyTo } = post
+
+  const navigate = useNavigate()
+
+  const navigateToProfileOnClick = (e) => {
+    e.preventDefault()
+    navigate(`/${post.username}`)
+  }
+
+  useEffect(() => {
+    if (replyTo) {
+      getPostByPostId(replyTo).then((res) => setReplyPost(res))
+    }
+  }, [])
+
+  const findReplyTo = () => {}
+
+  if (replyTo) {
+    const replyPost = findReplyTo()
+    console.log(replyPost)
+  }
+
   return (
     <Link to={`/${post.username}/status/${post.postId}`}>
       <PostContainer isLoading={isLoading}>
         <PostInfoContainer>
-          <ProfilePicBubble profilePic={post.profilePic} addedClasses='mx-5 h-8 w-8 mt-5' />
+          <ProfilePicBubble
+            onClick={navigateToProfileOnClick}
+            profilePic={post.profilePic}
+            addedClasses='mx-5 h-8 w-8 mt-5'
+          />
           <PostInfo post={post} />
         </PostInfoContainer>
         <PostContent content={post.content} />
