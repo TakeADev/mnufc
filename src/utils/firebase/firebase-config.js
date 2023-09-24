@@ -174,16 +174,18 @@ export const getPostByPostId = async (postId) => {
   }
 }
 
-export const createUserPost = async (user, postContent) => {
+export const createUserPost = async (user, postContent, replyTo) => {
   const userDoc = await getUserDocFromAuth(user)
   const timestamp = new Date().toLocaleString()
   await addDoc(collection(db, 'userPosts'), {
     uid: userDoc.uid,
+    replyTo: replyTo,
     content: postContent,
     timestamp: timestamp,
     username: userDoc.username,
     displayName: userDoc.displayName,
     likes: 0,
+    comments: {},
   }).then((docRef) => {
     updateDoc(docRef, {
       postId: docRef.id,
