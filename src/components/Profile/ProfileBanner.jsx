@@ -3,15 +3,21 @@ import { useContext } from 'react'
 import { ModalContext } from '../../contexts/ModalContext'
 
 import { MdLocationOn } from 'react-icons/md'
+import { MdArrowBack } from 'react-icons/md'
 
 import ProfilePicBubble from './ProfilePicBubble'
 import Button from '../Button'
 import ProfileBannerImage from './ProfileBannerImage'
+import { Link } from 'react-router-dom'
 
 function ProfileBanner({ currentAuthUser, profileUserDoc }) {
   const { setModalIsOpen, setModalType } = useContext(ModalContext)
+
   return (
     <>
+      <Link to='/'>
+        <MdArrowBack className='absolute text-4xl bg-gray-900 rounded-full opacity-50 mt-3 ml-3' />
+      </Link>
       <ProfileBannerImage />
       <div className='w-full flex-col -mt-20'>
         <div className='flex'>
