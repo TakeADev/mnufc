@@ -30,13 +30,6 @@ function Post({ post }) {
     }
   }, [])
 
-  const findReplyTo = () => {}
-
-  if (replyTo) {
-    const replyPost = findReplyTo()
-    console.log(replyPost)
-  }
-
   return (
     <Link to={`/${post.username}/status/${post.postId}`}>
       <PostContainer isLoading={isLoading}>
