@@ -7,7 +7,6 @@ import { UserPostsContext } from '../../contexts/UserPosts'
 import { FeedContext } from '../../contexts/FeedContext'
 import { MenuContext } from '../../contexts/MenuContext'
 import Post from '../Posts/Post'
-import { getPostByPostId } from '../../utils/firebase/firebase-config'
 
 function Feed() {
   const { userPosts } = useContext(UserPostsContext)
@@ -24,18 +23,7 @@ function Feed() {
       <CreatePost />
       {userPosts ? (
         userPosts.map((post) => {
-          if (post.replyTo) {
-            const replyPost = getPostByPostId(post.replyTo).then((res) => res)
-            console.log(replyPost)
-            return (
-              <div>
-                <Post key={post.replyTo.postId} post={post.replyTo} />
-                <Post key={post.postId} post={post} />
-              </div>
-            )
-          } else {
-            return <Post key={post.postId} post={post} />
-          }
+          return <Post key={post.postId} post={post} />
         })
       ) : (
         <LoadingSpinner />
