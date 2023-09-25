@@ -185,7 +185,7 @@ export const createUserPost = async (user, postContent, replyTo) => {
     username: userDoc.username,
     displayName: userDoc.displayName,
     likes: 0,
-    comments: {},
+    replies: {},
   }).then((docRef) => {
     updateDoc(docRef, {
       postId: docRef.id,
