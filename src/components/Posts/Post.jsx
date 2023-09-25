@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from 'react'
 
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import { FeedContext } from '../../contexts/FeedContext'
 
@@ -12,13 +12,13 @@ import PostContent from './PostContent'
 import PostInteractionBar from './PostInteractionBar'
 import { getPostByPostId } from '../../utils/firebase/firebase-config'
 
-function Post({ post }) {
+function Post({ post, replyTo }) {
   const [replyPost, setReplyPost] = useState(null)
   const { isLoading } = useContext(FeedContext)
-  const { replyTo } = post
 
   const navigate = useNavigate()
 
+  const paramId = useParams().postId
   const navigateToProfileOnClick = (e) => {
     e.preventDefault()
     navigate(`/${post.username}`)
@@ -27,9 +27,10 @@ function Post({ post }) {
   useEffect(() => {
     if (replyTo) {
       getPostByPostId(replyTo).then((res) => setReplyPost(res))
+      console.log(replyTo)
     }
   }, [])
-  console.log(replyPost)
+
   if (replyPost) {
     return (
       <div className='border-b border-slate-700'>
@@ -64,23 +65,23 @@ function Post({ post }) {
         <PostInteractionBar />
       </div>
     )
-  } else
-    return (
-      <Link to={`/${post.username}/status/${post.postId}`}>
-        <PostContainer isLoading={isLoading} addedClasses='border-b border-slate-700'>
-          <PostInfoContainer>
-            <ProfilePicBubble
-              onClick={navigateToProfileOnClick}
-              profilePic={post.profilePic}
-              addedClasses='mx-5 h-8 w-8 mt-5'
-            />
-            <PostInfo post={post} />
-          </PostInfoContainer>
-          <PostContent content={post.content} />
-          <PostInteractionBar />
-        </PostContainer>
-      </Link>
-    )
+  }
+  return (
+    <Link to={`/${post.username}/status/${post.postId}`}>
+      <PostContainer isLoading={isLoading} addedClasses='border-b border-slate-700'>
+        <PostInfoContainer>
+          <ProfilePicBubble
+            onClick={navigateToProfileOnClick}
+            profilePic={post.profilePic}
+            addedClasses='mx-5 h-8 w-8 mt-5'
+          />
+          <PostInfo post={post} />
+        </PostInfoContainer>
+        <PostContent content={post.content} />
+        <PostInteractionBar />
+      </PostContainer>
+    </Link>
+  )
 }
 
 export default Post

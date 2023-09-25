@@ -19,6 +19,7 @@ import {
   updateDoc,
   onSnapshot,
   where,
+  arrayUnion,
 } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -177,6 +178,7 @@ export const getPostByPostId = async (postId) => {
 export const createUserPost = async (user, postContent, replyTo) => {
   const userDoc = await getUserDocFromAuth(user)
   const timestamp = new Date().toLocaleString()
+  const findPostToReplyTo = () => getPostByPostId(replyTo)
   await addDoc(collection(db, 'userPosts'), {
     uid: userDoc.uid,
     replyTo: replyTo,
@@ -185,8 +187,29 @@ export const createUserPost = async (user, postContent, replyTo) => {
     username: userDoc.username,
     displayName: userDoc.displayName,
     likes: 0,
-    replies: {},
+    replies: [],
   }).then((docRef) => {
+    if (replyTo) {
+      try {
+        findPostToReplyTo().then((res) =>
+          updateDoc(doc(db, 'userPosts', res.postId), {
+            replies: arrayUnion({
+              postId: docRef.id,
+              uid: userDoc.uid,
+              replyTo: replyTo,
+              content: postContent,
+              timestamp: timestamp,
+              username: userDoc.username,
+              displayName: userDoc.displayName,
+              likes: 0,
+              replies: {},
+            }),
+          })
+        )
+      } catch (err) {
+        console.log(err)
+      }
+    }
     updateDoc(docRef, {
       postId: docRef.id,
     })

@@ -27,7 +27,6 @@ const PostPage = () => {
       setPagePost(post)
     })
   }, [postId])
-
   return (
     <FeedContainer>
       {pagePost ? (
@@ -38,6 +37,9 @@ const PostPage = () => {
           </div>
           <Post post={pagePost} />
           <CreatePost isReply={true} />
+          {pagePost.replies
+            ? pagePost.replies.map((post) => <Post key={post.postId} post={post} postPage={true} />)
+            : console.log('nope')}
         </Fragment>
       ) : (
         <LoadingSpinner />
