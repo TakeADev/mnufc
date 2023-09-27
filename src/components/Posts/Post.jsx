@@ -12,7 +12,7 @@ import PostContent from './PostContent'
 import PostInteractionBar from './PostInteractionBar'
 import { getPostByPostId } from '../../utils/firebase/firebase-config'
 
-function Post({ post, replyTo }) {
+function Post({ post }) {
   const [replyPost, setReplyPost] = useState(null)
   const { isLoading } = useContext(FeedContext)
 
@@ -25,13 +25,12 @@ function Post({ post, replyTo }) {
   }
 
   useEffect(() => {
-    if (replyTo) {
-      getPostByPostId(replyTo).then((res) => setReplyPost(res))
-      console.log(replyTo)
+    if (post.replyTo) {
+      getPostByPostId(post.replyTo).then((res) => setReplyPost(res))
     }
   }, [])
-
   if (replyPost) {
+    console.log(replyPost)
     return (
       <div className='border-b border-slate-700'>
         <Link to={`/${post.username}/status/${post.postId}`}>
