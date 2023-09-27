@@ -12,7 +12,7 @@ import PostContent from './PostContent'
 import PostInteractionBar from './PostInteractionBar'
 import { getPostByPostId } from '../../utils/firebase/firebase-config'
 
-function Post({ post }) {
+function Post({ post, postPage }) {
   const [replyPost, setReplyPost] = useState(null)
   const { isLoading } = useContext(FeedContext)
 
@@ -25,11 +25,13 @@ function Post({ post }) {
   }
 
   useEffect(() => {
+    setReplyPost(null)
     if (post.replyTo) {
       getPostByPostId(post.replyTo).then((res) => setReplyPost(res))
     }
-  }, [])
-  if (replyPost) {
+  }, [paramId])
+
+  if (replyPost && !postPage) {
     console.log(replyPost)
     return (
       <div className='border-b border-slate-700'>
