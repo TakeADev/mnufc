@@ -21,6 +21,9 @@ const PostPage = () => {
   }
 
   const getPost = getPostByPostId(postId).then((res) => res)
+  useEffect(() => {
+    setPagePost(null)
+  }, [postId])
 
   useEffect(() => {
     getPost.then((post) => {
