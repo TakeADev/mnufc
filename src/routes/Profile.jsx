@@ -23,19 +23,10 @@ function Profile() {
 
   useEffect(() => {
     setIsOpen(false)
-  }, [username])
-
-  useEffect(() => {
     userProfile.then((user) => {
       setProfileUserDoc(user)
     })
   }, [username])
-
-  useEffect(() => {
-    userProfile.then((user) => {
-      setProfileUserDoc(user)
-    })
-  }, [currentUserDoc])
 
   if (profileUserDoc) {
     return (

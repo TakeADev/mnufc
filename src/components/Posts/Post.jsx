@@ -12,7 +12,7 @@ import PostContent from './PostContent'
 import PostInteractionBar from './PostInteractionBar'
 import { getPostByPostId } from '../../utils/firebase/firebase-config'
 
-function Post({ post, replyTo }) {
+function Post({ post, postPage }) {
   const [replyPost, setReplyPost] = useState(null)
   const { isLoading } = useContext(FeedContext)
 
@@ -25,16 +25,21 @@ function Post({ post, replyTo }) {
   }
 
   useEffect(() => {
-    if (replyTo) {
-      getPostByPostId(replyTo).then((res) => setReplyPost(res))
-      console.log(replyTo)
+    setReplyPost(null)
+    if (post.replyTo) {
+      getPostByPostId(post.replyTo).then((res) => setReplyPost(res))
     }
-  }, [])
+  }, [paramId])
 
-  if (replyPost) {
+  const navigateToPostOnClick = (e) => {
+    e.preventDefault()
+    navigate(`/${replyPost.username}/status/${replyPost.postId}`)
+  }
+
+  if (replyPost && !postPage) {
     return (
-      <div className='border-b border-slate-700'>
-        <Link to={`/${post.username}/status/${post.postId}`}>
+      <Link to={`/${post.username}/status/${post.postId}`}>
+        <div className='border-b border-slate-700'>
           <PostContainer isLoading={isLoading}>
             <PostInfoContainer>
               <ProfilePicBubble
@@ -46,9 +51,10 @@ function Post({ post, replyTo }) {
             </PostInfoContainer>
             <PostContent content={post.content} />
           </PostContainer>
-        </Link>
-        <div className='ml-10 mr-5 my-5 border border-slate-700 rounded-lg'>
-          <Link to={`/${replyPost.username}/status/${replyPost.postId}`}>
+          <div
+            onClick={navigateToPostOnClick}
+            className='ml-10 mr-5 my-5 border border-slate-700 rounded-lg'
+          >
             <PostContainer isLoading={isLoading}>
               <PostInfoContainer>
                 <ProfilePicBubble
@@ -60,10 +66,10 @@ function Post({ post, replyTo }) {
               </PostInfoContainer>
               <PostContent content={replyPost.content} />
             </PostContainer>
-          </Link>
+          </div>
+          <PostInteractionBar />
         </div>
-        <PostInteractionBar />
-      </div>
+      </Link>
     )
   }
   return (

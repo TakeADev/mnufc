@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react'
 
-import { Link, useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 import { getPostByPostId } from '../../utils/firebase/firebase-config'
 
@@ -23,10 +23,15 @@ const PostPage = () => {
   const getPost = getPostByPostId(postId).then((res) => res)
 
   useEffect(() => {
+    setPagePost(null)
+  }, [postId])
+
+  useEffect(() => {
     getPost.then((post) => {
       setPagePost(post)
     })
   }, [postId])
+
   return (
     <FeedContainer>
       {pagePost ? (
@@ -37,9 +42,8 @@ const PostPage = () => {
           </div>
           <Post post={pagePost} />
           <CreatePost isReply={true} />
-          {pagePost.replies
-            ? pagePost.replies.map((post) => <Post key={post.postId} post={post} postPage={true} />)
-            : console.log('nope')}
+          {pagePost.replies &&
+            pagePost.replies.map((post) => <Post key={post.postId} post={post} postPage={true} />)}
         </Fragment>
       ) : (
         <LoadingSpinner />
