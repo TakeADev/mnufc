@@ -31,11 +31,15 @@ function Post({ post, postPage }) {
     }
   }, [paramId])
 
+  const navigateToPostOnClick = (e) => {
+    e.preventDefault()
+    navigate(`/${replyPost.username}/status/${replyPost.postId}`)
+  }
+
   if (replyPost && !postPage) {
-    console.log(replyPost)
     return (
-      <div className='border-b border-slate-700'>
-        <Link to={`/${post.username}/status/${post.postId}`}>
+      <Link to={`/${post.username}/status/${post.postId}`}>
+        <div className='border-b border-slate-700'>
           <PostContainer isLoading={isLoading}>
             <PostInfoContainer>
               <ProfilePicBubble
@@ -47,9 +51,10 @@ function Post({ post, postPage }) {
             </PostInfoContainer>
             <PostContent content={post.content} />
           </PostContainer>
-        </Link>
-        <div className='ml-10 mr-5 my-5 border border-slate-700 rounded-lg'>
-          <Link to={`/${replyPost.username}/status/${replyPost.postId}`}>
+          <div
+            onClick={navigateToPostOnClick}
+            className='ml-10 mr-5 my-5 border border-slate-700 rounded-lg'
+          >
             <PostContainer isLoading={isLoading}>
               <PostInfoContainer>
                 <ProfilePicBubble
@@ -61,10 +66,10 @@ function Post({ post, postPage }) {
               </PostInfoContainer>
               <PostContent content={replyPost.content} />
             </PostContainer>
-          </Link>
+          </div>
+          <PostInteractionBar />
         </div>
-        <PostInteractionBar />
-      </div>
+      </Link>
     )
   }
   return (
