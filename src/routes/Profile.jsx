@@ -5,6 +5,7 @@ import { getUserDocFromUsername, getUserPostsByUsername } from '../utils/firebas
 
 import { MenuContext } from '../contexts/MenuContext'
 import { UserContext } from '../contexts/User'
+import { UserPostsContext } from '../contexts/UserPosts'
 
 import FeedContainer from '../components/Feed/FeedContainer'
 import Post from '../components/Posts/Post'
@@ -13,12 +14,13 @@ import ProfileBanner from '../components/Profile/ProfileBanner'
 
 function Profile() {
   const { setIsOpen } = useContext(MenuContext)
-  const { currentAuthUser, currentUserDoc } = useContext(UserContext)
+  const { currentAuthUser } = useContext(UserContext)
+  const { userPosts } = useContext(UserPostsContext)
 
   const [profileUserDoc, setProfileUserDoc] = useState(null)
+  const [profilePosts, setProfilePosts] = useState(null)
 
   const username = useParams().username.toLowerCase()
-  const profilePosts = getUserPostsByUsername(username)
   const userProfile = getUserDocFromUsername(username)
 
   useEffect(() => {
@@ -27,6 +29,16 @@ function Profile() {
       setProfileUserDoc(user)
     })
   }, [username])
+
+  useEffect(() => {
+    if (userPosts && profileUserDoc)
+      setProfilePosts(
+        userPosts.filter((post) => {
+          return post.username === profileUserDoc.username
+        })
+      )
+    else return
+  }, [userPosts, profileUserDoc])
 
   if (profileUserDoc) {
     return (
