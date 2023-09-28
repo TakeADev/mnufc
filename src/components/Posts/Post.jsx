@@ -73,7 +73,7 @@ function Post({ post, postPage }) {
               <PostContent content={originalPost.content} />
             </PostContainer>
           </div>
-          <PostInteractionBar />
+          <PostInteractionBar post={post} />
         </div>
       </Link>
     )
@@ -91,7 +91,7 @@ function Post({ post, postPage }) {
           <PostInfo post={post} />
         </PostInfoContainer>
         <PostContent content={post.content} />
-        <PostInteractionBar />
+        <PostInteractionBar post={post} />
       </PostContainer>
     </Link>
   )
