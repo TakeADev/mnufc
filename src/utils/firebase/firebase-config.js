@@ -20,6 +20,7 @@ import {
   onSnapshot,
   where,
   arrayUnion,
+  increment,
 } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -114,6 +115,11 @@ export const getUserDocFromUsername = async (username) => {
   }
 }
 
+export const onCurrentUserSnapshotListener = (callback) => {
+  const userQ = query(doc(db, 'users', auth.currentUser.uid))
+  return onSnapshot(userQ, callback)
+}
+
 export const updateUserProfile = async (user, info) => {
   const userRef = doc(db, 'users', user.uid)
   try {
@@ -178,17 +184,7 @@ export const createUserPost = async (user, postContent, replyTo) => {
       try {
         findPostToReplyTo().then((res) =>
           updateDoc(doc(db, 'userPosts', res.postId), {
-            replies: arrayUnion({
-              postId: docRef.id,
-              uid: userDoc.uid,
-              replyTo: replyTo,
-              content: postContent,
-              timestamp: timestamp,
-              username: userDoc.username,
-              displayName: userDoc.displayName,
-              likes: 0,
-              replies: {},
-            }),
+            replies: arrayUnion(docRef.id),
           })
         )
       } catch (err) {
@@ -199,4 +195,30 @@ export const createUserPost = async (user, postContent, replyTo) => {
       postId: docRef.id,
     })
   })
+}
+
+export const togglePostLike = async (post) => {
+  const postRef = doc(db, 'userPosts', post.postId)
+  const user = await getUserDocFromUid(auth.currentUser.uid)
+
+  const userRef = doc(db, 'users', user.uid)
+  try {
+    if (user.likedPosts && user.likedPosts.find((likedPost) => likedPost == post.postId)) {
+      updateDoc(postRef, {
+        likes: increment(-1),
+      })
+      updateDoc(userRef, {
+        likedPosts: user.likedPosts.filter((filteredPost) => filteredPost !== post.postId),
+      })
+    } else {
+      updateDoc(userRef, {
+        likedPosts: arrayUnion(post.postId),
+      })
+      updateDoc(postRef, {
+        likes: increment(1),
+      })
+    }
+  } catch (err) {
+    console.log(err)
+  }
 }
