@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { getUserDocFromUsername, getUserPostsByUsername } from '../utils/firebase/firebase-config'
+import { getUserDocFromUsername } from '../utils/firebase/firebase-config'
 
 import { MenuContext } from '../contexts/MenuContext'
 import { UserContext } from '../contexts/User'
