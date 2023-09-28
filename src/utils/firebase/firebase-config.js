@@ -149,32 +149,6 @@ export const getUserPosts = async () => {
   return postsSorted.reverse()
 }
 
-export const getUserPostsByUsername = (username) => {
-  const posts = []
-  try {
-    postsSnapshot.forEach((post) => {
-      if (post.data().username === username) posts.push(post.data())
-    })
-  } catch (err) {
-    console.log(err)
-  }
-  const postsSorted = posts.sort((a, b) => {
-    return new Date(a.timestamp) - new Date(b.timestamp)
-  })
-  return postsSorted.reverse()
-}
-
-export const getPostByPostId = async (postId) => {
-  const postRef = doc(db, 'userPosts', postId)
-  const postSnap = await getDoc(postRef)
-
-  if (postSnap.exists()) {
-    return postSnap.data()
-  } else {
-    console.log('Post does not exist.')
-  }
-}
-
 export const createUserPost = async (user, postContent, replyTo) => {
   const userDoc = await getUserDocFromAuth(user)
   const timestamp = new Date().toLocaleString()
