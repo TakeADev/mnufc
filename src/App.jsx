@@ -12,8 +12,8 @@ import SignUp from './routes/SignUp'
 import PostPage from './components/Posts/PostPage'
 
 import {
-  getUserDocFromAuth,
   onAuthStateChangedListener,
+  onCurrentUserSnapshotListener,
   onUserPostsSnapshotListener,
 } from './utils/firebase/firebase-config'
 import { UserContext } from './contexts/User'
@@ -31,12 +31,11 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (currentAuthUser) {
-      getUserDocFromAuth(currentAuthUser).then((userDoc) => {
-        setCurrentUserDoc(userDoc)
-      })
-    }
-  }, [currentAuthUser])
+    const unsubscribe = onCurrentUserSnapshotListener((snapshot) => {
+      setCurrentUserDoc(snapshot.data())
+    })
+    return unsubscribe
+  }, [])
 
   useEffect(() => {
     const unsubscribe = onUserPostsSnapshotListener((snapshot) => {

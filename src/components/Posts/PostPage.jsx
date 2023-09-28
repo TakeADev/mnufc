@@ -46,7 +46,12 @@ const PostPage = () => {
           <Post post={pagePost} />
           <CreatePost isReply={true} />
           {pagePost.replies &&
-            pagePost.replies.map((post) => <Post key={post.postId} post={post} postPage={true} />)}
+            pagePost.replies.map((replyId) => {
+              const foundPost = userPosts.find((post) => {
+                return post.postId == replyId
+              })
+              return <Post post={foundPost} postPage={true} />
+            })}
         </Fragment>
       ) : (
         <LoadingSpinner />
