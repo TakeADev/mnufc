@@ -1,10 +1,10 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useState, useContext } from 'react'
 
 import { useParams, useNavigate } from 'react-router-dom'
 
-import { getPostByPostId } from '../../utils/firebase/firebase-config'
-
 import { MdArrowBack } from 'react-icons/md'
+
+import { UserPostsContext } from '../../contexts/UserPosts'
 
 import Post from './Post'
 import LoadingSpinner from '../LoadingSpinner'
@@ -13,24 +13,27 @@ import FeedContainer from '../Feed/FeedContainer'
 
 const PostPage = () => {
   const [pagePost, setPagePost] = useState(null)
+
+  const { userPosts } = useContext(UserPostsContext)
+
   const { postId } = useParams()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    setPagePost(null)
+    console.log(postId)
+    if (userPosts) {
+      setPagePost(
+        userPosts.find((post) => {
+          return post.postId == postId
+        })
+      )
+    }
+  }, [postId, userPosts])
 
   const goBack = () => {
     navigate(-1)
   }
-
-  const getPost = getPostByPostId(postId).then((res) => res)
-
-  useEffect(() => {
-    setPagePost(null)
-  }, [postId])
-
-  useEffect(() => {
-    getPost.then((post) => {
-      setPagePost(post)
-    })
-  }, [postId])
 
   return (
     <FeedContainer>

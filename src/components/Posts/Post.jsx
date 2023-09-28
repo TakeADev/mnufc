@@ -3,6 +3,7 @@ import { useContext, useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import { FeedContext } from '../../contexts/FeedContext'
+import { UserPostsContext } from '../../contexts/UserPosts'
 
 import PostContainer from './PostContainer'
 import PostInfoContainer from './PostInfoContainer'
@@ -10,33 +11,38 @@ import PostInfo from './PostInfo'
 import ProfilePicBubble from '../Profile/ProfilePicBubble'
 import PostContent from './PostContent'
 import PostInteractionBar from './PostInteractionBar'
-import { getPostByPostId } from '../../utils/firebase/firebase-config'
 
 function Post({ post, postPage }) {
-  const [replyPost, setReplyPost] = useState(null)
+  const [originalPost, setOriginalPost] = useState(null)
   const { isLoading } = useContext(FeedContext)
+  const { userPosts } = useContext(UserPostsContext)
 
   const navigate = useNavigate()
 
   const paramId = useParams().postId
+
+  useEffect(() => {
+    setOriginalPost(null)
+    if (post.replyTo) {
+      setOriginalPost(
+        userPosts.find((e) => {
+          return e.postId == post.replyTo
+        })
+      )
+    } else return
+  }, [paramId, post, userPosts])
+
   const navigateToProfileOnClick = (e) => {
     e.preventDefault()
     navigate(`/${post.username}`)
   }
 
-  useEffect(() => {
-    setReplyPost(null)
-    if (post.replyTo) {
-      getPostByPostId(post.replyTo).then((res) => setReplyPost(res))
-    }
-  }, [paramId])
-
   const navigateToPostOnClick = (e) => {
     e.preventDefault()
-    navigate(`/${replyPost.username}/status/${replyPost.postId}`)
+    navigate(`/${originalPost.username}/status/${originalPost.postId}`)
   }
 
-  if (replyPost && !postPage) {
+  if (post.replyTo && !postPage && originalPost) {
     return (
       <Link to={`/${post.username}/status/${post.postId}`}>
         <div className='border-b border-slate-700'>
@@ -59,12 +65,12 @@ function Post({ post, postPage }) {
               <PostInfoContainer>
                 <ProfilePicBubble
                   onClick={navigateToProfileOnClick}
-                  profilePic={replyPost.profilePic}
+                  profilePic={originalPost.profilePic}
                   addedClasses='mx-5 h-8 w-8 mt-5'
                 />
-                <PostInfo post={replyPost} />
+                <PostInfo post={originalPost} />
               </PostInfoContainer>
-              <PostContent content={replyPost.content} />
+              <PostContent content={originalPost.content} />
             </PostContainer>
           </div>
           <PostInteractionBar />
@@ -72,6 +78,7 @@ function Post({ post, postPage }) {
       </Link>
     )
   }
+
   return (
     <Link to={`/${post.username}/status/${post.postId}`}>
       <PostContainer isLoading={isLoading} addedClasses='border-b border-slate-700'>
