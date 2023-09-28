@@ -14,21 +14,12 @@ import PostInteractionBar from './PostInteractionBar'
 
 function Post({ post, postPage }) {
   const [originalPost, setOriginalPost] = useState(null)
-  const { isLoading, setIsLoading } = useContext(FeedContext)
+  const { isLoading } = useContext(FeedContext)
   const { userPosts } = useContext(UserPostsContext)
 
   const navigate = useNavigate()
 
   const paramId = useParams().postId
-
-  const navigateToProfileOnClick = (e) => {
-    e.preventDefault()
-    navigate(`/${post.username}`)
-  }
-
-  useEffect(() => {
-    console.log(originalPost)
-  }, [])
 
   useEffect(() => {
     setOriginalPost(null)
@@ -39,7 +30,12 @@ function Post({ post, postPage }) {
         })
       )
     } else return
-  }, [paramId, userPosts])
+  }, [paramId, post, userPosts])
+
+  const navigateToProfileOnClick = (e) => {
+    e.preventDefault()
+    navigate(`/${post.username}`)
+  }
 
   const navigateToPostOnClick = (e) => {
     e.preventDefault()

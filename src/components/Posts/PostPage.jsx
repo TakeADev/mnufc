@@ -21,6 +21,7 @@ const PostPage = () => {
 
   useEffect(() => {
     setPagePost(null)
+    console.log(postId)
     if (userPosts) {
       setPagePost(
         userPosts.find((post) => {
@@ -28,11 +29,7 @@ const PostPage = () => {
         })
       )
     }
-  }, [userPosts, postId])
-
-  useEffect(() => {
-    console.log(pagePost)
-  }, [pagePost])
+  }, [postId, userPosts])
 
   const goBack = () => {
     navigate(-1)
