@@ -1,6 +1,13 @@
-import { createContext, useState } from 'react'
+import { Dispatch, SetStateAction, createContext, useState } from 'react'
 
-export const ModalContext = createContext({
+interface IModalContext {
+  modalIsOpen: Boolean
+  setModalIsOpen: Dispatch<SetStateAction<Boolean>>
+  modalType: string
+  setModalType: Dispatch<SetStateAction<String>>
+}
+
+export const ModalContext = createContext<IModalContext>({
   modalIsOpen: false,
   setModalIsOpen: () => {},
   modalType: '',
@@ -9,7 +16,7 @@ export const ModalContext = createContext({
 
 function ModalProvider({ children }) {
   const [modalIsOpen, setModalIsOpen] = useState(false)
-  const [modalType, setModalType] = useState(false)
+  const [modalType, setModalType] = useState('')
 
   const value = {
     modalIsOpen,

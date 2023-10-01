@@ -10,7 +10,7 @@ import FeedProvider from './contexts/FeedContext.jsx'
 import MenuProvider from './contexts/MenuContext.jsx'
 import ModalProvider from './contexts/ModalContext.jsx'
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
       <UserProvider>

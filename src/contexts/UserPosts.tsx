@@ -1,11 +1,17 @@
-import React, { createContext, useState } from 'react'
+import { Dispatch, SetStateAction, createContext, useState } from 'react'
 import { createUserPost } from '../utils/firebase/firebase-config'
 
-export const UserPostsContext = createContext({
+import firebase from 'firebase/compat/app'
+
+interface IUserPostsContext {
+  userPosts: Array<Object> | null
+  setUserPosts: Dispatch<SetStateAction<Array<Object>>>
+  createNewUserPost: (currentAuthUser: firebase.User, postContent: any, replyTo: any) => void
+}
+
+export const UserPostsContext = createContext<IUserPostsContext>({
   userPosts: null,
   setUserPosts: () => {},
-  postCreated: false,
-  setPostCreated: () => {},
   createNewUserPost: () => {},
 })
 

@@ -1,6 +1,14 @@
-import { createContext, useState } from 'react'
+import firebase from 'firebase/compat/app'
+import { Dispatch, SetStateAction, createContext, useState } from 'react'
 
-export const UserContext = createContext({
+interface IUserContext {
+  currentAuthUser: firebase.User
+  setCurrentAuthUser: Dispatch<SetStateAction<firebase.User>>
+  currentUserDoc: Object
+  setCurrentUserDoc: Dispatch<SetStateAction<Object>>
+}
+
+export const UserContext = createContext<IUserContext>({
   currentAuthUser: null,
   setCurrentAuthUser: () => {},
   currentUserDoc: null,

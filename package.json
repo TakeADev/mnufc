@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/react-router": "^5.1.20",
+    "@types/react-router-dom": "^5.3.3",
     "eslint-config-prettier": "^9.0.0",
     "firebase": "^10.1.0",
     "prettier": "^3.0.3",
@@ -18,11 +20,12 @@
     "react-icons": "^4.11.0",
     "react-router-dom": "^6.14.2",
     "sass": "^1.66.1",
+    "typescript": "^5.2.2",
     "vite-plugin-svgr": "^3.2.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.15",
-    "@types/react-dom": "^18.2.7",
+    "@types/react": "^18.2.23",
+    "@types/react-dom": "^18.2.8",
     "@vitejs/plugin-react": "^4.0.3",
     "autoprefixer": "^10.4.14",
     "bun-types": "latest",

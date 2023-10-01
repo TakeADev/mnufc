@@ -73,7 +73,7 @@ export const signInUserWithEmailAndPassword = async (email, password) => {
     .catch((error) => {
       const errorCode = error.code
       const errorMessage = error.message
-      alert(errorCode, errorMessage)
+      alert(errorCode + errorMessage)
     })
 }
 
@@ -116,8 +116,8 @@ export const getUserDocFromUsername = async (username) => {
 }
 
 export const onCurrentUserSnapshotListener = (callback) => {
-  const userQ = query(doc(db, 'users', auth.currentUser.uid))
-  return onSnapshot(userQ, callback)
+  const userRef = doc(db, 'users', auth.currentUser.uid)
+  return onSnapshot(userRef, callback)
 }
 
 export const updateUserProfile = async (user, info) => {
@@ -134,25 +134,9 @@ export const updateUserProfile = async (user, info) => {
 //-----------------------------USER POSTS--------------------------------------
 
 const userPostsQuery = query(collection(db, 'userPosts'))
-const postsSnapshot = await getDocs(userPostsQuery).catch((err) => console.log(err))
 
 export const onUserPostsSnapshotListener = (callback) => {
   return onSnapshot(userPostsQuery, callback)
-}
-
-export const getUserPosts = async () => {
-  const posts = []
-  try {
-    postsSnapshot.forEach((post) => {
-      posts.push(post.data())
-    })
-  } catch (err) {
-    console.log(err)
-  }
-  const postsSorted = posts.sort((a, b) => {
-    return new Date(a.timestamp) - new Date(b.timestamp)
-  })
-  return postsSorted.reverse()
 }
 
 export const getPostByPostId = async (postId) => {
