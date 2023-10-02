@@ -50,7 +50,6 @@ function Post({ post, postPage }) {
             <PostInfoContainer>
               <ProfilePicBubble
                 onClick={navigateToProfileOnClick}
-                profilePic={post.profilePic}
                 addedClasses='mx-5 h-8 w-8 mt-5'
               />
               <PostInfo post={post} />

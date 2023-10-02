@@ -23,7 +23,7 @@ function Feed() {
       <CreatePost isReply={false} />
       {userPosts ? (
         userPosts.map((post) => {
-          return <Post key={post.postId} post={post} />
+          return <Post key={post.postId} post={post} showInteractionBar={true} />
         })
       ) : (
         <LoadingSpinner />

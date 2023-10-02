@@ -1,15 +1,24 @@
-import { useContext } from 'react'
+import { MouseEventHandler, useContext } from 'react'
 
 import { MdChat, MdFavoriteBorder, MdFavorite, MdRepeat } from 'react-icons/md'
 
 import { togglePostLike } from '../../utils/firebase/firebase-config'
 
 import { UserContext } from '../../contexts/User'
+import { ModalContext } from '../../contexts/ModalContext'
 
 const PostInteractionBar = ({ post }) => {
   const { currentUserDoc } = useContext(UserContext)
+  const { setModalIsOpen, setModalType, setReplyModalPostId } = useContext(ModalContext)
 
-  const postLikeClickHandler = (e) => {
+  const postCommentClickHandler: MouseEventHandler = (e) => {
+    e.preventDefault()
+    setModalType('createPostReply')
+    setReplyModalPostId(post.postId)
+    setModalIsOpen(true)
+  }
+
+  const postLikeClickHandler: MouseEventHandler = (e) => {
     e.preventDefault()
     togglePostLike(post)
   }
@@ -18,7 +27,7 @@ const PostInteractionBar = ({ post }) => {
     return (
       <div className='flex w-full text-center mb-3'>
         <div className='w-1/3'>
-          <MdChat className='text-xl mx-auto inline' />
+          <MdChat onClick={postCommentClickHandler} className='text-xl mx-auto inline' />
           <span className='ml-2'>{post.replies.length}</span>
         </div>
         <div className='w-1/3'>

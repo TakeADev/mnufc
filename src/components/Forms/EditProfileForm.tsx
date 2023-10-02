@@ -77,39 +77,41 @@ const EditProfileForm = () => {
 
   return (
     <form onSubmit={onSubmitHandler}>
-      <div className='flex pt-2 mb-2'>
-        <div
-          onClick={modalCloseHandler}
-          className='hover:cursor-pointer text-center text-xl w-1/12 mt-1 ml-1'
-        >
-          <span className=' '>X</span>
+      <div className='pb-10'>
+        <div className='flex py-3'>
+          <div
+            onClick={modalCloseHandler}
+            className='hover:cursor-pointer text-center text-xl w-1/12 mt-1 ml-1'
+          >
+            <span className=' '>X</span>
+          </div>
+          <div className='w-10/12 text-center mt-1 text-xl'>
+            <span className=''>
+              <b>Edit Profile</b>
+            </span>
+          </div>
+          <div className=' w-1/6 text-lg mr-2'>
+            <Button type='submit' addedClasses='w-full mt-2'>
+              Save
+            </Button>
+          </div>
         </div>
-        <div className='w-10/12 text-center mt-1 text-xl'>
-          <span className=''>
-            <b>Edit Profile</b>
-          </span>
-        </div>
-        <div className=' w-1/6 text-lg mr-2'>
-          <Button type='submit' addedClasses='w-full mt-2'>
-            Save
-          </Button>
-        </div>
+        <ProfileBannerImage />
+        <ProfilePicBubble addedClasses='w-24 h-24 -mt-12' />
+        <FormInput
+          label='Name'
+          name='displayName'
+          value={formFields.displayName}
+          onChange={onChangeHandler}
+        />
+        <FormInput label='Bio' name='bio' value={formFields.bio} onChange={onChangeHandler} />
+        <FormInput
+          label='Location'
+          name='location'
+          value={formFields.location}
+          onChange={onChangeHandler}
+        />
       </div>
-      <ProfileBannerImage />
-      <ProfilePicBubble addedClasses='w-24 h-24 -mt-12' />
-      <FormInput
-        label='Name'
-        name='displayName'
-        value={formFields.displayName}
-        onChange={onChangeHandler}
-      />
-      <FormInput label='Bio' name='bio' value={formFields.bio} onChange={onChangeHandler} />
-      <FormInput
-        label='Location'
-        name='location'
-        value={formFields.location}
-        onChange={onChangeHandler}
-      />
     </form>
   )
 }

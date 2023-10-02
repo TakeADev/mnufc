@@ -2,16 +2,25 @@ import { useContext } from 'react'
 import EditProfileForm from '../Forms/EditProfileForm'
 
 import { ModalContext } from '../../contexts/ModalContext'
+import CreateReplyModal from './CreateReplyModal'
+import { IUserPost, UserPostsContext } from '../../contexts/UserPosts'
 
 function Modal({ children }) {
-  const { modalIsOpen, modalType } = useContext(ModalContext)
+  const { modalIsOpen, modalType, replyModalPostId } = useContext(ModalContext)
+  const { userPosts } = useContext(UserPostsContext)
+
+  const replyModalPost: IUserPost =
+    userPosts && userPosts.find((post) => post.postId == replyModalPostId)
 
   return (
-    <div className=''>
+    <div>
       {modalIsOpen && (
         <div className={`mt-28 fixed mx-auto w-full z-50 h-screen `}>
-          <div className='bg-slate-900 h-3/4 w-3/5 lg:w-1/2 max-w-xl z-0 mx-auto rounded-xl'>
+          <div className='bg-slate-950 w-3/5 lg:w-1/2 max-w-xl z-0 mx-auto rounded-xl'>
             {modalType == 'editProfile' && <EditProfileForm />}
+            {modalType == 'createPostReply' && (
+              <div className='py-10'>{userPosts && <CreateReplyModal post={replyModalPost} />}</div>
+            )}
           </div>
         </div>
       )}

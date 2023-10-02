@@ -3,7 +3,7 @@ import { createUserPost } from '../utils/firebase/firebase-config'
 
 import firebase from 'firebase/compat/app'
 
-interface IUserPost {
+export interface IUserPost {
   content: String
   displayName: String
   likes: number
