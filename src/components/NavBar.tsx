@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 
 import Button from './Button'
@@ -25,7 +25,9 @@ function NavBar() {
       ) : (
         <div className='absolute right-12'>
           <Link to='/login'>
-            <Button addedClasses='py-1 px-2 text-lg my-5 w-full mx-10'>Login</Button>
+            <Button type='button' addedClasses='py-1 px-2 text-lg my-5 w-full mx-10'>
+              Login
+            </Button>
           </Link>
         </div>
       )}
