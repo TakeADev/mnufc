@@ -35,7 +35,7 @@ function App() {
       setCurrentUserDoc(snapshot.data())
     })
     return unsubscribe
-  }, [])
+  }, [currentAuthUser])
 
   useEffect(() => {
     const unsubscribe = onUserPostsSnapshotListener((snapshot) => {
@@ -44,7 +44,7 @@ function App() {
         posts.push(doc.data())
       })
       const postsSorted = posts.sort((a, b) => {
-        return new Date(a.timestamp) - new Date(b.timestamp)
+        return new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()
       })
       setUserPosts(postsSorted.reverse())
     })
