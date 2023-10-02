@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { getUserDocFromUsername } from '../utils/firebase/firebase-config'
@@ -14,7 +14,7 @@ import ProfileBanner from '../components/Profile/ProfileBanner'
 
 function Profile() {
   const { setIsOpen } = useContext(MenuContext)
-  const { currentAuthUser } = useContext(UserContext)
+  const { currentAuthUser, currentUserDoc } = useContext(UserContext)
   const { userPosts } = useContext(UserPostsContext)
 
   const [profileUserDoc, setProfileUserDoc] = useState(null)
@@ -28,7 +28,7 @@ function Profile() {
     userProfile.then((user) => {
       setProfileUserDoc(user)
     })
-  }, [username])
+  }, [username, currentUserDoc])
 
   useEffect(() => {
     if (userPosts && profileUserDoc)
