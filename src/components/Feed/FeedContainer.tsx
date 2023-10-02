@@ -1,5 +1,3 @@
-import React from 'react'
-
 function FeedContainer({ children }) {
   return (
     <div className='flex w-full'>
