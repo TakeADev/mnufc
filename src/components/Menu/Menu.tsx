@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 
 import { signOutUser } from '../../utils/firebase/firebase-config'
 
@@ -16,15 +16,17 @@ function Menu() {
   const { isOpen, setIsOpen } = useContext(MenuContext)
   const { currentUserDoc } = useContext(UserContext)
 
-  const menuClickHandler = (e) => {
-    e.preventDefault()
+  const menuClickHandler = () => {
     setIsOpen(!isOpen)
   }
 
   if (isOpen) {
     return (
       <>
-        <div className='bg-gray-500 h-screen absolute w-full opacity-50' onClick={menuClickHandler}></div>
+        <div
+          className='bg-gray-500 h-screen absolute w-full opacity-50'
+          onClick={menuClickHandler}
+        ></div>
         <div className='absolute right-0 flex-col bg-slate-900 rounded-xl w-1/2 md:w-2/5 lg:w-1/3 xl:w-1/4 h-screen slide-from-right'>
           <MenuHeader onClick={menuClickHandler} />
           <MenuItem linkPath='/' title='Feed' />
