@@ -14,26 +14,28 @@ const PostInteractionBar = ({ post }) => {
     togglePostLike(post)
   }
 
-  return (
-    <div className='flex w-full text-center mb-3'>
-      <div className='w-1/3'>
-        <MdChat className='text-xl mx-auto inline' />
-        <span className='ml-2'>{post.replies.length}</span>
+  if (currentUserDoc) {
+    return (
+      <div className='flex w-full text-center mb-3'>
+        <div className='w-1/3'>
+          <MdChat className='text-xl mx-auto inline' />
+          <span className='ml-2'>{post.replies.length}</span>
+        </div>
+        <div className='w-1/3'>
+          {currentUserDoc.likedPosts.find((likedPost) => likedPost == post.postId) ? (
+            <MdFavorite onClick={postLikeClickHandler} className='text-xl mx-auto inline' />
+          ) : (
+            <MdFavoriteBorder onClick={postLikeClickHandler} className='text-xl mx-auto inline' />
+          )}
+          <span className='ml-2'>{post.likes}</span>
+        </div>
+        <div className='w-1/3'>
+          <MdRepeat className='text-xl mx-auto inline' />
+          <span className='ml-2'>0</span>
+        </div>
       </div>
-      <div className='w-1/3'>
-        {currentUserDoc.likedPosts.find((likedPost) => likedPost == post.postId) ? (
-          <MdFavorite onClick={postLikeClickHandler} className='text-xl mx-auto inline' />
-        ) : (
-          <MdFavoriteBorder onClick={postLikeClickHandler} className='text-xl mx-auto inline' />
-        )}
-        <span className='ml-2'>{post.likes}</span>
-      </div>
-      <div className='w-1/3'>
-        <MdRepeat className='text-xl mx-auto inline' />
-        <span className='ml-2'>0</span>
-      </div>
-    </div>
-  )
+    )
+  }
 }
 
 export default PostInteractionBar
