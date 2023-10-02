@@ -134,6 +134,7 @@ export const updateUserProfile = async (user, info) => {
 //-----------------------------USER POSTS--------------------------------------
 
 const userPostsQuery = query(collection(db, 'userPosts'))
+const postsSnapshot = await getDocs(userPostsQuery).catch((err) => console.log(err))
 
 export const onUserPostsSnapshotListener = (callback) => {
   return onSnapshot(userPostsQuery, callback)
