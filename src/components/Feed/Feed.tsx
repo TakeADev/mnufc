@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import FeedContainer from './FeedContainer'
 import CreatePost from '../CreatePost/CreatePost'
 import LoadingSpinner from '../LoadingSpinner'
@@ -20,7 +20,7 @@ function Feed() {
 
   return (
     <FeedContainer>
-      <CreatePost />
+      <CreatePost isReply={false} />
       {userPosts ? (
         userPosts.map((post) => {
           return <Post key={post.postId} post={post} />
