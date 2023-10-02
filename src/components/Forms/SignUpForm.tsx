@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import { Link } from 'react-router-dom'
 
-import { createNewUserWithEmailAndPassword, createUserDocumentFromAuth } from '../../utils/firebase/firebase-config'
+import {
+  createNewUserWithEmailAndPassword,
+  createUserDocumentFromAuth,
+} from '../../utils/firebase/firebase-config'
 import Button from '../Button'
 
 const defaultFormFields = {
