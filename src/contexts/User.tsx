@@ -1,11 +1,22 @@
 import firebase from 'firebase/compat/app'
 import { Dispatch, SetStateAction, createContext, useState } from 'react'
 
+interface ICurrentUserDoc {
+  bio?: String
+  birthDate?: Date | ''
+  createdAt?: Date
+  displayName?: String
+  email?: String
+  location?: String
+  uid?: String
+  username?: String
+}
+
 interface IUserContext {
   currentAuthUser: firebase.User
   setCurrentAuthUser: Dispatch<SetStateAction<firebase.User>>
-  currentUserDoc: Object
-  setCurrentUserDoc: Dispatch<SetStateAction<Object>>
+  currentUserDoc: ICurrentUserDoc
+  setCurrentUserDoc: Dispatch<SetStateAction<ICurrentUserDoc>>
 }
 
 export const UserContext = createContext<IUserContext>({
