@@ -116,8 +116,10 @@ export const getUserDocFromUsername = async (username) => {
 }
 
 export const onCurrentUserSnapshotListener = (callback) => {
-  const userRef = doc(db, 'users', auth.currentUser.uid)
-  return onSnapshot(userRef, callback)
+  if (auth.currentUser) {
+    const currentUserRef = doc(db, 'users', auth.currentUser.uid)
+    onSnapshot(currentUserRef, callback)
+  }
 }
 
 export const updateUserProfile = async (user, info) => {
