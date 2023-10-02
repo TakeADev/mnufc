@@ -4,16 +4,19 @@ import { useParams } from 'react-router-dom'
 
 import Button from '../Button'
 import { UserContext } from '../../contexts/User'
-import { UserPostsContext } from '../../contexts/UserPosts'
+import { IUserPost, UserPostsContext } from '../../contexts/UserPosts'
+import { ModalContext } from '../../contexts/ModalContext'
 
 interface ICreatePostProps {
   isReply?: Boolean
+  replyModalPost: IUserPost
 }
 
-const CreatePost: FunctionComponent<ICreatePostProps> = ({ isReply }) => {
+const CreatePost: FunctionComponent<ICreatePostProps> = ({ isReply, replyModalPost }) => {
   const [postData, setPostData] = useState('')
   const { currentAuthUser } = useContext(UserContext)
   const { createNewUserPost } = useContext(UserPostsContext)
+  const { setModalIsOpen } = useContext(ModalContext)
 
   const resetFormValue = () => {
     setPostData('')
@@ -26,7 +29,11 @@ const CreatePost: FunctionComponent<ICreatePostProps> = ({ isReply }) => {
   let replyTo: String | false = false
 
   if (isReply) {
-    replyTo = useParams().postId
+    if (useParams().postId) {
+      replyTo = useParams().postId
+    } else {
+      replyTo = replyModalPost.postId
+    }
   }
 
   const onSubmitHandler = async (e) => {
@@ -35,6 +42,7 @@ const CreatePost: FunctionComponent<ICreatePostProps> = ({ isReply }) => {
       resetFormValue()
       createNewUserPost(currentAuthUser, postData, replyTo)
     }
+    setModalIsOpen(false)
   }
 
   const postEnterSubmit = (e) => {
@@ -44,7 +52,7 @@ const CreatePost: FunctionComponent<ICreatePostProps> = ({ isReply }) => {
   }
 
   return (
-    <div className='pb-3 mt-5 mx-auto px-3 border-b border-slate-700'>
+    <div className={`pb-3 mt-5 mx-auto px-3 ${!replyModalPost && 'border-b'} border-slate-700`}>
       <form action='submit' onSubmit={onSubmitHandler}>
         <textarea
           name='postContent'
