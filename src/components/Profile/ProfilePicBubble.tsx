@@ -1,9 +1,8 @@
-import { FunctionComponent, ReactEventHandler } from 'react'
+import { FunctionComponent, MouseEventHandler } from 'react'
 
 interface IProfilePicBubbleProps {
   addedClasses?: String
-  onClick?: (e?: ReactEventHandler) => void
-  profilePic: String
+  onClick?: MouseEventHandler<HTMLImageElement>
 }
 
 const ProfilePicBubble: FunctionComponent<IProfilePicBubbleProps> = ({ addedClasses, onClick }) => {
