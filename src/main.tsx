@@ -1,14 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
+import App from './App.tsx'
 import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 
-import UserProvider from './contexts/User.jsx'
-import UserPostsProvider from './contexts/UserPosts.jsx'
-import FeedProvider from './contexts/FeedContext.jsx'
-import MenuProvider from './contexts/MenuContext.jsx'
-import ModalProvider from './contexts/ModalContext.jsx'
+import UserProvider from './contexts/User.tsx'
+import UserPostsProvider from './contexts/UserPosts.tsx'
+import FeedProvider from './contexts/FeedContext.tsx'
+import MenuProvider from './contexts/MenuContext.tsx'
+import ModalProvider from './contexts/ModalContext.tsx'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
