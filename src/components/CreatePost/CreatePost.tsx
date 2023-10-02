@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import { useState, useContext } from 'react'
 
 import { useParams } from 'react-router-dom'
 
@@ -19,7 +19,7 @@ function CreatePost({ isReply }) {
     setPostData(e.target.value)
   }
 
-  let replyTo = false
+  let replyTo: String | false = false
 
   if (isReply) {
     replyTo = useParams().postId
@@ -27,8 +27,10 @@ function CreatePost({ isReply }) {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault()
-    resetFormValue()
-    createNewUserPost(currentAuthUser, postData, replyTo)
+    if (postData) {
+      resetFormValue()
+      createNewUserPost(currentAuthUser, postData, replyTo)
+    }
   }
 
   const postEnterSubmit = (e) => {
@@ -42,10 +44,10 @@ function CreatePost({ isReply }) {
       <form action='submit' onSubmit={onSubmitHandler}>
         <textarea
           name='postContent'
-          maxLength='250'
+          maxLength={250}
           id=''
-          cols='73'
-          rows='3'
+          cols={73}
+          rows={3}
           value={postData}
           onChange={onChangeHandler}
           onKeyDown={postEnterSubmit}
