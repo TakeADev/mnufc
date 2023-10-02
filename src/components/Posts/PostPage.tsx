@@ -43,7 +43,7 @@ const PostPage = () => {
             <MdArrowBack onClick={goBack} className='inline mx-5 -mt-1 hover:cursor-pointer' />
             <span>Post</span>
           </div>
-          <Post post={pagePost} />
+          <Post post={pagePost} postPage={false} />
           <CreatePost isReply={true} />
           {pagePost.replies &&
             pagePost.replies.map((replyId) => {
