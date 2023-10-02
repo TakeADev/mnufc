@@ -1,8 +1,19 @@
-import React from 'react'
+import { FunctionComponent, ReactNode } from 'react'
 
-function Button({ type, addedClasses, onClick, children }) {
+interface IButtonProps {
+  type: 'button' | 'submit' | 'reset'
+  addedClasses?: String
+  onClick?: () => void
+  children: ReactNode
+}
+
+const Button: FunctionComponent<IButtonProps> = ({ type, addedClasses, onClick, children }) => {
   return (
-    <button type={type} className={`text-black bg-cyan-300 rounded-full ` + addedClasses} onClick={onClick}>
+    <button
+      type={type}
+      className={`text-black bg-cyan-300 rounded-full ` + addedClasses}
+      onClick={onClick}
+    >
       {children}
     </button>
   )
