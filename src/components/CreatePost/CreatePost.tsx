@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, FunctionComponent } from 'react'
 
 import { useParams } from 'react-router-dom'
 
@@ -6,7 +6,11 @@ import Button from '../Button'
 import { UserContext } from '../../contexts/User'
 import { UserPostsContext } from '../../contexts/UserPosts'
 
-function CreatePost({ isReply }) {
+interface ICreatePostProps {
+  isReply?: Boolean
+}
+
+const CreatePost: FunctionComponent<ICreatePostProps> = ({ isReply }) => {
   const [postData, setPostData] = useState('')
   const { currentAuthUser } = useContext(UserContext)
   const { createNewUserPost } = useContext(UserPostsContext)
@@ -15,7 +19,7 @@ function CreatePost({ isReply }) {
     setPostData('')
   }
 
-  const onChangeHandler = (e) => {
+  const onChangeHandler: (e: React.ChangeEvent<HTMLTextAreaElement>) => void = (e) => {
     setPostData(e.target.value)
   }
 
