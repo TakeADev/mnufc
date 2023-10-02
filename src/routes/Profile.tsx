@@ -6,6 +6,7 @@ import { getUserDocFromUsername } from '../utils/firebase/firebase-config'
 import { MenuContext } from '../contexts/MenuContext'
 import { UserContext } from '../contexts/User'
 import { UserPostsContext } from '../contexts/UserPosts'
+import { ModalContext } from '../contexts/ModalContext'
 
 import FeedContainer from '../components/Feed/FeedContainer'
 import Post from '../components/Posts/Post'
@@ -16,12 +17,17 @@ function Profile() {
   const { setIsOpen } = useContext(MenuContext)
   const { currentAuthUser, currentUserDoc } = useContext(UserContext)
   const { userPosts } = useContext(UserPostsContext)
+  const { setModalIsOpen } = useContext(ModalContext)
 
   const [profileUserDoc, setProfileUserDoc] = useState(null)
   const [profilePosts, setProfilePosts] = useState(null)
 
   const username = useParams().username.toLowerCase()
   const userProfile = getUserDocFromUsername(username)
+
+  useEffect(() => {
+    setModalIsOpen(false)
+  }, [username])
 
   useEffect(() => {
     setIsOpen(false)
