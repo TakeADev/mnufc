@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { Link } from 'react-router-dom'
 
 import Button from './Button'
@@ -11,7 +9,9 @@ function Hero() {
         <span className='text-5xl'>Minnesota United Fan Club</span>
         <h2 className='text-3xl my-10 '>Swim with the Loons!</h2>
         <Link to='/login'>
-          <Button addedClasses='text-3xl w-1/2 py-2 px-3'>Login</Button>
+          <Button type='button' addedClasses='text-3xl w-1/2 py-2 px-3'>
+            Login
+          </Button>
         </Link>
       </div>
       <div className='text-left pl-10 max-w-3xl hidden md:block h-screen mr-0'>
