@@ -51,7 +51,7 @@ function Profile() {
         </div>
         {profilePosts ? (
           profilePosts.map((post) => {
-            return <Post key={post.postId} post={post} />
+            return <Post key={post.postId} post={post} postPage={false} />
           })
         ) : (
           <LoadingSpinner />
