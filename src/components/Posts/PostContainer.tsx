@@ -1,7 +1,18 @@
-import React from 'react'
+import { FunctionComponent, ReactNode } from 'react'
+
 import LoadingSpinner from '../LoadingSpinner'
 
-function PostContainer({ children, isLoading, addedClasses }) {
+interface IPostContainerProps {
+  children: ReactNode
+  isLoading: Boolean
+  addedClasses?: string
+}
+
+const PostContainer: FunctionComponent<IPostContainerProps> = ({
+  children,
+  isLoading,
+  addedClasses,
+}) => {
   return (
     <>
       <div className='hidden'>{children}</div>
