@@ -13,54 +13,57 @@ import { Link } from 'react-router-dom'
 function ProfileBanner({ currentAuthUser, profileUserDoc }) {
   const { setModalIsOpen, setModalType } = useContext(ModalContext)
 
-  return (
-    <>
-      <Link to='/'>
-        <MdArrowBack className='absolute text-4xl bg-gray-900 rounded-full opacity-50 mt-3 ml-3' />
-      </Link>
-      <ProfileBannerImage />
-      <div className='w-full flex-col -mt-20'>
-        <div className='flex'>
-          <div className='w-3/4'>
-            <ProfilePicBubble addedClasses='w-32 h-32 ml-5' />
-          </div>
-          {currentAuthUser.uid === profileUserDoc.uid && (
-            <div className='w-2-5'>
-              <Button
-                addedClasses='right-0 bg-slate-950 text-white border border-white px-5 h-10 mt-24 text-sm hover:bg-gray-900'
-                onClick={() => {
-                  setModalIsOpen(true), setModalType('editProfile')
-                }}
-              >
-                <b>Edit Profile</b>
-              </Button>
+  if (currentAuthUser) {
+    return (
+      <>
+        <Link to='/'>
+          <MdArrowBack className='absolute text-4xl bg-gray-900 rounded-full opacity-50 mt-3 ml-3' />
+        </Link>
+        <ProfileBannerImage />
+        <div className='w-full flex-col -mt-20'>
+          <div className='flex'>
+            <div className='w-3/4'>
+              <ProfilePicBubble addedClasses='w-32 h-32 ml-5' />
             </div>
-          )}
-        </div>
-        <div className='ml-5 mt-5 flex-col'>
-          <div>
-            <span className='text-xl'>
-              <b>{profileUserDoc.displayName}</b>
-            </span>
+            {currentAuthUser.uid === profileUserDoc.uid && (
+              <div className='w-2-5'>
+                <Button
+                  addedClasses='right-0 bg-slate-950 text-white border border-white px-5 h-10 mt-24 text-sm hover:bg-gray-900'
+                  onClick={() => {
+                    setModalIsOpen(true), setModalType('editProfile')
+                  }}
+                  type='button'
+                >
+                  <b>Edit Profile</b>
+                </Button>
+              </div>
+            )}
           </div>
-          <div>
-            <span className='text-md text-gray-500'>@{profileUserDoc.username}</span>
-          </div>
-          <div className='mt-5'>
-            <span className='text-lg'>{profileUserDoc.bio}</span>
-          </div>
-          {profileUserDoc.location && (
-            <div className='mt-5 flex-row'>
-              <span className='text-lg'>
-                <MdLocationOn className='inline mr-2 -mt-1' />
-                {profileUserDoc.location}
+          <div className='ml-5 mt-5 flex-col'>
+            <div>
+              <span className='text-xl'>
+                <b>{profileUserDoc.displayName}</b>
               </span>
             </div>
-          )}
+            <div>
+              <span className='text-md text-gray-500'>@{profileUserDoc.username}</span>
+            </div>
+            <div className='mt-5'>
+              <span className='text-lg'>{profileUserDoc.bio}</span>
+            </div>
+            {profileUserDoc.location && (
+              <div className='mt-5 flex-row'>
+                <span className='text-lg'>
+                  <MdLocationOn className='inline mr-2 -mt-1' />
+                  {profileUserDoc.location}
+                </span>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </>
-  )
+      </>
+    )
+  }
 }
 
 export default ProfileBanner
