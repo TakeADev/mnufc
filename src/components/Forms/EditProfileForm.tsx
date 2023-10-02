@@ -10,18 +10,25 @@ import ProfileBannerImage from '../Profile/ProfileBannerImage'
 import Button from '../Button'
 import FormInput from './FormInput'
 
+interface IEditProfileFormFields {
+  displayName: String
+  bio: String
+  location: String
+  birthDate: Date | ''
+}
+
 const EditProfileForm = () => {
   const { currentAuthUser, setCurrentUserDoc, currentUserDoc } = useContext(UserContext)
   const { modalIsOpen, setModalIsOpen } = useContext(ModalContext)
 
-  const defaultFormFields = {
+  const defaultFormFields: IEditProfileFormFields = {
     displayName: '',
     bio: '',
     location: '',
     birthDate: new Date(),
   }
 
-  const [formFields, setFormFields] = useState(defaultFormFields)
+  const [formFields, setFormFields] = useState<IEditProfileFormFields>(defaultFormFields)
 
   useEffect(() => {
     if (currentAuthUser) {
@@ -62,14 +69,14 @@ const EditProfileForm = () => {
   const onSubmitHandler = (e) => {
     e.preventDefault()
     updateUserProfile(currentAuthUser, formFields).then(() => {
-      setCurrentUserDoc(getUserDocFromAuth(currentAuthUser))
+      getUserDocFromAuth(currentAuthUser).then((res) => setCurrentUserDoc(res))
     })
     modalCloseHandler()
     resetFormFields()
   }
 
   return (
-    <form type='submit ' onSubmit={onSubmitHandler}>
+    <form onSubmit={onSubmitHandler}>
       <div className='flex pt-2 mb-2'>
         <div
           onClick={modalCloseHandler}
