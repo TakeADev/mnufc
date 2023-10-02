@@ -1,6 +1,11 @@
-import React from 'react'
+import { FunctionComponent } from 'react'
 
-function ProfilePicBubble({ addedClasses, onClick }) {
+interface IProfilePicBubbleProps {
+  addedClasses?: String
+  onClick?: () => void
+}
+
+const ProfilePicBubble: FunctionComponent<IProfilePicBubbleProps> = ({ addedClasses, onClick }) => {
   return (
     <img
       src='https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png'
