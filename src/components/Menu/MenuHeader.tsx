@@ -5,10 +5,10 @@ import { UserContext } from '../../contexts/User'
 import ProfilePicBubble from '../Profile/ProfilePicBubble'
 import { Link } from 'react-router-dom'
 
-function MenuHeader() {
+function MenuHeader({ onClick }) {
   const { currentUserDoc } = useContext(UserContext)
   return (
-    <Link to={`/${currentUserDoc.username}`}>
+    <Link onClick={onClick} to={`/${currentUserDoc.username}`}>
       <div className='flex ml-5 pl-0 mt-4'>
         <ProfilePicBubble addedClasses='w-10 h-10' />
         <span className='w-3/4 ml-3 text-xl'>
