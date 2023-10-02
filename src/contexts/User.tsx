@@ -10,6 +10,7 @@ interface ICurrentUserDoc {
   location?: String
   uid?: String
   username?: String
+  likedPosts?: Array<String>
 }
 
 interface IUserContext {
