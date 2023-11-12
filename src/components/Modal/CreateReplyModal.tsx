@@ -35,14 +35,16 @@ const CreateReplyModal: FunctionComponent<ICreateReplyModalProps> = ({ post }) =
           <ProfilePicBubble addedClasses='mx-5 h-8 w-8 mt-5' />
           <PostInfo post={post} />
         </PostInfoContainer>
-        <PostContent content={post.content} addedClasses='ml-8 mt-3 border-l pl-8' />
+        <div className='border-l border-slate-500 ml-9 -mt-3'>
+          <PostContent content={post.content} addedClasses='ml-0 mt-3 pl-8' />
+          <div className='ml-8 text-gray-500'>
+            <span>Replying to: </span>
+            <Link to={`/${post.username}`}>
+              <span className='text-cyan-700'>@{post.username}</span>
+            </Link>
+          </div>
+        </div>
       </PostContainer>
-      <div className='ml-16 text-gray-500'>
-        <span>Replying to: </span>
-        <Link to={`/${post.username}`}>
-          <span className='text-cyan-700'>@{post.username}</span>
-        </Link>
-      </div>
       <CreatePost isReply={true} replyModalPost={post} />
     </div>
   )
