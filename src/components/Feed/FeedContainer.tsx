@@ -1,9 +1,7 @@
 function FeedContainer({ children }) {
   return (
-    <div className='flex w-full'>
-      <div className='lg:w-3/5 max-w-3xl mx-auto border-l border-r border-slate-700'>
-        {children}
-      </div>
+    <div className='flex w-full min-h-screen'>
+      <div className='lg:w-3/5 max-w-3xl mx-auto border-slate-700 w-full'>{children}</div>
     </div>
   )
 }
