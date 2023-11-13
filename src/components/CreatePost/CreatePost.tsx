@@ -9,7 +9,7 @@ import { ModalContext } from '../../contexts/ModalContext'
 
 interface ICreatePostProps {
   isReply?: Boolean
-  replyModalPost: IUserPost
+  replyModalPost?: IUserPost
 }
 
 const CreatePost: FunctionComponent<ICreatePostProps> = ({ isReply, replyModalPost }) => {
@@ -52,7 +52,11 @@ const CreatePost: FunctionComponent<ICreatePostProps> = ({ isReply, replyModalPo
   }
 
   return (
-    <div className={`pb-3 mt-5 mx-auto px-3 ${!replyModalPost && 'border-b'} border-slate-700`}>
+    <div
+      className={`pb-3 pt-5 mx-auto px-3 ${
+        !replyModalPost && 'border-slate-700 border-l border-r border-b'
+      } `}
+    >
       <form action='submit' onSubmit={onSubmitHandler}>
         <textarea
           name='postContent'
