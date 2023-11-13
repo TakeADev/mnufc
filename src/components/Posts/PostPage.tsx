@@ -5,6 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { MdArrowBack } from 'react-icons/md'
 
 import { UserPostsContext } from '../../contexts/UserPosts'
+import { UserContext } from '../../contexts/User'
 
 import Post from './Post'
 import LoadingSpinner from '../LoadingSpinner'
@@ -15,6 +16,7 @@ const PostPage = () => {
   const [pagePost, setPagePost] = useState(null)
 
   const { userPosts } = useContext(UserPostsContext)
+  const { currentAuthUser } = useContext(UserContext)
 
   const { postId } = useParams()
   const navigate = useNavigate()
@@ -39,12 +41,14 @@ const PostPage = () => {
     <FeedContainer>
       {pagePost ? (
         <Fragment>
-          <div className='text-2xl mt-3'>
+          <div className='text-2xl py-3 border-l border-r  border-slate-700'>
             <MdArrowBack onClick={goBack} className='inline mx-5 -mt-1 hover:cursor-pointer' />
-            <span>Post</span>
+            <span>
+              <b>Post</b>
+            </span>
           </div>
           <Post post={pagePost} postPage={false} />
-          <CreatePost isReply={true} />
+          {currentAuthUser && <CreatePost isReply={true} />}
           {pagePost.replies &&
             pagePost.replies.map((replyId) => {
               const foundPost = userPosts.find((post) => {
