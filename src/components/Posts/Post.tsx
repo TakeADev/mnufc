@@ -45,7 +45,7 @@ function Post({ post, postPage }) {
   if (post.replyTo && !postPage && originalPost) {
     return (
       <Link to={`/${post.username}/status/${post.postId}`}>
-        <div className='border-b border-slate-700'>
+        <div className='border-b border-l border-r border-slate-700'>
           <PostContainer isLoading={isLoading}>
             <PostInfoContainer>
               <ProfilePicBubble
@@ -54,7 +54,7 @@ function Post({ post, postPage }) {
               />
               <PostInfo post={post} />
             </PostInfoContainer>
-            <PostContent content={post.content} />
+            <PostContent content={post.content} addedClasses='ml-16' />
           </PostContainer>
           <div
             onClick={navigateToPostOnClick}
@@ -69,7 +69,7 @@ function Post({ post, postPage }) {
                 />
                 <PostInfo post={originalPost} />
               </PostInfoContainer>
-              <PostContent content={originalPost.content} />
+              <PostContent content={originalPost.content} addedClasses='ml-16' />
             </PostContainer>
           </div>
           <PostInteractionBar post={post} />
@@ -80,7 +80,10 @@ function Post({ post, postPage }) {
 
   return (
     <Link to={`/${post.username}/status/${post.postId}`}>
-      <PostContainer isLoading={isLoading} addedClasses='border-b border-slate-700'>
+      <PostContainer
+        isLoading={isLoading}
+        addedClasses='border-b border-l border-r border-slate-700'
+      >
         <PostInfoContainer>
           <ProfilePicBubble
             onClick={navigateToProfileOnClick}
@@ -89,7 +92,7 @@ function Post({ post, postPage }) {
           />
           <PostInfo post={post} />
         </PostInfoContainer>
-        <PostContent content={post.content} />
+        <PostContent content={post.content} addedClasses='ml-16' />
         <PostInteractionBar post={post} />
       </PostContainer>
     </Link>

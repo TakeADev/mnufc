@@ -10,7 +10,7 @@ function NavBar() {
   const { currentAuthUser } = useContext(UserContext)
 
   return (
-    <div className='dark:bg-slate-900 sticky top-0 flex border-b border-slate-700 mx-auto pb-5'>
+    <div className='dark:bg-slate-900 sticky top-0 flex border-b border-slate-700 mx-auto pb-5 z-10'>
       <div className='w-14 mt-3 ml-5'>
         <Link to='/'>
           <img
