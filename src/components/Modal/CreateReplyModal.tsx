@@ -1,11 +1,13 @@
 import { FunctionComponent, MouseEventHandler, useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { IUserPost } from '../../contexts/UserPosts'
 
 import { FeedContext } from '../../contexts/FeedContext'
 import { ModalContext } from '../../contexts/ModalContext'
 import { UserContext } from '../../contexts/User'
+
+import { MdClose } from 'react-icons/md'
 
 import PostContainer from '../Posts/PostContainer'
 import PostInfoContainer from '../Posts/PostInfoContainer'
@@ -23,16 +25,16 @@ const CreateReplyModal: FunctionComponent<ICreateReplyModalProps> = ({ post }) =
   const { setModalIsOpen } = useContext(ModalContext)
   const { currentAuthUser } = useContext(UserContext)
 
-  const modalCloseHandler: MouseEventHandler = (e) => {
-    e.preventDefault()
-    setModalIsOpen(false)
-  }
-
   return (
     <div className='-mt-7 -mb-3'>
-      <span onClick={modalCloseHandler} className='ml-6 text-xl hover:cursor-pointer'>
-        X
-      </span>
+      <div
+        className=' ml-3 w-10 mt-3 rounded-full hover:cursor-pointer hover:bg-slate-800'
+        onClick={() => setModalIsOpen(false)}
+      >
+        <div className='p-1'>
+          <MdClose className='text-3xl w-full h-full' />
+        </div>
+      </div>
       {currentAuthUser && (
         <>
           <PostContainer isLoading={isLoading}>
