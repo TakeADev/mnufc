@@ -45,7 +45,7 @@ function Post({ post, postPage }) {
   if (post.replyTo && !postPage && originalPost) {
     return (
       <Link to={`/${post.username}/status/${post.postId}`}>
-        <div className='border-b border-l border-r border-slate-700'>
+        <div className='border-b border-l border-r border-slate-700 pr-16'>
           <PostContainer isLoading={isLoading}>
             <PostInfoContainer>
               <ProfilePicBubble
@@ -60,7 +60,7 @@ function Post({ post, postPage }) {
             onClick={navigateToPostOnClick}
             className='ml-10 mr-5 my-5 border border-slate-700 rounded-lg'
           >
-            <PostContainer isLoading={isLoading}>
+            <PostContainer isLoading={isLoading} addedClasses=''>
               <PostInfoContainer>
                 <ProfilePicBubble
                   onClick={navigateToProfileOnClick}
@@ -69,7 +69,7 @@ function Post({ post, postPage }) {
                 />
                 <PostInfo post={originalPost} />
               </PostInfoContainer>
-              <PostContent content={originalPost.content} addedClasses='ml-16' />
+              <PostContent content={originalPost.content} addedClasses='ml-16 mr-8' />
             </PostContainer>
           </div>
           <PostInteractionBar post={post} />
@@ -82,7 +82,7 @@ function Post({ post, postPage }) {
     <Link to={`/${post.username}/status/${post.postId}`}>
       <PostContainer
         isLoading={isLoading}
-        addedClasses='border-b border-l border-r border-slate-700'
+        addedClasses='border-b border-l border-r border-slate-700 pr-16'
       >
         <PostInfoContainer>
           <ProfilePicBubble
