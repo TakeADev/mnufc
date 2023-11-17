@@ -3,7 +3,7 @@ import FeedContainer from './FeedContainer'
 import CreatePost from '../CreatePost/CreatePost'
 import LoadingSpinner from '../LoadingSpinner'
 
-import { UserPostsContext } from '../../contexts/UserPosts'
+import { IUserPost, UserPostsContext } from '../../contexts/UserPosts'
 import { FeedContext } from '../../contexts/FeedContext'
 import { MenuContext } from '../../contexts/MenuContext'
 import Post from '../Posts/Post'
@@ -22,8 +22,8 @@ function Feed() {
     <FeedContainer>
       <CreatePost isReply={false} />
       {userPosts ? (
-        userPosts.map((post) => {
-          return <Post key={post.postId} post={post} showInteractionBar={true} />
+        userPosts.map((post: IUserPost) => {
+          return <Post key={post.postId} post={post} />
         })
       ) : (
         <LoadingSpinner />
