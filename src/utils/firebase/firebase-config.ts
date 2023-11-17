@@ -21,6 +21,8 @@ import {
   where,
   arrayUnion,
   increment,
+  deleteDoc,
+  arrayRemove,
 } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -62,6 +64,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInfo) => {
     displayName: additionalInfo.username,
     createdAt: createdAt,
     uid: userAuth.user.uid,
+    likedPosts: [],
   })
 }
 
@@ -181,6 +184,31 @@ export const createUserPost = async (user, postContent, replyTo) => {
       postId: docRef.id,
     })
   })
+}
+
+export const deleteUserPost = async (post) => {
+  const authUserId = auth.currentUser.uid
+  const postRef = doc(db, 'userPosts', post.postId)
+  if (authUserId === post.uid) {
+    if (post.replyTo) {
+      const originalPostRef = doc(db, 'userPosts', post.replyTo)
+
+      try {
+        await updateDoc(originalPostRef, { replies: arrayRemove(post.postId) })
+        await deleteDoc(postRef)
+      } catch (err) {
+        console.log(err)
+      }
+    } else {
+      try {
+        deleteDoc(postRef)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  } else {
+    alert(`You don't have permission to delete this post`)
+  }
 }
 
 export const togglePostLike = async (post) => {

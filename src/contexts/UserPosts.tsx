@@ -4,15 +4,15 @@ import { createUserPost } from '../utils/firebase/firebase-config'
 import firebase from 'firebase/compat/app'
 
 export interface IUserPost {
-  content: String
-  displayName: String
+  content: string
+  displayName: string
   likes: number
-  postId: String
+  postId: string
   replies: Array<IUserPost> | null
-  replyTo: String | false
+  replyTo: string | false
   timestamp: Date
-  uid: String
-  username: String
+  uid: string
+  username: string
 }
 
 interface IUserPostsContext {

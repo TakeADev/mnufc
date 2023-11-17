@@ -43,7 +43,7 @@ const CreateReplyModal: FunctionComponent<ICreateReplyModalProps> = ({ post }) =
               <PostInfo post={post} />
             </PostInfoContainer>
             <div className='border-l border-slate-500 ml-9 -mt-3'>
-              <PostContent content={post.content} addedClasses='mt-3 ml-8' />
+              <PostContent content={post.content} addedClasses='mt-3 ml-8 mr-8' />
               <div className='ml-8 text-gray-500'>
                 <span>Replying to: </span>
                 <Link to={`/${post.username}`}>
