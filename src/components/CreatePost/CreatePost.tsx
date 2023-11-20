@@ -10,9 +10,14 @@ import { ModalContext } from '../../contexts/ModalContext'
 interface ICreatePostProps {
   isReply?: Boolean
   replyModalPost?: IUserPost
+  addedClasses?: string
 }
 
-const CreatePost: FunctionComponent<ICreatePostProps> = ({ isReply, replyModalPost }) => {
+const CreatePost: FunctionComponent<ICreatePostProps> = ({
+  isReply,
+  replyModalPost,
+  addedClasses,
+}) => {
   const [postData, setPostData] = useState('')
   const { currentAuthUser } = useContext(UserContext)
   const { createNewUserPost } = useContext(UserPostsContext)
@@ -55,7 +60,7 @@ const CreatePost: FunctionComponent<ICreatePostProps> = ({ isReply, replyModalPo
     <div
       className={`pb-3 pt-5 mx-auto px-3 ${
         !replyModalPost && 'border-slate-700 border-l border-r border-b'
-      } `}
+      } ${addedClasses}`}
     >
       <form action='submit' onSubmit={onSubmitHandler}>
         <textarea
