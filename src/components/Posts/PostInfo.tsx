@@ -28,6 +28,8 @@ function PostInfo({ post }) {
     })
   }, [currentUserDoc])
 
+  let date = new Date(timestamp)
+
   if (postUser) {
     return (
       <div className='w-max mt-5 max-h-10 mb-0 -ml-2'>
@@ -37,7 +39,7 @@ function PostInfo({ post }) {
         <span onClick={navigateToProfileOnClick} className='ml-3 text-gray-500 text-sm'>
           @{username}
         </span>
-        <span className='ml-3 text-gray-500 text-xs'>{timestamp}</span>
+        <span className='ml-3 text-gray-500 text-xs'>{date.toLocaleString()}</span>
       </div>
     )
   } else {
