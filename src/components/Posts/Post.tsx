@@ -48,8 +48,6 @@ function Post({ post, postPage }: PostProps) {
     navigate(`/${originalPost.username}/status/${originalPost.postId}`)
   }
 
-  console.log(post)
-
   if (post.replyTo && !postPage && originalPost) {
     return (
       <Link className={''} to={`/${post.username}/status/${post.postId}`}>
