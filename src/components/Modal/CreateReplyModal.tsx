@@ -40,7 +40,7 @@ const CreateReplyModal: FunctionComponent<ICreateReplyModalProps> = ({ post }) =
               </div>
             </div>
           </PostContainer>
-          <CreatePost isReply={true} replyModalPost={post} addedClasses='-mb-8' />
+          <CreatePost isReply={true} replyModalPost={post} addedClasses='-mb-8' autoFocus />
         </>
       )}
     </div>
