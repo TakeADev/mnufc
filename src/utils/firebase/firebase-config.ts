@@ -25,6 +25,8 @@ import {
   arrayRemove,
 } from 'firebase/firestore'
 
+import { IUserPost } from '../../contexts/UserPosts'
+
 const firebaseConfig = {
   apiKey: 'AIzaSyBEVSu6KdPg1-45MRNndbPOxpIu08GH5pA',
   authDomain: 'mnufc-6f9e3.firebaseapp.com',
@@ -59,12 +61,16 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInfo) => {
   const createdAt = new Date()
 
   setDoc(userDocRef, {
-    email: userAuth.user.email,
-    username: additionalInfo.username,
-    displayName: additionalInfo.username,
+    bio: '',
+    birthDate: '',
     createdAt: createdAt,
-    uid: userAuth.user.uid,
+    displayName: additionalInfo.username,
+    email: userAuth.user.email,
     likedPosts: [],
+    location: '',
+    reposts: [],
+    uid: userAuth.user.uid,
+    username: additionalInfo.username,
   })
 }
 
@@ -157,7 +163,7 @@ export const getPostByPostId = async (postId) => {
 
 export const createUserPost = async (user, postContent, replyTo) => {
   const userDoc = await getUserDocFromAuth(user)
-  const timestamp = new Date().toLocaleString()
+  const timestamp = Date.now()
   const findPostToReplyTo = () => getPostByPostId(replyTo)
   await addDoc(collection(db, 'userPosts'), {
     uid: userDoc.uid,
@@ -168,6 +174,7 @@ export const createUserPost = async (user, postContent, replyTo) => {
     displayName: userDoc.displayName,
     likes: 0,
     replies: [],
+    reposts: [],
   }).then((docRef) => {
     if (replyTo) {
       try {
@@ -187,31 +194,46 @@ export const createUserPost = async (user, postContent, replyTo) => {
 }
 
 export const deleteUserPost = async (post) => {
-  const authUserId = auth.currentUser.uid
-  const postRef = doc(db, 'userPosts', post.postId)
-  if (authUserId === post.uid) {
-    if (post.replyTo) {
-      const originalPostRef = doc(db, 'userPosts', post.replyTo)
+  const postDoc = await getDoc(doc(db, 'userPosts', post.postId))
 
-      try {
-        await updateDoc(originalPostRef, { replies: arrayRemove(post.postId) })
-        await deleteDoc(postRef)
-      } catch (err) {
-        console.log(err)
-      }
-    } else {
-      try {
-        deleteDoc(postRef)
-      } catch (err) {
-        console.log(err)
+  if (postDoc.exists) {
+    const replies = postDoc.data().replies || []
+
+    for (const replyId of replies) {
+      await getDoc(doc(db, 'userPosts', replyId)).then((res) => {
+        deleteUserPost(res.data())
+      })
+    }
+
+    const reposts = postDoc.data().reposts || []
+
+    for (const userId of reposts) {
+      const userDoc = await getDoc(doc(db, 'users', userId))
+
+      if (userDoc) {
+        await updateDoc(doc(db, 'users', userId), {
+          reposts: userDoc.data().reposts.filter((repost) => {
+            repost.postId !== postDoc.data().postId
+          }),
+        })
       }
     }
-  } else {
-    alert(`You don't have permission to delete this post`)
+
+    await deleteDoc(doc(db, 'userPosts', post.postId))
+
+    if (postDoc.data().replyTo) {
+      await getDoc(doc(db, 'userPosts', postDoc.data().replyTo)).then((res) => {
+        updateDoc(doc(db, 'userPosts', postDoc.data().replyTo), {
+          replies: res.data().replies.filter((reply) => {
+            reply !== postDoc.data().postId
+          }),
+        })
+      })
+    }
   }
 }
 
-export const togglePostLike = async (post) => {
+export const togglePostLike = async (post: IUserPost) => {
   const postRef = doc(db, 'userPosts', post.postId)
   const user = await getUserDocFromUid(auth.currentUser.uid)
 
@@ -232,6 +254,35 @@ export const togglePostLike = async (post) => {
         likes: increment(1),
       })
     }
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+export const toggleRepost = async (repostPost: IUserPost) => {
+  const repostPostRef = doc(db, 'userPosts', repostPost.postId)
+  const currentUserId = auth.currentUser.uid
+  const currentUserRef = doc(db, 'users', currentUserId)
+
+  const repostPostDoc = await getDoc(repostPostRef).then((res) => res.data())
+  const currentUserDoc = await getDoc(currentUserRef).then((res) => res.data())
+  const timestamp = Date.now()
+
+  try {
+    if (
+      repostPostDoc.reposts &&
+      currentUserDoc.reposts.find((post) => post.postId === repostPost.postId)
+    ) {
+      updateDoc(repostPostRef, { reposts: arrayRemove(currentUserId) })
+      updateDoc(currentUserRef, {
+        reposts: currentUserDoc.reposts.filter((repost) => repost.postId !== repostPost.postId),
+      })
+      return
+    }
+    updateDoc(repostPostRef, { reposts: arrayUnion(currentUserId) })
+    updateDoc(currentUserRef, {
+      reposts: arrayUnion({ postId: repostPost.postId, timestamp: timestamp }),
+    })
   } catch (err) {
     console.log(err)
   }
