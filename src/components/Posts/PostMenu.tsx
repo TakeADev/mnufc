@@ -17,7 +17,7 @@ interface PostMenuProps {
 const PostMenu = ({ post }: PostMenuProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
-  const { setPostMenuIsOpen, setPostMenuPost, postMenuPost } = useContext(PostMenuContext)
+  const { setPostMenuIsOpen, setPostMenuPost } = useContext(PostMenuContext)
   const { setModalType, setModalIsOpen } = useContext(ModalContext)
   const { currentAuthUser } = useContext(UserContext)
 
@@ -60,7 +60,7 @@ const PostMenu = ({ post }: PostMenuProps) => {
         absolute w-2/5 right-0 mt-2 mr-2 border border-slate-700 rounded-lg bg-slate-950 
         outline outline-1 outline-cyan-500  ${!isOpen && 'hidden '}`}
       >
-        {post.uid === currentAuthUser.uid && (
+        {currentAuthUser && post.uid === currentAuthUser.uid && (
           <div
             className='pl-6 text-red-500 py-2 hover:bg-slate-900 z-20'
             onClick={deleteButtonHandler}
