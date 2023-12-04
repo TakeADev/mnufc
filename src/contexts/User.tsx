@@ -1,7 +1,8 @@
 import firebase from 'firebase/compat/app'
 import { Dispatch, SetStateAction, createContext, useState } from 'react'
+import { IUserRepost } from './UserPosts'
 
-interface ICurrentUserDoc {
+export interface ICurrentUserDoc {
   bio?: String
   birthDate?: Date | ''
   createdAt?: Date
@@ -11,6 +12,7 @@ interface ICurrentUserDoc {
   uid?: String
   username?: String
   likedPosts?: Array<String>
+  reposts?: Array<IUserRepost>
 }
 
 interface IUserContext {
