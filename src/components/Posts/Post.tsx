@@ -88,26 +88,28 @@ function Post({ post, postPage }: PostProps) {
   }
 
   return (
-    <Link className={''} to={`/${post.username}/status/${post.postId}`}>
-      <div className='w-full relative'>
-        <PostMenu post={post} />
-        <PostContainer
-          isLoading={isLoading}
-          addedClasses='border-b border-l border-r border-slate-700 pr-16'
-        >
-          <PostInfoContainer>
-            <ProfilePicBubble
-              onClick={navigateToProfileOnClick}
-              profilePic={post.profilePic}
-              addedClasses='mx-5 h-8 w-8 mt-5'
-            />
-            <PostInfo post={post} />
-          </PostInfoContainer>
-          <PostContent content={post.content} addedClasses='ml-16' />
-          <PostInteractionBar post={post} />
-        </PostContainer>
-      </div>
-    </Link>
+    post && (
+      <Link className={''} to={`/${post.username}/status/${post.postId}`}>
+        <div className='w-full relative'>
+          <PostMenu post={post} />
+          <PostContainer
+            isLoading={isLoading}
+            addedClasses='border-b border-l border-r border-slate-700 pr-16'
+          >
+            <PostInfoContainer>
+              <ProfilePicBubble
+                onClick={navigateToProfileOnClick}
+                profilePic={post.profilePic}
+                addedClasses='mx-5 h-8 w-8 mt-5'
+              />
+              <PostInfo post={post} />
+            </PostInfoContainer>
+            <PostContent content={post.content} addedClasses='ml-16' />
+            <PostInteractionBar post={post} />
+          </PostContainer>
+        </div>
+      </Link>
+    )
   )
 }
 
