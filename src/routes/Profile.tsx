@@ -12,6 +12,7 @@ import FeedContainer from '../components/Feed/FeedContainer'
 import Post from '../components/Posts/Post'
 import LoadingSpinner from '../components/LoadingSpinner'
 import ProfileBanner from '../components/Profile/ProfileBanner'
+import { MdRepeat } from 'react-icons/md'
 
 function Profile() {
   const { setIsOpen } = useContext(MenuContext)
@@ -21,6 +22,7 @@ function Profile() {
 
   const [profileUserDoc, setProfileUserDoc] = useState(null)
   const [profilePosts, setProfilePosts] = useState(null)
+  const [profileReposts, setProfileReposts] = useState(null)
 
   const username = useParams().username.toLowerCase()
   const userProfile = getUserDocFromUsername(username)
@@ -37,16 +39,40 @@ function Profile() {
   }, [username, currentUserDoc])
 
   useEffect(() => {
-    if (userPosts && profileUserDoc)
+    setProfileReposts(null)
+    if (userPosts && profileUserDoc) {
+      if (profileUserDoc.reposts) {
+        let repostOriginals = []
+        profileUserDoc.reposts.map((repost) => {
+          const original = userPosts.find((post) => post.postId === repost.postId)
+          repostOriginals.push({ ...original, isRepost: true, repostTimestamp: repost.timestamp })
+        })
+        setProfileReposts(repostOriginals)
+      }
       setProfilePosts(
         userPosts.filter((post) => {
           return post.username === profileUserDoc.username
         })
       )
-    else return
+    } else return
   }, [userPosts, profileUserDoc])
 
   if (profileUserDoc) {
+    let allProfilePosts = profileReposts ? profilePosts.concat(profileReposts) : profilePosts
+    if (allProfilePosts) {
+      const allProfilePostsSorted = allProfilePosts.sort((a, b) => {
+        if (a.isRepost && b.isRepost) {
+          return new Date(a.repostTimestamp.valueOf() - new Date(b.repostTimestamp.valueOf()))
+        } else if (a.isRepost) {
+          return new Date(a.repostTimestamp.valueOf() - new Date(b.timestamp.valueOf()))
+        } else if (b.isRepost) {
+          return new Date(a.repostTimestamp.valueOf() - new Date(b.timestamp.valueOf()))
+        } else {
+          return new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()
+        }
+      })
+      allProfilePosts = allProfilePostsSorted
+    }
     return (
       <FeedContainer>
         <ProfileBanner currentAuthUser={currentAuthUser} profileUserDoc={profileUserDoc} />
@@ -55,8 +81,19 @@ function Profile() {
             <b>Posts</b>
           </span>
         </div>
-        {profilePosts ? (
-          profilePosts.map((post) => {
+        {allProfilePosts ? (
+          allProfilePosts.reverse().map((post) => {
+            if (post.isRepost) {
+              return (
+                <div>
+                  <div className='pl-5 pt-2 border-l border-r border-slate-700 text-gray-500'>
+                    <MdRepeat className='inline mr-5 text-lg mt-0' />
+                    <span className='text-sm'>{currentUserDoc.displayName} Reposted</span>
+                  </div>
+                  <Post key={post.postId} post={post} postPage={false} />
+                </div>
+              )
+            }
             return <Post key={post.postId} post={post} postPage={false} />
           })
         ) : (
