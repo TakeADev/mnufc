@@ -172,7 +172,7 @@ export const createUserPost = async (user, postContent, replyTo) => {
     timestamp: timestamp,
     username: userDoc.username,
     displayName: userDoc.displayName,
-    likes: 0,
+    likes: [],
     replies: [],
     reposts: [],
   }).then((docRef) => {
@@ -234,14 +234,14 @@ export const deleteUserPost = async (post) => {
 }
 
 export const togglePostLike = async (post: IUserPost) => {
-  const postRef = doc(db, 'userPosts', post.postId)
+  const postDoc = await getDoc(doc(db, 'userPosts', post.postId))
   const user = await getUserDocFromUid(auth.currentUser.uid)
 
   const userRef = doc(db, 'users', user.uid)
   try {
     if (user.likedPosts && user.likedPosts.find((likedPost) => likedPost == post.postId)) {
-      updateDoc(postRef, {
-        likes: increment(-1),
+      updateDoc(doc(db, 'userPosts', postDoc.data().postId), {
+        likes: postDoc.data().likes.filter((like) => like !== user.uid),
       })
       updateDoc(userRef, {
         likedPosts: user.likedPosts.filter((filteredPost) => filteredPost !== post.postId),
@@ -250,8 +250,8 @@ export const togglePostLike = async (post: IUserPost) => {
       updateDoc(userRef, {
         likedPosts: arrayUnion(post.postId),
       })
-      updateDoc(postRef, {
-        likes: increment(1),
+      updateDoc(doc(db, 'userPosts', postDoc.data().postId), {
+        likes: arrayUnion(user.uid),
       })
     }
   } catch (err) {
