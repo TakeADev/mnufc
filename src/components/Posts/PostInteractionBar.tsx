@@ -2,7 +2,7 @@ import { MouseEventHandler, useContext } from 'react'
 
 import { MdChat, MdFavoriteBorder, MdFavorite, MdRepeat } from 'react-icons/md'
 
-import { togglePostLike } from '../../utils/firebase/firebase-config'
+import { togglePostLike, toggleRepost } from '../../utils/firebase/firebase-config'
 
 import { UserContext } from '../../contexts/User'
 import { ModalContext } from '../../contexts/ModalContext'
@@ -36,9 +36,10 @@ const PostInteractionBar = ({ post }) => {
       setLoginWarningType('repost')
       setModalType('loginWarning')
       setModalIsOpen(true)
+      return
     }
+    toggleRepost(post)
   }
-
   if (currentUserDoc) {
     return (
       <div className='flex w-full text-center mb-3'>
@@ -75,7 +76,7 @@ const PostInteractionBar = ({ post }) => {
             onClick={postRepostClickHandler}
           >
             <MdRepeat className='text-xl mx-auto inline' />
-            <span className='ml-2'>0</span>
+            <span className='ml-2'>{post.reposts.length || 0}</span>
           </div>
         </div>
       </div>
@@ -107,7 +108,7 @@ const PostInteractionBar = ({ post }) => {
           onClick={postRepostClickHandler}
         >
           <MdRepeat className='text-xl mx-auto inline' />
-          <span className='ml-2'>0</span>
+          <span className='ml-2'>{post.reposts.length || 0}</span>
         </div>
       </div>
     </div>

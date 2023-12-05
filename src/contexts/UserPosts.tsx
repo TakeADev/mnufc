@@ -15,6 +15,11 @@ export interface IUserPost {
   username: string
 }
 
+export interface IUserRepost {
+  postId?: string
+  timestamp?: Date
+}
+
 interface IUserPostsContext {
   userPosts: Array<IUserPost> | null
   setUserPosts: Dispatch<SetStateAction<Array<IUserPost>>>

@@ -1,13 +1,10 @@
-import { FunctionComponent, MouseEventHandler, useContext } from 'react'
+import { FunctionComponent, useContext } from 'react'
 import { Link } from 'react-router-dom'
 
 import { IUserPost } from '../../contexts/UserPosts'
 
 import { FeedContext } from '../../contexts/FeedContext'
-import { ModalContext } from '../../contexts/ModalContext'
 import { UserContext } from '../../contexts/User'
-
-import { MdClose } from 'react-icons/md'
 
 import PostContainer from '../Posts/PostContainer'
 import PostInfoContainer from '../Posts/PostInfoContainer'
@@ -22,19 +19,10 @@ interface ICreateReplyModalProps {
 
 const CreateReplyModal: FunctionComponent<ICreateReplyModalProps> = ({ post }) => {
   const { isLoading } = useContext(FeedContext)
-  const { setModalIsOpen } = useContext(ModalContext)
   const { currentAuthUser } = useContext(UserContext)
 
   return (
     <div className='-mt-7 -mb-3'>
-      <div
-        className=' ml-3 w-10 mt-3 rounded-full hover:cursor-pointer hover:bg-slate-800'
-        onClick={() => setModalIsOpen(false)}
-      >
-        <div className='p-1'>
-          <MdClose className='text-3xl w-full h-full' />
-        </div>
-      </div>
       {currentAuthUser && (
         <>
           <PostContainer isLoading={isLoading}>
@@ -52,7 +40,7 @@ const CreateReplyModal: FunctionComponent<ICreateReplyModalProps> = ({ post }) =
               </div>
             </div>
           </PostContainer>
-          <CreatePost isReply={true} replyModalPost={post} />
+          <CreatePost isReply={true} replyModalPost={post} addedClasses='-mb-8' autoFocus />
         </>
       )}
     </div>

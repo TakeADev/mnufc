@@ -8,11 +8,18 @@ import { IUserPost, UserPostsContext } from '../../contexts/UserPosts'
 import { ModalContext } from '../../contexts/ModalContext'
 
 interface ICreatePostProps {
-  isReply?: Boolean
+  isReply?: boolean
   replyModalPost?: IUserPost
+  addedClasses?: string
+  autoFocus?: boolean
 }
 
-const CreatePost: FunctionComponent<ICreatePostProps> = ({ isReply, replyModalPost }) => {
+const CreatePost: FunctionComponent<ICreatePostProps> = ({
+  isReply,
+  replyModalPost,
+  addedClasses,
+  autoFocus,
+}) => {
   const [postData, setPostData] = useState('')
   const { currentAuthUser } = useContext(UserContext)
   const { createNewUserPost } = useContext(UserPostsContext)
@@ -55,10 +62,11 @@ const CreatePost: FunctionComponent<ICreatePostProps> = ({ isReply, replyModalPo
     <div
       className={`pb-3 pt-5 mx-auto px-3 ${
         !replyModalPost && 'border-slate-700 border-l border-r border-b'
-      } `}
+      } ${addedClasses}`}
     >
       <form action='submit' onSubmit={onSubmitHandler}>
         <textarea
+          autoFocus={false || autoFocus}
           name='postContent'
           maxLength={250}
           id=''
