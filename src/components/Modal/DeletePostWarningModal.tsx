@@ -1,4 +1,5 @@
 import { useContext } from 'react'
+import { useParams, useNavigate } from 'react-router'
 
 import { deleteUserPost } from '../../utils/firebase/firebase-config'
 
@@ -11,8 +12,12 @@ const DeletePostWarningModal = () => {
   const { setModalIsOpen, setModalType } = useContext(ModalContext)
   const { postMenuPost, setPostMenuPost } = useContext(PostMenuContext)
 
+  const params = useParams()
+  const navigate = useNavigate()
+
   const deletePostHandler = () => {
     deleteUserPost(postMenuPost)
+    params.postId && navigate(-1)
     setModalIsOpen(false)
     setPostMenuPost(null)
   }

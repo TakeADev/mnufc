@@ -60,12 +60,12 @@ const PostInteractionBar = ({ post }) => {
             {currentUserDoc.likedPosts.find((likedPost) => likedPost == post.postId) ? (
               <div className='inline text-red-400'>
                 <MdFavorite className='text-xl mx-auto inline' />
-                <span className='ml-2'>{post.likes}</span>
+                <span className='ml-2'>{post.likes.length}</span>
               </div>
             ) : (
               <div className='inline'>
                 <MdFavoriteBorder className='text-xl mx-auto inline' />
-                <span className='ml-2'>{post.likes}</span>
+                <span className='ml-2'>{post.likes.length}</span>
               </div>
             )}
           </div>
