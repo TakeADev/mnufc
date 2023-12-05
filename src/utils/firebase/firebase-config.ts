@@ -70,7 +70,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInfo) => {
     location: '',
     reposts: [],
     uid: userAuth.user.uid,
-    username: additionalInfo.username,
+    username: additionalInfo.username.toLowerCase(),
   })
 }
 
