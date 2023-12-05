@@ -47,9 +47,11 @@ function ProfileBanner({ currentAuthUser, profileUserDoc }) {
           <div>
             <span className='text-md text-gray-500'>@{profileUserDoc.username}</span>
           </div>
-          <div className='mt-5'>
-            <span className='text-lg'>{profileUserDoc.bio}</span>
-          </div>
+          {profileUserDoc.bio && (
+            <div className='mt-5'>
+              <span className='text-lg'>{profileUserDoc.bio}</span>
+            </div>
+          )}
           {profileUserDoc.location && (
             <div className='mt-5 flex-row'>
               <span className='text-lg'>
