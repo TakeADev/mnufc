@@ -9,7 +9,6 @@ import { CropperContext } from '../../contexts/CropperContext'
 import { MdArrowBack } from 'react-icons/md'
 import { ModalContext } from '../../contexts/ModalContext'
 import { UserContext } from '../../contexts/User'
-import { uploadProfilePicture } from '../../utils/firebase/firebase-config'
 
 const PhotoCropModal = () => {
   const [crop, setCrop] = useState({ x: 0, y: 0 })
@@ -21,6 +20,7 @@ const PhotoCropModal = () => {
   const { currentUserDoc } = useContext(UserContext)
 
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
+    croppedArea
     setFinishedCrop(croppedAreaPixels)
   }, [])
 
@@ -30,9 +30,10 @@ const PhotoCropModal = () => {
     setModalType('editProfile')
   }
 
-  const applyButtonClickHandler = (e) => {
-    e.preventDefault()
+  const applyButtonClickHandler = () => {
     generateCroppedImage(photoToBeCropped, finishedCrop, currentUserDoc)
+    setPhotoToBeCropped('')
+    setModalType('editProfile')
   }
 
   return (
