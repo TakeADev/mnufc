@@ -1,6 +1,12 @@
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState, useContext, useRef } from 'react'
 
-import { getUserDocFromAuth, updateUserProfile } from '../../utils/firebase/firebase-config'
+import {
+  getUserDocFromAuth,
+  updateUserProfile,
+  uploadProfilePicture,
+} from '../../utils/firebase/firebase-config'
+
+import { MdCameraAlt } from 'react-icons/md'
 
 import { UserContext } from '../../contexts/User.jsx'
 import { ModalContext } from '../../contexts/ModalContext'
@@ -75,9 +81,20 @@ const EditProfileForm = () => {
     resetFormFields()
   }
 
+  const inputProfilePic = useRef(null)
+
+  const inputProfilePicClickHandler = () => {
+    inputProfilePic.current.click()
+  }
+
+  const inputProfilePicSubmitHandler = (e) => {
+    console.log(currentUserDoc)
+    uploadProfilePicture(currentUserDoc, e.target.files[0])
+  }
+
   return (
     <form onSubmit={onSubmitHandler}>
-      <div className='pb-10'>
+      <div className='pb-10 relative'>
         <div className='flex py-3'>
           <div
             onClick={modalCloseHandler}
@@ -96,8 +113,29 @@ const EditProfileForm = () => {
             </Button>
           </div>
         </div>
-        <ProfileBannerImage />
-        <ProfilePicBubble addedClasses='w-24 h-24 -mt-12' />
+        <div className='relative '>
+          <ProfileBannerImage />
+          <MdCameraAlt
+            className={`absolute bg-opacity-60 bg-gray-700 rounded-full text-6xl -mr-6 -mt-6 p-3 right-1/2 top-1/2 text-cyan-300 z-20 hover:cursor-pointer hover:bg-gray-600 hover:bg-opacity-60`}
+          />
+        </div>
+        <div className='z-10 relative'>
+          <div className=''>
+            <ProfilePicBubble addedClasses='w-24 h-24 -mt-12' />
+            <MdCameraAlt
+              className={`absolute bg-opacity-60 bg-gray-700 rounded-full text-6xl -mt-7 ml-5 p-3 top-1/2 text-cyan-300 z-20 hover:cursor-pointer hover:bg-gray-600 hover:bg-opacity-60`}
+              onClick={inputProfilePicClickHandler}
+            />
+            <input
+              type='file'
+              id='profilePic'
+              ref={inputProfilePic}
+              accept='.png, .jpg, .jpeg'
+              className='hidden'
+              onChange={inputProfilePicSubmitHandler}
+            />
+          </div>
+        </div>
         <FormInput
           label='Name'
           name='displayName'
