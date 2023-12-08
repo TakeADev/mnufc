@@ -24,7 +24,7 @@ function ProfileBanner({ currentAuthUser, profileUserDoc }) {
           <div className='w-3/4'>
             <ProfilePicBubble
               addedClasses='w-32 h-32 ml-5'
-              profilePicUsername={profileUserDoc.username}
+              profilePic={profileUserDoc.profilePic}
             />
           </div>
           {currentAuthUser && currentAuthUser.uid === profileUserDoc.uid && (

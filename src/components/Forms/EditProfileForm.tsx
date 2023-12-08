@@ -1,15 +1,12 @@
 import { useEffect, useState, useContext, useRef } from 'react'
 
-import {
-  getUserDocFromAuth,
-  updateUserProfile,
-  uploadProfilePicture,
-} from '../../utils/firebase/firebase-config'
+import { getUserDocFromAuth, updateUserProfile } from '../../utils/firebase/firebase-config'
 
 import { MdCameraAlt } from 'react-icons/md'
 
 import { UserContext } from '../../contexts/User.jsx'
 import { ModalContext } from '../../contexts/ModalContext'
+import { CropperContext } from '../../contexts/CropperContext.js'
 
 import ProfilePicBubble from '../Profile/ProfilePicBubble'
 import ProfileBannerImage from '../Profile/ProfileBannerImage'
@@ -25,7 +22,8 @@ interface IEditProfileFormFields {
 
 const EditProfileForm = () => {
   const { currentAuthUser, setCurrentUserDoc, currentUserDoc } = useContext(UserContext)
-  const { modalIsOpen, setModalIsOpen } = useContext(ModalContext)
+  const { modalIsOpen, setModalIsOpen, setModalType } = useContext(ModalContext)
+  const { setPhotoToBeCropped } = useContext(CropperContext)
 
   const defaultFormFields: IEditProfileFormFields = {
     displayName: '',
@@ -87,9 +85,13 @@ const EditProfileForm = () => {
     inputProfilePic.current.click()
   }
 
-  const inputProfilePicSubmitHandler = (e) => {
-    console.log(currentUserDoc)
-    uploadProfilePicture(currentUserDoc, e.target.files[0])
+  const inputProfilePicChangeHandler = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const reader = new FileReader()
+      reader.readAsDataURL(e.target.files[0])
+      reader.addEventListener('load', () => setPhotoToBeCropped(reader.result))
+      setModalType('photoCrop')
+    }
   }
 
   return (
@@ -121,7 +123,10 @@ const EditProfileForm = () => {
         </div>
         <div className='z-10 relative'>
           <div className=''>
-            <ProfilePicBubble addedClasses='w-24 h-24 -mt-12' />
+            <ProfilePicBubble
+              addedClasses='w-24 h-24 -mt-12'
+              profilePic={currentUserDoc.profilePic}
+            />
             <MdCameraAlt
               className={`absolute bg-opacity-60 bg-gray-700 rounded-full text-6xl -mt-7 ml-5 p-3 top-1/2 text-cyan-300 z-20 hover:cursor-pointer hover:bg-gray-600 hover:bg-opacity-60`}
               onClick={inputProfilePicClickHandler}
@@ -132,7 +137,7 @@ const EditProfileForm = () => {
               ref={inputProfilePic}
               accept='.png, .jpg, .jpeg'
               className='hidden'
-              onChange={inputProfilePicSubmitHandler}
+              onChange={inputProfilePicChangeHandler}
             />
           </div>
         </div>

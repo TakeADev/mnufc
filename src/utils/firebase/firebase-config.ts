@@ -24,7 +24,7 @@ import {
   arrayRemove,
 } from 'firebase/firestore'
 
-import { getStorage, ref, uploadBytes } from 'firebase/storage'
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 
 import { IUserPost } from '../../contexts/UserPosts'
 import { ICurrentUserDoc } from '../../contexts/User'
@@ -71,6 +71,8 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInfo) => {
     email: userAuth.user.email,
     likedPosts: [],
     location: '',
+    profilePic:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQicasXh3n4zKZPXpmQeWl1p2oXJJuaaRkskbnjOPaZ7SiM3CqvMJpp5WPwYBsxB3aW-eA&usqp=CAU',
     reposts: [],
     uid: userAuth.user.uid,
     username: additionalInfo.username.toLowerCase(),
@@ -293,12 +295,13 @@ export const toggleRepost = async (repostPost: IUserPost) => {
 
 //-----------------------------STORAGE--------------------------------------
 
-export const uploadProfilePicture = (currentUserDoc: ICurrentUserDoc, file: File) => {
-  const username = currentUserDoc.username
-  const pfpRef = ref(storage, username + `/profilePic`)
+export const uploadProfilePicture = (blob: Blob, currentUserDoc: ICurrentUserDoc) => {
+  const pfpRef = ref(storage, currentUserDoc.username + `/profilePics/pfp-` + Date.now())
 
-  uploadBytes(pfpRef, file).then((snapshot) => {
-    console.log('Uploaded pfp!' + snapshot)
+  uploadBytes(pfpRef, blob).then((snapshot) => {
+    getDownloadURL(pfpRef).then((res) => {
+      updateDoc(doc(db, 'users', currentUserDoc.uid.toString()), { profilePic: res })
+    })
   })
 
   console.log(pfpRef.fullPath)

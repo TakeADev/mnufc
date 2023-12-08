@@ -25,7 +25,6 @@ function Profile() {
   const [profileReposts, setProfileReposts] = useState(null)
 
   const username = useParams().username.toLowerCase()
-  const userProfile = getUserDocFromUsername(username)
 
   useEffect(() => {
     setModalIsOpen(false)
@@ -33,8 +32,8 @@ function Profile() {
 
   useEffect(() => {
     setIsOpen(false)
-    userProfile.then((user) => {
-      setProfileUserDoc(user)
+    getUserDocFromUsername(username).then((res) => {
+      setProfileUserDoc(res)
     })
   }, [username, currentUserDoc])
 

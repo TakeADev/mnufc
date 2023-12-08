@@ -49,7 +49,7 @@ function Menu() {
           <ProfilePicBubble
             addedClasses='w-10 h-10 cursor-pointer mt-5'
             onClick={menuClickHandler}
-            profilePicUsername={currentUserDoc.username.toString()}
+            profilePic={currentUserDoc.profilePic}
           />
         </div>
       )
