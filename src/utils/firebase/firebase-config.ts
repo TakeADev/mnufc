@@ -20,12 +20,14 @@ import {
   onSnapshot,
   where,
   arrayUnion,
-  increment,
   deleteDoc,
   arrayRemove,
 } from 'firebase/firestore'
 
+import { getStorage, ref, uploadBytes } from 'firebase/storage'
+
 import { IUserPost } from '../../contexts/UserPosts'
+import { ICurrentUserDoc } from '../../contexts/User'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBEVSu6KdPg1-45MRNndbPOxpIu08GH5pA',
@@ -40,6 +42,7 @@ const app = initializeApp(firebaseConfig)
 
 const auth = getAuth()
 const db = getFirestore(app)
+const storage = getStorage(app)
 
 //------------------------USERS/AUTH-----------------------------------------------------
 
@@ -286,4 +289,17 @@ export const toggleRepost = async (repostPost: IUserPost) => {
   } catch (err) {
     console.log(err)
   }
+}
+
+//-----------------------------STORAGE--------------------------------------
+
+export const uploadProfilePicture = (currentUserDoc: ICurrentUserDoc, file: File) => {
+  const username = currentUserDoc.username
+  const pfpRef = ref(storage, username + `/profilePic`)
+
+  uploadBytes(pfpRef, file).then((snapshot) => {
+    console.log('Uploaded pfp!' + snapshot)
+  })
+
+  console.log(pfpRef.fullPath)
 }
