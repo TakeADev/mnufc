@@ -27,7 +27,10 @@ const CreateReplyModal: FunctionComponent<ICreateReplyModalProps> = ({ post }) =
         <>
           <PostContainer isLoading={isLoading}>
             <PostInfoContainer>
-              <ProfilePicBubble addedClasses='mx-5 h-8 w-8 mt-5' />
+              <ProfilePicBubble
+                addedClasses='mx-5 h-8 w-8 mt-5'
+                profilePicUsername={post.username.toString()}
+              />
               <PostInfo post={post} />
             </PostInfoContainer>
             <div className='border-l border-slate-500 ml-9 -mt-3'>
