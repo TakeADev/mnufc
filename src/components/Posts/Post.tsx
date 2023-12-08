@@ -12,6 +12,7 @@ import ProfilePicBubble from '../Profile/ProfilePicBubble'
 import PostContent from './PostContent'
 import PostInteractionBar from './PostInteractionBar'
 import PostMenu from './PostMenu'
+import { getUserDocFromUsername } from '../../utils/firebase/firebase-config'
 
 interface PostProps {
   post: IUserPost
@@ -20,6 +21,8 @@ interface PostProps {
 
 function Post({ post, postPage }: PostProps) {
   const [originalPost, setOriginalPost] = useState(null)
+  const [originalPostUser, setOriginalPostUser] = useState(null)
+  const [postUser, setPostUser] = useState(null)
   const { isLoading } = useContext(FeedContext)
   const { userPosts } = useContext(UserPostsContext)
 
@@ -28,6 +31,9 @@ function Post({ post, postPage }: PostProps) {
   const paramId = useParams().postId
 
   useEffect(() => {
+    getUserDocFromUsername(post.username).then((res) => setPostUser(res))
+    originalPost &&
+      getUserDocFromUsername(originalPost.username).then((res) => setOriginalPostUser(res))
     setOriginalPost(null)
     if (post.replyTo) {
       setOriginalPost(
@@ -36,7 +42,7 @@ function Post({ post, postPage }: PostProps) {
         })
       )
     } else return
-  }, [paramId, post, userPosts])
+  }, [paramId, post, originalPost, userPosts])
 
   const navigateToProfileOnClick = (e) => {
     e.preventDefault()
@@ -48,7 +54,7 @@ function Post({ post, postPage }: PostProps) {
     navigate(`/${originalPost.username}/status/${originalPost.postId}`)
   }
 
-  if (post.replyTo && !postPage && originalPost) {
+  if (post.replyTo && !postPage && originalPost && originalPostUser && postUser) {
     return (
       <Link className={''} to={`/${post.username}/status/${post.postId}`}>
         <div className='border-b border-l border-r border-slate-700 '>
@@ -59,6 +65,7 @@ function Post({ post, postPage }: PostProps) {
                 <ProfilePicBubble
                   onClick={navigateToProfileOnClick}
                   addedClasses='mx-5 h-8 w-8 mt-5'
+                  profilePic={postUser.profilePic}
                 />
                 <PostInfo post={post} />
               </PostInfoContainer>
@@ -72,7 +79,7 @@ function Post({ post, postPage }: PostProps) {
                 <PostInfoContainer>
                   <ProfilePicBubble
                     onClick={navigateToProfileOnClick}
-                    profilePic={originalPost.profilePic}
+                    profilePic={originalPostUser.profilePic}
                     addedClasses='mx-5 h-8 w-8 mt-5'
                   />
                   <PostInfo post={originalPost} />
@@ -86,31 +93,32 @@ function Post({ post, postPage }: PostProps) {
       </Link>
     )
   }
-
-  return (
-    post && (
-      <Link className={''} to={`/${post.username}/status/${post.postId}`}>
-        <div className='w-full relative'>
-          <PostMenu post={post} />
-          <PostContainer
-            isLoading={isLoading}
-            addedClasses='border-b border-l border-r border-slate-700 pr-16'
-          >
-            <PostInfoContainer>
-              <ProfilePicBubble
-                onClick={navigateToProfileOnClick}
-                profilePic={post.profilePic}
-                addedClasses='mx-5 h-8 w-8 mt-5'
-              />
-              <PostInfo post={post} />
-            </PostInfoContainer>
-            <PostContent content={post.content} addedClasses='ml-16' />
-            <PostInteractionBar post={post} />
-          </PostContainer>
-        </div>
-      </Link>
+  if (postUser) {
+    return (
+      post && (
+        <Link className={''} to={`/${post.username}/status/${post.postId}`}>
+          <div className='w-full relative'>
+            <PostMenu post={post} />
+            <PostContainer
+              isLoading={isLoading}
+              addedClasses='border-b border-l border-r border-slate-700 pr-16'
+            >
+              <PostInfoContainer>
+                <ProfilePicBubble
+                  onClick={navigateToProfileOnClick}
+                  profilePic={postUser.profilePic}
+                  addedClasses='mx-5 h-8 w-8 mt-5'
+                />
+                <PostInfo post={post} />
+              </PostInfoContainer>
+              <PostContent content={post.content} addedClasses='ml-16' />
+              <PostInteractionBar post={post} />
+            </PostContainer>
+          </div>
+        </Link>
+      )
     )
-  )
+  }
 }
 
 export default Post

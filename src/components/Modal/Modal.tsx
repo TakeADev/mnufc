@@ -8,6 +8,7 @@ import { PostMenuContext } from '../../contexts/PostMenuContext'
 import CreateReplyModal from './CreateReplyModal'
 import LoginWarningModal from './LoginWarningModal'
 import DeletePostWarningModal from './DeletePostWarningModal'
+import PhotoCropModal from './PhotoCropModal'
 
 function Modal({ children }) {
   const { modalIsOpen, modalType, replyModalPostId, setModalIsOpen } = useContext(ModalContext)
@@ -30,7 +31,7 @@ function Modal({ children }) {
           onClick={modalCloseHandler}
         >
           <div
-            className='bg-slate-950 w-full lg:w-1/2 max-w-xl mx-auto rounded-xl'
+            className='relative bg-slate-950 w-full lg:w-1/2 max-w-xl mx-auto rounded-xl'
             onClick={(e) => e.stopPropagation()}
           >
             {modalType == 'editProfile' && <EditProfileForm />}
@@ -39,6 +40,7 @@ function Modal({ children }) {
             )}
             {modalType == 'loginWarning' && <LoginWarningModal />}
             {modalType == 'deletePostWarning' && <DeletePostWarningModal />}
+            {modalType == 'photoCrop' && <PhotoCropModal />}
           </div>
         </div>
       )}

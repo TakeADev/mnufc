@@ -22,7 +22,10 @@ function ProfileBanner({ currentAuthUser, profileUserDoc }) {
       <div className='w-full flex-col -mt-20 border-l border-r border-slate-700'>
         <div className='flex'>
           <div className='w-3/4'>
-            <ProfilePicBubble addedClasses='w-32 h-32 ml-5' />
+            <ProfilePicBubble
+              addedClasses='w-32 h-32 ml-5'
+              profilePic={profileUserDoc.profilePic}
+            />
           </div>
           {currentAuthUser && currentAuthUser.uid === profileUserDoc.uid && (
             <div className='w-2-5'>

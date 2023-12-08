@@ -1,18 +1,21 @@
 import { FunctionComponent, MouseEventHandler } from 'react'
+import LoadingSpinner from '../LoadingSpinner'
 
 interface IProfilePicBubbleProps {
-  addedClasses?: String
-  onClick?: MouseEventHandler<HTMLImageElement>
+  addedClasses?: string
+  onClick?: MouseEventHandler<HTMLElement>
+  profilePic: string
 }
 
-const ProfilePicBubble: FunctionComponent<IProfilePicBubbleProps> = ({ addedClasses, onClick }) => {
-  return (
-    <img
-      src='https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png'
-      alt='pfp'
-      className={`rounded-full ${addedClasses}`}
-      onClick={onClick}
-    />
+const ProfilePicBubble: FunctionComponent<IProfilePicBubbleProps> = ({
+  addedClasses,
+  onClick,
+  profilePic,
+}) => {
+  return profilePic ? (
+    <img src={profilePic} alt='pfp' className={`rounded-full ${addedClasses}`} onClick={onClick} />
+  ) : (
+    <LoadingSpinner />
   )
 }
 
