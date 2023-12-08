@@ -1,10 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react'
 
-import {
-  getUserDocFromAuth,
-  updateUserProfile,
-  uploadProfilePicture,
-} from '../../utils/firebase/firebase-config'
+import { getUserDocFromAuth, updateUserProfile } from '../../utils/firebase/firebase-config'
 
 import { MdCameraAlt } from 'react-icons/md'
 
@@ -27,7 +23,7 @@ interface IEditProfileFormFields {
 const EditProfileForm = () => {
   const { currentAuthUser, setCurrentUserDoc, currentUserDoc } = useContext(UserContext)
   const { modalIsOpen, setModalIsOpen, setModalType } = useContext(ModalContext)
-  const { photoToBeCropped, setPhotoToBeCropped } = useContext(CropperContext)
+  const { setPhotoToBeCropped } = useContext(CropperContext)
 
   const defaultFormFields: IEditProfileFormFields = {
     displayName: '',
@@ -129,7 +125,7 @@ const EditProfileForm = () => {
           <div className=''>
             <ProfilePicBubble
               addedClasses='w-24 h-24 -mt-12'
-              profilePicUsername={currentUserDoc.username.toString()}
+              profilePic={currentUserDoc.profilePic}
             />
             <MdCameraAlt
               className={`absolute bg-opacity-60 bg-gray-700 rounded-full text-6xl -mt-7 ml-5 p-3 top-1/2 text-cyan-300 z-20 hover:cursor-pointer hover:bg-gray-600 hover:bg-opacity-60`}

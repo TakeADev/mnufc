@@ -12,6 +12,7 @@ export interface ICurrentUserDoc {
   uid?: String
   username?: String
   likedPosts?: Array<String>
+  profilePic: string
   reposts?: Array<IUserRepost>
 }
 

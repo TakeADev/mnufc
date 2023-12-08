@@ -12,7 +12,7 @@ function MenuHeader({ onClick }) {
       <div className='flex ml-5 pl-0 mt-4'>
         <ProfilePicBubble
           addedClasses='w-10 h-10'
-          profilePicUsername={currentUserDoc.username.toString()}
+          profilePic={currentUserDoc.profilePic.toString()}
         />
         <span className='w-3/4 ml-3 text-xl'>
           <b>{currentUserDoc.displayName}</b>
