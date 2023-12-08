@@ -59,6 +59,7 @@ function Post({ post, postPage }: PostProps) {
                 <ProfilePicBubble
                   onClick={navigateToProfileOnClick}
                   addedClasses='mx-5 h-8 w-8 mt-5'
+                  profilePicUsername={post.username.toString()}
                 />
                 <PostInfo post={post} />
               </PostInfoContainer>
@@ -101,6 +102,7 @@ function Post({ post, postPage }: PostProps) {
                 onClick={navigateToProfileOnClick}
                 profilePic={post.profilePic}
                 addedClasses='mx-5 h-8 w-8 mt-5'
+                profilePicUsername={post.username.toString()}
               />
               <PostInfo post={post} />
             </PostInfoContainer>
