@@ -293,11 +293,10 @@ export const toggleRepost = async (repostPost: IUserPost) => {
 
 //-----------------------------STORAGE--------------------------------------
 
-export const uploadProfilePicture = (currentUserDoc: ICurrentUserDoc, file: File) => {
-  const username = currentUserDoc.username
-  const pfpRef = ref(storage, username + `/profilePic`)
+export const uploadProfilePicture = (blob: Blob, currentUserDoc: ICurrentUserDoc) => {
+  const pfpRef = ref(storage, currentUserDoc.username + `/profilePic`)
 
-  uploadBytes(pfpRef, file).then((snapshot) => {
+  uploadBytes(pfpRef, blob).then((snapshot) => {
     console.log('Uploaded pfp!' + snapshot)
   })
 
