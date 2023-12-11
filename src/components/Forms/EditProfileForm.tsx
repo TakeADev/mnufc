@@ -8,12 +8,17 @@ import { IUserDoc, UserContext } from '../../contexts/User.jsx'
 import { ModalContext } from '../../contexts/ModalContext'
 import { CropperContext } from '../../contexts/CropperContext.js'
 
+import { MODAL_TYPES } from '../../contexts/ModalContext'
+const { photoCrop } = MODAL_TYPES
+
 import ProfilePicBubble from '../Profile/ProfilePicBubble'
 import ProfileBannerImage from '../Profile/ProfileBannerImage'
 import Button from '../Button'
 import FormInput from './FormInput'
+import { User } from 'firebase/auth'
+import { DocumentData, DocumentSnapshot } from 'firebase/firestore'
 
-interface IEditProfileFormFields {
+export interface IEditProfileFormFields {
   displayName: string
   bio: string
   location: string
@@ -93,7 +98,7 @@ const EditProfileForm = () => {
       const reader = new FileReader()
       reader.readAsDataURL(e.target.files[0])
       reader.addEventListener('load', () => setPhotoToBeCropped(reader.result.toString()))
-      setModalType('photoCrop')
+      setModalType(photoCrop)
     }
   }
 
