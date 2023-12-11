@@ -1,14 +1,18 @@
 import { useContext } from 'react'
 
-import { ModalContext } from '../../contexts/ModalContext'
+import { Link } from 'react-router-dom'
 
 import { MdLocationOn } from 'react-icons/md'
 import { MdArrowBack } from 'react-icons/md'
 
-import ProfilePicBubble from './ProfilePicBubble'
+import { ModalContext } from '../../contexts/ModalContext'
+
 import Button from '../Button'
+import ProfilePicBubble from './ProfilePicBubble'
 import ProfileBannerImage from './ProfileBannerImage'
-import { Link } from 'react-router-dom'
+
+import { MODAL_TYPES } from '../../contexts/ModalContext'
+const { editProfile } = MODAL_TYPES
 
 function ProfileBanner({ currentAuthUser, profileUserDoc }) {
   const { setModalIsOpen, setModalType } = useContext(ModalContext)
@@ -32,7 +36,7 @@ function ProfileBanner({ currentAuthUser, profileUserDoc }) {
               <Button
                 addedClasses='right-0 bg-slate-950 text-white border border-white px-5 h-10 mt-24 text-sm hover:bg-gray-900'
                 onClick={() => {
-                  setModalIsOpen(true), setModalType('editProfile')
+                  setModalIsOpen(true), setModalType(editProfile)
                 }}
                 type='button'
               >
