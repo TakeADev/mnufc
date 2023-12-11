@@ -9,11 +9,13 @@ import { MenuContext } from '../../contexts/MenuContext'
 import Post from '../Posts/Post'
 
 function Feed() {
-  const [postAmount, setPostAmount] = useState(10)
+  const [postAmount, setPostAmount] = useState<number>(10)
+
   const { userPosts } = useContext(UserPostsContext)
   const { setIsLoading } = useContext(FeedContext)
   const { setIsOpen } = useContext(MenuContext)
 
+  //When user scrolls to bottom of page, adds 10 to amount of posts being shown
   const handleScroll = () => {
     const bottom =
       Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
@@ -24,6 +26,7 @@ function Feed() {
     }
   }
 
+  //State is set to loading, menu is set to closed on initial render
   useEffect(() => {
     setIsLoading(true)
     setIsOpen(false)
