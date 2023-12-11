@@ -4,7 +4,7 @@ import { getUserDocFromAuth, updateUserProfile } from '../../utils/firebase/fire
 
 import { MdCameraAlt } from 'react-icons/md'
 
-import { UserContext } from '../../contexts/User.jsx'
+import { IUserDoc, UserContext } from '../../contexts/User.jsx'
 import { ModalContext } from '../../contexts/ModalContext'
 import { CropperContext } from '../../contexts/CropperContext.js'
 
@@ -14,9 +14,9 @@ import Button from '../Button'
 import FormInput from './FormInput'
 
 interface IEditProfileFormFields {
-  displayName: String
-  bio: String
-  location: String
+  displayName: string
+  bio: string
+  location: string
   birthDate: Date | ''
 }
 
@@ -34,22 +34,24 @@ const EditProfileForm = () => {
 
   const [formFields, setFormFields] = useState<IEditProfileFormFields>(defaultFormFields)
 
-  useEffect(() => {
-    if (currentAuthUser) {
-      try {
-        getUserDocFromAuth(currentAuthUser).then((res) => setCurrentUserDoc(res))
-      } catch (err) {
-        console.log(err)
-      }
-    }
-  }, [currentAuthUser])
+  //Unnecessary??
+  //useEffect(() => {
+  //  if (currentAuthUser) {
+  //    try {
+  //      getUserDocFromAuth(currentAuthUser).then((res: IUserDoc) => setCurrentUserDoc(res))
+  //    } catch (err) {
+  //      console.log(err)
+  //    }
+  //  }
+  //}, [currentAuthUser])
 
+  //Sets form field to the current user document's current data
   useEffect(() => {
     currentUserDoc &&
       setFormFields({
-        displayName: currentUserDoc.displayName,
-        bio: currentUserDoc.bio ? currentUserDoc.bio : '',
-        location: currentUserDoc.location ? currentUserDoc.location : '',
+        displayName: currentUserDoc.displayName.toString(),
+        bio: currentUserDoc.bio ? currentUserDoc.bio.toString() : '',
+        location: currentUserDoc.location ? currentUserDoc.location.toString() : '',
         birthDate: '',
       })
   }, [currentUserDoc])
@@ -57,7 +59,7 @@ const EditProfileForm = () => {
   const resetFormFields = () => {
     setFormFields(defaultFormFields)
   }
-  const onChangeHandler = (e) => {
+  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = e.target
 
     e.preventDefault()
@@ -70,10 +72,10 @@ const EditProfileForm = () => {
     } else return
   }
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     updateUserProfile(currentAuthUser, formFields).then(() => {
-      getUserDocFromAuth(currentAuthUser).then((res) => setCurrentUserDoc(res))
+      getUserDocFromAuth(currentAuthUser).then((res: IUserDoc) => setCurrentUserDoc(res))
     })
     modalCloseHandler()
     resetFormFields()
@@ -85,11 +87,12 @@ const EditProfileForm = () => {
     inputProfilePic.current.click()
   }
 
-  const inputProfilePicChangeHandler = (e) => {
+  //Opens photo crop modal when user changes file input w/ current file
+  const inputProfilePicChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const reader = new FileReader()
       reader.readAsDataURL(e.target.files[0])
-      reader.addEventListener('load', () => setPhotoToBeCropped(reader.result))
+      reader.addEventListener('load', () => setPhotoToBeCropped(reader.result.toString()))
       setModalType('photoCrop')
     }
   }
