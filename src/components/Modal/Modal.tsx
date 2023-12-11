@@ -10,6 +10,9 @@ import LoginWarningModal from './LoginWarningModal'
 import DeletePostWarningModal from './DeletePostWarningModal'
 import PhotoCropModal from './PhotoCropModal'
 
+import { MODAL_TYPES } from '../../contexts/ModalContext'
+const { editProfile, createPostReply, loginWarning, deletePostWarning, photoCrop } = MODAL_TYPES
+
 function Modal({ children }) {
   const { modalIsOpen, modalType, replyModalPostId, setModalIsOpen } = useContext(ModalContext)
   const { userPosts } = useContext(UserPostsContext)
@@ -18,7 +21,7 @@ function Modal({ children }) {
   const replyModalPost: IUserPost =
     userPosts && userPosts.find((post) => post.postId == replyModalPostId)
 
-  const modalCloseHandler = (e) => {
+  const modalCloseHandler = (e: React.MouseEvent) => {
     e.preventDefault()
     setModalIsOpen(false)
   }
@@ -34,13 +37,13 @@ function Modal({ children }) {
             className='relative bg-slate-950 w-full lg:w-1/2 max-w-xl mx-auto rounded-xl'
             onClick={(e) => e.stopPropagation()}
           >
-            {modalType == 'editProfile' && <EditProfileForm />}
-            {modalType == 'createPostReply' && (
+            {modalType == editProfile && <EditProfileForm />}
+            {modalType == createPostReply && (
               <div className='py-10'>{userPosts && <CreateReplyModal post={replyModalPost} />}</div>
             )}
-            {modalType == 'loginWarning' && <LoginWarningModal />}
-            {modalType == 'deletePostWarning' && <DeletePostWarningModal />}
-            {modalType == 'photoCrop' && <PhotoCropModal />}
+            {modalType == loginWarning && <LoginWarningModal />}
+            {modalType == deletePostWarning && <DeletePostWarningModal />}
+            {modalType == photoCrop && <PhotoCropModal />}
           </div>
         </div>
       )}
