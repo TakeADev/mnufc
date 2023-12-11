@@ -1,9 +1,10 @@
 import { useContext } from 'react'
 
+import { Link } from 'react-router-dom'
+
 import { UserContext } from '../../contexts/User'
 
 import ProfilePicBubble from '../Profile/ProfilePicBubble'
-import { Link } from 'react-router-dom'
 
 function MenuHeader({ onClick }) {
   const { currentUserDoc } = useContext(UserContext)
