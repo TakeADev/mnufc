@@ -9,9 +9,9 @@ import Button from '../Button'
 import MenuItem from './MenuItem'
 import MenuHeader from './MenuHeader'
 import ProfilePicBubble from '../Profile/ProfilePicBubble'
+import LoadingSpinner from '../LoadingSpinner'
 
 import '../../styles/animations.scss'
-import LoadingSpinner from '../LoadingSpinner'
 
 function Menu() {
   const { isOpen, setIsOpen } = useContext(MenuContext)
