@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, createContext, useState } from 'react'
 import { createUserPost } from '../utils/firebase/firebase-config'
 
 import firebase from 'firebase/compat/app'
+import { User } from 'firebase/auth'
 
 export interface IUserPost {
   content: string
@@ -23,7 +24,7 @@ export interface IUserRepost {
 interface IUserPostsContext {
   userPosts: Array<IUserPost> | null
   setUserPosts: Dispatch<SetStateAction<Array<IUserPost>>>
-  createNewUserPost: (currentAuthUser: firebase.User, postContent: any, replyTo: any) => void
+  createNewUserPost: (currentAuthUser: User, postContent: string, replyTo: false | string) => void
 }
 
 export const UserPostsContext = createContext<IUserPostsContext>({
@@ -35,7 +36,11 @@ export const UserPostsContext = createContext<IUserPostsContext>({
 function UserPostsProvider({ children }) {
   const [userPosts, setUserPosts] = useState(null)
 
-  const createNewUserPost = async (currentAuthUser, postContent, replyTo) => {
+  const createNewUserPost = async (
+    currentAuthUser: firebase.User,
+    postContent: string,
+    replyTo: string
+  ) => {
     try {
       await createUserPost(currentAuthUser, postContent, replyTo)
     } catch (err) {

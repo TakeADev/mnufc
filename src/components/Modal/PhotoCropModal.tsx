@@ -1,14 +1,17 @@
 import { useState, useCallback, useContext } from 'react'
 import Cropper from 'react-easy-crop'
 
-import Button from '../Button'
-
 import { generateCroppedImage } from '../../utils/cropImage'
 
 import { CropperContext } from '../../contexts/CropperContext'
 import { MdArrowBack } from 'react-icons/md'
 import { ModalContext } from '../../contexts/ModalContext'
 import { UserContext } from '../../contexts/User'
+
+import Button from '../Button'
+
+import { MODAL_TYPES } from '../../contexts/ModalContext'
+const { editProfile } = MODAL_TYPES
 
 const PhotoCropModal = () => {
   const [crop, setCrop] = useState({ x: 0, y: 0 })
@@ -19,21 +22,25 @@ const PhotoCropModal = () => {
   const { setModalType } = useContext(ModalContext)
   const { currentUserDoc } = useContext(UserContext)
 
-  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
+  //Takes crop values when user moves crop section
+  const onCropComplete = useCallback((croppedArea: Object, croppedAreaPixels: Object) => {
     croppedArea
     setFinishedCrop(croppedAreaPixels)
   }, [])
 
-  const backButtonClickHandler = (e) => {
+  const backButtonClickHandler = (e: React.MouseEvent) => {
     e.preventDefault()
+
     setPhotoToBeCropped('')
-    setModalType('editProfile')
+    setModalType(editProfile)
   }
 
   const applyButtonClickHandler = () => {
+    //Takes cropped image, saves to cloud, stores to userdoc
     generateCroppedImage(photoToBeCropped, finishedCrop, currentUserDoc)
+
     setPhotoToBeCropped('')
-    setModalType('editProfile')
+    setModalType(editProfile)
   }
 
   return (

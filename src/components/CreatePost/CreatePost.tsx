@@ -21,6 +21,7 @@ const CreatePost: FunctionComponent<ICreatePostProps> = ({
   autoFocus,
 }) => {
   const [postData, setPostData] = useState('')
+
   const { currentAuthUser } = useContext(UserContext)
   const { createNewUserPost } = useContext(UserPostsContext)
   const { setModalIsOpen } = useContext(ModalContext)
@@ -33,8 +34,9 @@ const CreatePost: FunctionComponent<ICreatePostProps> = ({
     setPostData(e.target.value)
   }
 
-  let replyTo: String | false = false
+  let replyTo: string | false = false
 
+  //Checks if post created will be a reply and assigns original post id to reply document.
   if (isReply) {
     if (useParams().postId) {
       replyTo = useParams().postId
@@ -43,7 +45,7 @@ const CreatePost: FunctionComponent<ICreatePostProps> = ({
     }
   }
 
-  const onSubmitHandler = async (e) => {
+  const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement> | React.KeyboardEvent) => {
     e.preventDefault()
     if (postData) {
       resetFormValue()
@@ -52,7 +54,8 @@ const CreatePost: FunctionComponent<ICreatePostProps> = ({
     setModalIsOpen(false)
   }
 
-  const postEnterSubmit = (e) => {
+  //Calls onSubmitHandler when user presses 'Enter' on text area
+  const postEnterSubmit = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && e.shiftKey == false) {
       onSubmitHandler(e)
     }
@@ -61,6 +64,7 @@ const CreatePost: FunctionComponent<ICreatePostProps> = ({
   return (
     <div
       className={`pb-3 pt-5 mx-auto px-3 ${
+        //Adds styling only if not in reply modal
         !replyModalPost && 'border-slate-700 border-l border-r border-b'
       } ${addedClasses}`}
     >

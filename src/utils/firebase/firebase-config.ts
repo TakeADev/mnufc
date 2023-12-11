@@ -6,6 +6,7 @@ import {
   onAuthStateChanged,
   signOut,
   signInWithEmailAndPassword,
+  User,
 } from 'firebase/auth'
 import {
   getFirestore,
@@ -22,12 +23,15 @@ import {
   arrayUnion,
   deleteDoc,
   arrayRemove,
+  DocumentSnapshot,
+  QuerySnapshot,
 } from 'firebase/firestore'
 
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 
-import { IUserPost } from '../../contexts/UserPosts'
-import { ICurrentUserDoc } from '../../contexts/User'
+import { IUserPost, IUserRepost } from '../../contexts/UserPosts'
+import { IUserDoc } from '../../contexts/User'
+import { IEditProfileFormFields } from '../../components/Forms/EditProfileForm'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBEVSu6KdPg1-45MRNndbPOxpIu08GH5pA',
@@ -46,11 +50,11 @@ const storage = getStorage(app)
 
 //------------------------USERS/AUTH-----------------------------------------------------
 
-export const onAuthStateChangedListener = (callback) => {
+export const onAuthStateChangedListener = (callback: (user: User) => void) => {
   onAuthStateChanged(auth, callback)
 }
 
-export const createNewUserWithEmailAndPassword = async (email, password) => {
+export const createNewUserWithEmailAndPassword = async (email: string, password: string) => {
   return createUserWithEmailAndPassword(auth, email, password).catch((error) => {
     const errorCode = error.code
     const errorMessage = error.message
@@ -59,7 +63,10 @@ export const createNewUserWithEmailAndPassword = async (email, password) => {
   })
 }
 
-export const createUserDocumentFromAuth = async (userAuth, additionalInfo) => {
+export const createUserDocumentFromAuth = async (
+  userAuth: any,
+  additionalInfo: { username: string }
+) => {
   const userDocRef = doc(db, 'users', userAuth.user.uid)
   const createdAt = new Date()
 
@@ -79,7 +86,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInfo) => {
   })
 }
 
-export const signInUserWithEmailAndPassword = async (email, password) => {
+export const signInUserWithEmailAndPassword = async (email: string, password: string) => {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       return userCredential
@@ -95,7 +102,7 @@ export const signOutUser = () => {
   signOut(auth)
 }
 
-export const getUserDocFromAuth = async (user) => {
+export const getUserDocFromAuth = async (user: User) => {
   const { uid } = user
   const userDocRef = doc(db, 'users', uid)
   const userSnap = await getDoc(userDocRef)
@@ -103,7 +110,7 @@ export const getUserDocFromAuth = async (user) => {
   return userSnap.data()
 }
 
-export const getUserDocFromUid = async (uid) => {
+export const getUserDocFromUid = async (uid: string) => {
   const userDocRef = doc(db, 'users', uid)
   try {
     const userSnap = await getDoc(userDocRef)
@@ -113,7 +120,7 @@ export const getUserDocFromUid = async (uid) => {
   }
 }
 
-export const getUserDocFromUsername = async (username) => {
+export const getUserDocFromUsername = async (username: string) => {
   const userQ = query(collection(db, 'users'), where('username', '==', username))
   const userSnap = await getDocs(userQ)
   try {
@@ -129,14 +136,16 @@ export const getUserDocFromUsername = async (username) => {
   }
 }
 
-export const onCurrentUserSnapshotListener = (callback) => {
+export const onCurrentUserSnapshotListener = (
+  callback: (user: DocumentSnapshot<IUserDoc>) => void
+) => {
   if (auth.currentUser) {
     const currentUserRef = doc(db, 'users', auth.currentUser.uid)
     onSnapshot(currentUserRef, callback)
   }
 }
 
-export const updateUserProfile = async (user, info) => {
+export const updateUserProfile = async (user: User, info: IEditProfileFormFields) => {
   const userRef = doc(db, 'users', user.uid)
   try {
     await updateDoc(userRef, {
@@ -151,11 +160,11 @@ export const updateUserProfile = async (user, info) => {
 
 const userPostsQuery = query(collection(db, 'userPosts'))
 
-export const onUserPostsSnapshotListener = (callback) => {
+export const onUserPostsSnapshotListener = (callback: (snapshot: QuerySnapshot) => void) => {
   return onSnapshot(userPostsQuery, callback)
 }
 
-export const getPostByPostId = async (postId) => {
+export const getPostByPostId = async (postId: string) => {
   const postRef = doc(db, 'userPosts', postId)
   const postSnap = await getDoc(postRef)
 
@@ -166,7 +175,7 @@ export const getPostByPostId = async (postId) => {
   }
 }
 
-export const createUserPost = async (user, postContent, replyTo) => {
+export const createUserPost = async (user: User, postContent: string, replyTo: string) => {
   const userDoc = await getUserDocFromAuth(user)
   const timestamp = Date.now()
   const findPostToReplyTo = () => getPostByPostId(replyTo)
@@ -198,14 +207,14 @@ export const createUserPost = async (user, postContent, replyTo) => {
   })
 }
 
-export const deleteUserPost = async (post) => {
+export const deleteUserPost = async (post: IUserPost) => {
   const postDoc = await getDoc(doc(db, 'userPosts', post.postId))
 
   if (postDoc.exists) {
     const replies = postDoc.data().replies || []
 
     for (const replyId of replies) {
-      await getDoc(doc(db, 'userPosts', replyId)).then((res) => {
+      await getDoc(doc(db, 'userPosts', replyId)).then((res: DocumentSnapshot<IUserPost>) => {
         deleteUserPost(res.data())
       })
     }
@@ -217,7 +226,7 @@ export const deleteUserPost = async (post) => {
 
       if (userDoc) {
         await updateDoc(doc(db, 'users', userId), {
-          reposts: userDoc.data().reposts.filter((repost) => {
+          reposts: userDoc.data().reposts.filter((repost: IUserRepost) => {
             repost.postId !== postDoc.data().postId
           }),
         })
@@ -229,8 +238,8 @@ export const deleteUserPost = async (post) => {
     if (postDoc.data().replyTo) {
       await getDoc(doc(db, 'userPosts', postDoc.data().replyTo)).then((res) => {
         updateDoc(doc(db, 'userPosts', postDoc.data().replyTo), {
-          replies: res.data().replies.filter((reply) => {
-            reply !== postDoc.data().postId
+          replies: res.data().replies.filter((replyId: string) => {
+            replyId !== postDoc.data().postId
           }),
         })
       })
@@ -244,12 +253,15 @@ export const togglePostLike = async (post: IUserPost) => {
 
   const userRef = doc(db, 'users', user.uid)
   try {
-    if (user.likedPosts && user.likedPosts.find((likedPost) => likedPost == post.postId)) {
+    if (
+      user.likedPosts &&
+      user.likedPosts.find((likedPostId: string) => likedPostId == post.postId)
+    ) {
       updateDoc(doc(db, 'userPosts', postDoc.data().postId), {
-        likes: postDoc.data().likes.filter((like) => like !== user.uid),
+        likes: postDoc.data().likes.filter((likeUserId: string) => likeUserId !== user.uid),
       })
       updateDoc(userRef, {
-        likedPosts: user.likedPosts.filter((filteredPost) => filteredPost !== post.postId),
+        likedPosts: user.likedPosts.filter((likedPostId: string) => likedPostId !== post.postId),
       })
     } else {
       updateDoc(userRef, {
@@ -276,11 +288,13 @@ export const toggleRepost = async (repostPost: IUserPost) => {
   try {
     if (
       repostPostDoc.reposts &&
-      currentUserDoc.reposts.find((post) => post.postId === repostPost.postId)
+      currentUserDoc.reposts.find((post: IUserPost) => post.postId === repostPost.postId)
     ) {
       updateDoc(repostPostRef, { reposts: arrayRemove(currentUserId) })
       updateDoc(currentUserRef, {
-        reposts: currentUserDoc.reposts.filter((repost) => repost.postId !== repostPost.postId),
+        reposts: currentUserDoc.reposts.filter(
+          (repost: IUserRepost) => repost.postId !== repostPost.postId
+        ),
       })
       return
     }
@@ -295,10 +309,10 @@ export const toggleRepost = async (repostPost: IUserPost) => {
 
 //-----------------------------STORAGE--------------------------------------
 
-export const uploadProfilePicture = (blob: Blob, currentUserDoc: ICurrentUserDoc) => {
+export const uploadProfilePicture = (blob: Blob, currentUserDoc: IUserDoc) => {
   const pfpRef = ref(storage, currentUserDoc.username + `/profilePics/pfp-` + Date.now())
 
-  uploadBytes(pfpRef, blob).then((snapshot) => {
+  uploadBytes(pfpRef, blob).then(() => {
     getDownloadURL(pfpRef).then((res) => {
       updateDoc(doc(db, 'users', currentUserDoc.uid.toString()), { profilePic: res })
     })

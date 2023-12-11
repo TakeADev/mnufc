@@ -17,7 +17,10 @@ const DeletePostWarningModal = () => {
 
   const deletePostHandler = () => {
     deleteUserPost(postMenuPost)
+
+    //Navigates back one if on post page
     params.postId && navigate(-1)
+
     setModalIsOpen(false)
     setPostMenuPost(null)
   }

@@ -23,6 +23,20 @@ export const ModalContext = createContext<IModalContext>({
   setLoginWarningType: () => {},
 })
 
+export const MODAL_TYPES = {
+  editProfile: 'editProfile',
+  deletePostWarning: 'deletePostWarning',
+  photoCrop: 'photoCrop',
+  loginWarning: 'loginWarning',
+  createPostReply: 'createPostReply',
+}
+
+export const LOGIN_WARNING_TYPES = {
+  comment: 'comment',
+  like: 'like',
+  repost: 'repost',
+}
+
 function ModalProvider({ children }) {
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [modalType, setModalType] = useState('')

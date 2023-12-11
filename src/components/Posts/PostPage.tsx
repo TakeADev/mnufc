@@ -23,7 +23,6 @@ const PostPage = () => {
 
   useEffect(() => {
     setPagePost(null)
-    console.log(postId)
     if (userPosts) {
       setPagePost(
         userPosts.find((post) => {
@@ -50,7 +49,7 @@ const PostPage = () => {
           <Post post={pagePost} postPage={false} />
           {currentAuthUser && <CreatePost isReply={true} />}
           {pagePost.replies &&
-            pagePost.replies.map((replyId) => {
+            pagePost.replies.map((replyId: string) => {
               const foundPost = userPosts.find((post) => {
                 return post.postId == replyId
               })

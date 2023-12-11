@@ -6,6 +6,7 @@ import {
   createNewUserWithEmailAndPassword,
   createUserDocumentFromAuth,
 } from '../../utils/firebase/firebase-config'
+
 import Button from '../Button'
 
 const defaultFormFields = {
@@ -23,7 +24,7 @@ function SignUpForm() {
     setFormFields(defaultFormFields)
   }
 
-  const onSubmitHandler = async (e) => {
+  const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (password !== confirmPassword) {
@@ -42,7 +43,7 @@ function SignUpForm() {
     resetFormFields()
   }
 
-  const onChangeHandler = (e) => {
+  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = e.target
 
     e.preventDefault()
