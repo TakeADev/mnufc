@@ -15,10 +15,15 @@ import LoadingSpinner from '../LoadingSpinner'
 
 function Menu() {
   const { isOpen, setIsOpen } = useContext(MenuContext)
-  const { currentUserDoc } = useContext(UserContext)
+  const { currentUserDoc, setCurrentUserDoc } = useContext(UserContext)
 
   const menuClickHandler = () => {
     setIsOpen(!isOpen)
+  }
+
+  const logOutHandler = () => {
+    setCurrentUserDoc(null)
+    signOutUser()
   }
 
   if (currentUserDoc) {
@@ -35,7 +40,7 @@ function Menu() {
             <MenuItem linkPath={`/${currentUserDoc.username}`} title='Profile' />
             <Button
               addedClasses='py-1 px-1 text-lg my-5 w-4/5 mx-10 bg-slate-900 text-white border border-white hover:bg-gray-800'
-              onClick={signOutUser}
+              onClick={logOutHandler}
               type='button'
             >
               Sign Out
