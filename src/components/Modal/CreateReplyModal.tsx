@@ -1,7 +1,10 @@
 import { FunctionComponent, useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import { getUserDocFromUsername } from '../../utils/firebase/firebase-config'
+
 import { IUserPost } from '../../contexts/UserPosts'
+import { IUserDoc } from '../../contexts/User'
 
 import { FeedContext } from '../../contexts/FeedContext'
 import { UserContext } from '../../contexts/User'
@@ -12,7 +15,6 @@ import ProfilePicBubble from '../Profile/ProfilePicBubble'
 import PostInfo from '../Posts/PostInfo'
 import PostContent from '../Posts/PostContent'
 import CreatePost from '../CreatePost/CreatePost'
-import { getUserDocFromUsername } from '../../utils/firebase/firebase-config'
 import LoadingSpinner from '../LoadingSpinner'
 
 interface ICreateReplyModalProps {
@@ -20,13 +22,13 @@ interface ICreateReplyModalProps {
 }
 
 const CreateReplyModal: FunctionComponent<ICreateReplyModalProps> = ({ post }) => {
-  const [postUser, setPostUser] = useState(null)
+  const [postUser, setPostUser] = useState<null | IUserDoc>(null)
 
   const { isLoading } = useContext(FeedContext)
   const { currentAuthUser } = useContext(UserContext)
 
   useEffect(() => {
-    getUserDocFromUsername(post.username).then((res) => setPostUser(res))
+    getUserDocFromUsername(post.username).then((res: IUserDoc) => setPostUser(res))
   }, [])
 
   return (
