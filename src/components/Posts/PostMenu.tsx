@@ -10,6 +10,9 @@ import { UserContext } from '../../contexts/User'
 import { PostMenuContext } from '../../contexts/PostMenuContext'
 import { ModalContext } from '../../contexts/ModalContext'
 
+import { MODAL_TYPES } from '../../contexts/ModalContext'
+const { deletePostWarning } = MODAL_TYPES
+
 interface PostMenuProps {
   post: IUserPost
 }
@@ -21,14 +24,14 @@ const PostMenu = ({ post }: PostMenuProps) => {
   const { setModalType, setModalIsOpen } = useContext(ModalContext)
   const { currentAuthUser } = useContext(UserContext)
 
-  const menuIconClickHandler = (e) => {
+  const menuIconClickHandler = (e: React.MouseEvent) => {
     e.preventDefault()
 
     setIsOpen(true)
     setPostMenuIsOpen(true)
     setPostMenuPost(post)
   }
-  const menuClickHandler = (e) => {
+  const menuClickHandler = (e: React.MouseEvent) => {
     e.preventDefault()
   }
 
@@ -39,9 +42,9 @@ const PostMenu = ({ post }: PostMenuProps) => {
     }
   }
 
-  const deleteButtonHandler = (e) => {
+  const deleteButtonHandler = (e: React.MouseEvent) => {
     e.preventDefault()
-    setModalType('deletePostWarning')
+    setModalType(deletePostWarning)
     setModalIsOpen(true)
   }
 
