@@ -1,4 +1,5 @@
 import { useContext } from 'react'
+
 import { useNavigate } from 'react-router-dom'
 
 import { MdChat, MdFavorite, MdRepeat, MdClose } from 'react-icons/md'
@@ -6,6 +7,9 @@ import { MdChat, MdFavorite, MdRepeat, MdClose } from 'react-icons/md'
 import Button from '../Button'
 
 import { ModalContext } from '../../contexts/ModalContext'
+
+import { LOGIN_WARNING_TYPES } from '../../contexts/ModalContext'
+const { comment, like, repost } = LOGIN_WARNING_TYPES
 
 const LoginWarningModal = () => {
   const { setModalIsOpen, loginWarningType } = useContext(ModalContext)
@@ -24,7 +28,7 @@ const LoginWarningModal = () => {
       </div>
       <div className='w-3/4 mx-auto'>
         <div className='mt-8 mb-10 text-center'>
-          {loginWarningType === 'comment' && (
+          {loginWarningType === comment && (
             <div className=''>
               <MdChat className='w-full text-5xl mx-auto mb-4 text-cyan-400' />
               <div className='text-left mx-auto mt-10'>
@@ -37,7 +41,7 @@ const LoginWarningModal = () => {
               </div>
             </div>
           )}
-          {loginWarningType === 'like' && (
+          {loginWarningType === like && (
             <div className=''>
               <MdFavorite className='w-full text-5xl mx-auto mb-4 text-red-400' />
               <div className='text-left mx-auto mt-10'>
@@ -48,7 +52,7 @@ const LoginWarningModal = () => {
               </div>
             </div>
           )}
-          {loginWarningType === 'repost' && (
+          {loginWarningType === repost && (
             <div className=''>
               <MdRepeat className='w-full text-5xl mx-auto mb-4 text-green-400' />
               <div className='text-left mx-auto mt-10'>
