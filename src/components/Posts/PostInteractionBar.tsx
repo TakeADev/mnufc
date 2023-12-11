@@ -7,6 +7,10 @@ import { togglePostLike, toggleRepost } from '../../utils/firebase/firebase-conf
 import { UserContext } from '../../contexts/User'
 import { ModalContext } from '../../contexts/ModalContext'
 
+import { LOGIN_WARNING_TYPES, MODAL_TYPES } from '../../contexts/ModalContext'
+const { comment, like, repost } = LOGIN_WARNING_TYPES
+const { loginWarning, createPostReply } = MODAL_TYPES
+
 const PostInteractionBar = ({ post }) => {
   const { currentUserDoc, currentAuthUser } = useContext(UserContext)
   const { setModalIsOpen, setModalType, setReplyModalPostId, setLoginWarningType } =
@@ -14,8 +18,13 @@ const PostInteractionBar = ({ post }) => {
 
   const postCommentClickHandler: MouseEventHandler = (e) => {
     e.preventDefault()
-    setLoginWarningType('comment')
-    setModalType(currentAuthUser ? 'createPostReply' : 'loginWarning')
+    if (!currentAuthUser) {
+      setLoginWarningType(comment)
+      setModalType(loginWarning)
+      setModalIsOpen(true)
+      return
+    }
+    setModalType(createPostReply)
     setReplyModalPostId(post.postId)
     setModalIsOpen(true)
   }
@@ -23,9 +32,10 @@ const PostInteractionBar = ({ post }) => {
   const postLikeClickHandler: MouseEventHandler = (e) => {
     e.preventDefault()
     if (!currentAuthUser) {
-      setLoginWarningType('like')
-      setModalType('loginWarning')
+      setLoginWarningType(like)
+      setModalType(loginWarning)
       setModalIsOpen(true)
+      return
     }
     togglePostLike(post)
   }
@@ -33,13 +43,15 @@ const PostInteractionBar = ({ post }) => {
   const postRepostClickHandler: MouseEventHandler = (e) => {
     e.preventDefault()
     if (!currentAuthUser) {
-      setLoginWarningType('repost')
-      setModalType('loginWarning')
+      setLoginWarningType(repost)
+      setModalType(loginWarning)
       setModalIsOpen(true)
       return
     }
     toggleRepost(post)
   }
+
+  //Post interaction bar if user is logged in
   if (currentUserDoc) {
     return (
       <div className='flex w-full text-center mb-3'>
@@ -57,17 +69,20 @@ const PostInteractionBar = ({ post }) => {
             onClick={postLikeClickHandler}
             className='hover:bg-slate-900 hover:text-red-400 w-14 mx-auto p-1 rounded-full'
           >
-            {currentUserDoc.likedPosts.find((likedPost) => likedPost == post.postId) ? (
-              <div className='inline text-red-400'>
-                <MdFavorite className='text-xl mx-auto inline' />
-                <span className='ml-2'>{post.likes.length}</span>
-              </div>
-            ) : (
-              <div className='inline'>
-                <MdFavoriteBorder className='text-xl mx-auto inline' />
-                <span className='ml-2'>{post.likes.length}</span>
-              </div>
-            )}
+            {
+              //Checks if user likes the post
+              currentUserDoc.likedPosts.find((likedPost) => likedPost == post.postId) ? (
+                <div className='inline text-red-400'>
+                  <MdFavorite className='text-xl mx-auto inline' />
+                  <span className='ml-2'>{post.likes.length}</span>
+                </div>
+              ) : (
+                <div className='inline'>
+                  <MdFavoriteBorder className='text-xl mx-auto inline' />
+                  <span className='ml-2'>{post.likes.length}</span>
+                </div>
+              )
+            }
           </div>
         </div>
         <div className='w-1/3'>
@@ -82,6 +97,8 @@ const PostInteractionBar = ({ post }) => {
       </div>
     )
   }
+
+  //Post interaction bar if not logged in
   return (
     <div className='flex w-full text-center mb-3'>
       <div className='w-1/3'>
