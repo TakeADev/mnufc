@@ -34,13 +34,12 @@ const CreatePost: FunctionComponent<ICreatePostProps> = ({
     setPostData(e.target.value)
   }
 
-  let replyTo: String | false = false
+  let replyTo: string | false = false
 
   //Checks if post created will be a reply and assigns original post id to reply document.
   if (isReply) {
     if (useParams().postId) {
       replyTo = useParams().postId
-      console.log(replyTo)
     } else {
       replyTo = replyModalPost.postId
     }
