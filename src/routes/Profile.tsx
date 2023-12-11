@@ -3,16 +3,19 @@ import { useParams } from 'react-router-dom'
 
 import { getUserDocFromUsername } from '../utils/firebase/firebase-config'
 
+import { MdRepeat } from 'react-icons/md'
+
 import { MenuContext } from '../contexts/MenuContext'
 import { UserContext } from '../contexts/User'
 import { UserPostsContext } from '../contexts/UserPosts'
 import { ModalContext } from '../contexts/ModalContext'
 
+import { IUserRepost } from '../contexts/UserPosts'
+
 import FeedContainer from '../components/Feed/FeedContainer'
 import Post from '../components/Posts/Post'
 import LoadingSpinner from '../components/LoadingSpinner'
 import ProfileBanner from '../components/Profile/ProfileBanner'
-import { MdRepeat } from 'react-icons/md'
 
 function Profile() {
   const { setIsOpen } = useContext(MenuContext)
@@ -42,7 +45,7 @@ function Profile() {
     if (userPosts && profileUserDoc) {
       if (profileUserDoc.reposts) {
         let repostOriginals = []
-        profileUserDoc.reposts.map((repost) => {
+        profileUserDoc.reposts.map((repost: IUserRepost) => {
           const original = userPosts.find((post) => post.postId === repost.postId)
           repostOriginals.push({ ...original, isRepost: true, repostTimestamp: repost.timestamp })
         })
@@ -59,7 +62,7 @@ function Profile() {
   if (profileUserDoc) {
     let allProfilePosts = profileReposts ? profilePosts.concat(profileReposts) : profilePosts
     if (allProfilePosts) {
-      const allProfilePostsSorted = allProfilePosts.sort((a, b) => {
+      const allProfilePostsSorted = allProfilePosts.sort((a: any, b: any) => {
         if (a.isRepost && b.isRepost) {
           return new Date(a.repostTimestamp.valueOf() - new Date(b.repostTimestamp.valueOf()))
         } else if (a.isRepost) {
@@ -81,7 +84,7 @@ function Profile() {
           </span>
         </div>
         {allProfilePosts ? (
-          allProfilePosts.reverse().map((post) => {
+          allProfilePosts.reverse().map((post: any) => {
             if (post.isRepost) {
               return (
                 <div>
