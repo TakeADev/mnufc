@@ -2,7 +2,7 @@ import firebase from 'firebase/compat/app'
 import { Dispatch, SetStateAction, createContext, useState } from 'react'
 import { IUserRepost } from './UserPosts'
 
-export interface ICurrentUserDoc {
+export interface IUserDoc {
   bio?: String
   birthDate?: Date | ''
   createdAt?: Date
@@ -19,8 +19,8 @@ export interface ICurrentUserDoc {
 interface IUserContext {
   currentAuthUser: firebase.User
   setCurrentAuthUser: Dispatch<SetStateAction<firebase.User>>
-  currentUserDoc: ICurrentUserDoc
-  setCurrentUserDoc: Dispatch<SetStateAction<ICurrentUserDoc>>
+  currentUserDoc: IUserDoc
+  setCurrentUserDoc: Dispatch<SetStateAction<IUserDoc>>
 }
 
 export const UserContext = createContext<IUserContext>({
