@@ -16,7 +16,7 @@ function PostInfo({ post }) {
 
   const navigate = useNavigate()
 
-  const navigateToProfileOnClick = (e) => {
+  const navigateToProfileOnClick = (e: React.MouseEvent) => {
     e.preventDefault()
     navigate(`/${post.username}`)
   }
