@@ -3,14 +3,15 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { signInUserWithEmailAndPassword } from '../../utils/firebase/firebase-config'
+
 import Button from '../Button'
 
-function LoginForm() {
-  const defaultFormFields = {
-    email: '',
-    password: '',
-  }
+const defaultFormFields = {
+  email: '',
+  password: '',
+}
 
+function LoginForm() {
   const [formValue, setFormValue] = useState(defaultFormFields)
 
   const { email, password } = formValue
@@ -19,13 +20,13 @@ function LoginForm() {
     setFormValue(defaultFormFields)
   }
 
-  const onSubmitHandler = async (e) => {
+  const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     await signInUserWithEmailAndPassword(email, password)
     resetFormFields()
   }
 
-  const onChangeHandler = (e) => {
+  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = e.target
 
     e.preventDefault()
