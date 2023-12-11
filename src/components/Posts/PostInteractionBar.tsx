@@ -99,7 +99,7 @@ const PostInteractionBar = ({ post }) => {
           className='hover:bg-slate-900 hover:text-red-400 w-14 mx-auto p-1 rounded-full'
         >
           <MdFavoriteBorder className='text-xl mx-auto inline' />
-          <span className='ml-2'>{post.likes}</span>
+          <span className='ml-2'>{post.likes.length}</span>
         </div>
       </div>
       <div className='w-1/3'>
