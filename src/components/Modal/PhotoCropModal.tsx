@@ -1,4 +1,4 @@
-import { useState, useCallback, useContext } from 'react'
+import { useState, useCallback, useContext, useEffect } from 'react'
 import Cropper from 'react-easy-crop'
 
 import { generateCroppedImage } from '../../utils/cropImage'
@@ -17,8 +17,9 @@ const PhotoCropModal = () => {
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
   const [finishedCrop, setFinishedCrop] = useState(null)
+  const [aspect, setAspect] = useState(null)
 
-  const { photoToBeCropped, setPhotoToBeCropped } = useContext(CropperContext)
+  const { photoToBeCropped, setPhotoToBeCropped, photoType } = useContext(CropperContext)
   const { setModalType } = useContext(ModalContext)
   const { currentUserDoc } = useContext(UserContext)
 
@@ -37,11 +38,23 @@ const PhotoCropModal = () => {
 
   const applyButtonClickHandler = () => {
     //Takes cropped image, saves to cloud, stores to userdoc
-    generateCroppedImage(photoToBeCropped, finishedCrop, currentUserDoc)
+    generateCroppedImage(photoToBeCropped, finishedCrop, currentUserDoc, photoType)
 
     setPhotoToBeCropped('')
     setModalType(editProfile)
   }
+
+  //Sets aspect ratio based on photoType
+  useEffect(() => {
+    switch (photoType) {
+      case 'profilePic':
+        setAspect(3 / 3)
+        break
+      case 'bannerPic':
+        setAspect(3 / 1)
+        break
+    }
+  }, [photoType])
 
   return (
     <>
@@ -72,7 +85,7 @@ const PhotoCropModal = () => {
           image={photoToBeCropped}
           crop={crop}
           zoom={zoom}
-          aspect={3 / 3}
+          aspect={aspect}
           onCropChange={setCrop}
           onCropComplete={onCropComplete}
           onZoomChange={setZoom}
