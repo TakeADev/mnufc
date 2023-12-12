@@ -27,7 +27,7 @@ import {
   QuerySnapshot,
 } from 'firebase/firestore'
 
-import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
+import { getDownloadURL, getStorage, ref, uploadBytes, uploadString } from 'firebase/storage'
 
 import { IUserPost, IUserRepost } from '../../contexts/UserPosts'
 import { IUserDoc } from '../../contexts/User'
@@ -308,6 +308,16 @@ export const toggleRepost = async (repostPost: IUserPost) => {
 }
 
 //-----------------------------STORAGE--------------------------------------
+
+export const uploadUserPhoto = (imgSrc: any, currentUserDoc: IUserDoc) => {
+  const uploadRef = ref(storage, currentUserDoc.username + '/uploads/' + Date.now())
+
+  uploadString(uploadRef, imgSrc, 'data_url').then(() => {
+    getDownloadURL(uploadRef).then((res) => {
+      updateDoc(doc(db, 'users', currentUserDoc.uid.toString()), { photos: arrayUnion(res) })
+    })
+  })
+}
 
 export const uploadProfilePicture = (blob: Blob, currentUserDoc: IUserDoc) => {
   const pfpRef = ref(storage, currentUserDoc.username + `/profilePics/pfp-` + Date.now())
