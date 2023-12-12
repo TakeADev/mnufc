@@ -72,9 +72,7 @@ function Profile() {
         {tab === 'posts' && (
           <ProfilePostsTab profileUserDoc={profileUserDoc} currentAuthUser={currentAuthUser} />
         )}
-        {tab === 'photos' && (
-          <ProfilePhotosTab profileUserDoc={profileUserDoc} currentAuthUser={currentAuthUser} />
-        )}
+        {tab === 'photos' && <ProfilePhotosTab profileUserDoc={profileUserDoc} />}
       </FeedContainer>
     )
   } else return <LoadingSpinner />

@@ -37,46 +37,44 @@ const ProfilePostsTab = ({ profileUserDoc, currentAuthUser }) => {
     } else return
   }, [userPosts, profileUserDoc])
 
-  if (profileUserDoc) {
-    let allProfilePosts = profileReposts ? profilePosts.concat(profileReposts) : profilePosts
-    if (allProfilePosts) {
-      const allProfilePostsSorted = allProfilePosts.sort((a: any, b: any) => {
-        if (a.isRepost && b.isRepost) {
-          return new Date(a.repostTimestamp.valueOf() - new Date(b.repostTimestamp.valueOf()))
-        } else if (a.isRepost) {
-          return new Date(a.repostTimestamp.valueOf() - new Date(b.timestamp.valueOf()))
-        } else if (b.isRepost) {
-          return new Date(a.repostTimestamp.valueOf() - new Date(b.timestamp.valueOf()))
-        } else {
-          return new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()
-        }
-      })
-      allProfilePosts = allProfilePostsSorted
-    }
-    return (
-      <div>
-        {currentAuthUser.uid === profileUserDoc.uid && <CreatePost />}
-        {allProfilePosts ? (
-          allProfilePosts.reverse().map((post: any) => {
-            if (post.isRepost) {
-              return (
-                <div>
-                  <div className='pl-5 pt-2 border-l border-r border-slate-700 text-gray-500'>
-                    <MdRepeat className='inline mr-5 text-lg mt-0' />
-                    <span className='text-sm'>{currentUserDoc.displayName} Reposted</span>
-                  </div>
-                  <Post key={post.postId} post={post} postPage={false} />
+  let allProfilePosts = profileReposts ? profilePosts.concat(profileReposts) : profilePosts
+  if (allProfilePosts) {
+    const allProfilePostsSorted = allProfilePosts.sort((a: any, b: any) => {
+      if (a.isRepost && b.isRepost) {
+        return new Date(a.repostTimestamp.valueOf() - new Date(b.repostTimestamp.valueOf()))
+      } else if (a.isRepost) {
+        return new Date(a.repostTimestamp.valueOf() - new Date(b.timestamp.valueOf()))
+      } else if (b.isRepost) {
+        return new Date(a.repostTimestamp.valueOf() - new Date(b.timestamp.valueOf()))
+      } else {
+        return new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()
+      }
+    })
+    allProfilePosts = allProfilePostsSorted
+  }
+  return (
+    <div>
+      {currentAuthUser.uid === profileUserDoc.uid && <CreatePost />}
+      {allProfilePosts ? (
+        allProfilePosts.reverse().map((post: any) => {
+          if (post.isRepost) {
+            return (
+              <div>
+                <div className='pl-5 pt-2 border-l border-r border-slate-700 text-gray-500'>
+                  <MdRepeat className='inline mr-5 text-lg mt-0' />
+                  <span className='text-sm'>{currentUserDoc.displayName} Reposted</span>
                 </div>
-              )
-            }
-            return <Post key={post.postId} post={post} postPage={false} />
-          })
-        ) : (
-          <LoadingSpinner />
-        )}
-      </div>
-    )
-  } else return <LoadingSpinner />
+                <Post key={post.postId} post={post} postPage={false} />
+              </div>
+            )
+          }
+          return <Post key={post.postId} post={post} postPage={false} />
+        })
+      ) : (
+        <LoadingSpinner />
+      )}
+    </div>
+  )
 }
 
 export default ProfilePostsTab
