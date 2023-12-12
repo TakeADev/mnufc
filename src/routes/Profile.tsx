@@ -16,6 +16,7 @@ import FeedContainer from '../components/Feed/FeedContainer'
 import Post from '../components/Posts/Post'
 import LoadingSpinner from '../components/LoadingSpinner'
 import ProfileBanner from '../components/Profile/ProfileBanner'
+import CreatePost from '../components/CreatePost/CreatePost'
 
 function Profile() {
   const { setIsOpen } = useContext(MenuContext)
@@ -83,6 +84,7 @@ function Profile() {
             <b>Posts</b>
           </span>
         </div>
+        {currentAuthUser.uid === profileUserDoc.uid && <CreatePost />}
         {allProfilePosts ? (
           allProfilePosts.reverse().map((post: any) => {
             if (post.isRepost) {
