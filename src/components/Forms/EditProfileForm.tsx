@@ -11,12 +11,13 @@ import { CropperContext } from '../../contexts/CropperContext.js'
 import { MODAL_TYPES } from '../../contexts/ModalContext'
 const { photoCrop } = MODAL_TYPES
 
+import { PHOTO_TYPES } from '../../contexts/CropperContext.js'
+const { profilePic, bannerPic } = PHOTO_TYPES
+
 import ProfilePicBubble from '../Profile/ProfilePicBubble'
 import ProfileBannerImage from '../Profile/ProfileBannerImage'
 import Button from '../Button'
 import FormInput from './FormInput'
-import { User } from 'firebase/auth'
-import { DocumentData, DocumentSnapshot } from 'firebase/firestore'
 
 export interface IEditProfileFormFields {
   displayName: string
@@ -28,7 +29,7 @@ export interface IEditProfileFormFields {
 const EditProfileForm = () => {
   const { currentAuthUser, setCurrentUserDoc, currentUserDoc } = useContext(UserContext)
   const { modalIsOpen, setModalIsOpen, setModalType } = useContext(ModalContext)
-  const { setPhotoToBeCropped } = useContext(CropperContext)
+  const { setPhotoToBeCropped, setPhotoType } = useContext(CropperContext)
 
   const defaultFormFields: IEditProfileFormFields = {
     displayName: '',
@@ -87,9 +88,14 @@ const EditProfileForm = () => {
   }
 
   const inputProfilePic = useRef(null)
+  const inputBannerPic = useRef(null)
 
   const inputProfilePicClickHandler = () => {
     inputProfilePic.current.click()
+  }
+
+  const inputBannerPicClickHandler = () => {
+    inputBannerPic.current.click()
   }
 
   //Opens photo crop modal when user changes file input w/ current file
@@ -97,7 +103,21 @@ const EditProfileForm = () => {
     if (e.target.files && e.target.files.length > 0) {
       const reader = new FileReader()
       reader.readAsDataURL(e.target.files[0])
-      reader.addEventListener('load', () => setPhotoToBeCropped(reader.result.toString()))
+      reader.addEventListener('load', () => {
+        setPhotoToBeCropped(reader.result.toString())
+        setPhotoType(profilePic)
+      })
+      setModalType(photoCrop)
+    }
+  }
+  const inputBannerPicChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const reader = new FileReader()
+      reader.readAsDataURL(e.target.files[0])
+      reader.addEventListener('load', () => {
+        setPhotoType(bannerPic)
+        setPhotoToBeCropped(reader.result.toString())
+      })
       setModalType(photoCrop)
     }
   }
@@ -124,9 +144,10 @@ const EditProfileForm = () => {
           </div>
         </div>
         <div className='relative '>
-          <ProfileBannerImage />
+          <ProfileBannerImage user={currentUserDoc} />
           <MdCameraAlt
             className={`absolute bg-opacity-60 bg-gray-700 rounded-full text-6xl -mr-6 -mt-6 p-3 right-1/2 top-1/2 text-cyan-300 z-20 hover:cursor-pointer hover:bg-gray-600 hover:bg-opacity-60`}
+            onClick={inputBannerPicClickHandler}
           />
         </div>
         <div className='z-10 relative'>
@@ -146,6 +167,14 @@ const EditProfileForm = () => {
               accept='.png, .jpg, .jpeg'
               className='hidden'
               onChange={inputProfilePicChangeHandler}
+            />
+            <input
+              type='file'
+              id='bannerPic'
+              ref={inputBannerPic}
+              accept='.png, .jpg, .jpeg'
+              className='hidden'
+              onChange={inputBannerPicChangeHandler}
             />
           </div>
         </div>
