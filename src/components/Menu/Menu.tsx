@@ -52,7 +52,7 @@ function Menu() {
       return (
         <div className='absolute right-5'>
           <ProfilePicBubble
-            addedClasses='w-10 h-10 cursor-pointer mt-5'
+            addedClasses='w-14 h-14 cursor-pointer mt-3'
             onClick={menuClickHandler}
             profilePic={currentUserDoc.profilePic}
           />

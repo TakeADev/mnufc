@@ -22,7 +22,7 @@ function ProfileBanner({ currentAuthUser, profileUserDoc }) {
       <Link to='/'>
         <MdArrowBack className='absolute text-4xl bg-gray-900 rounded-full opacity-50 mt-3 ml-3 ' />
       </Link>
-      <ProfileBannerImage />
+      <ProfileBannerImage user={profileUserDoc} />
       <div className='w-full flex-col -mt-20 border-l border-r border-slate-700'>
         <div className='flex'>
           <div className='w-3/4'>
