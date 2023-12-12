@@ -5,7 +5,10 @@
  * @param {number} rotation - optional rotation parameter
  */
 
-import { uploadProfilePicture } from './firebase/firebase-config'
+import { uploadBannerPicture, uploadProfilePicture } from './firebase/firebase-config'
+
+import { PHOTO_TYPES } from '../contexts/CropperContext'
+const { profilePic, bannerPic } = PHOTO_TYPES
 
 const createImage = (url) =>
   new Promise((resolve, reject) => {
@@ -59,7 +62,7 @@ export default async function getCroppedImg(imageSrc, pixelCrop, rotation = 0) {
   return canvas
 }
 
-export const generateCroppedImage = async (imageSrc, crop, currentUserDoc) => {
+export const generateCroppedImage = async (imageSrc, crop, currentUserDoc, photoType) => {
   if (!crop || !imageSrc) {
     return
   }
@@ -68,7 +71,14 @@ export const generateCroppedImage = async (imageSrc, crop, currentUserDoc) => {
 
   canvas.toBlob(
     (blob) => {
-      uploadProfilePicture(blob, currentUserDoc)
+      switch (photoType) {
+        case profilePic:
+          uploadProfilePicture(blob, currentUserDoc)
+          break
+        case bannerPic:
+          uploadBannerPicture(blob, currentUserDoc)
+          break
+      }
     },
     'image/jpeg',
     0.66
