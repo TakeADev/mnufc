@@ -21,7 +21,6 @@ function Feed() {
       Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
 
     if (bottom) {
-      console.log('bottom')
       setPostAmount(postAmount + 10)
     }
   }
