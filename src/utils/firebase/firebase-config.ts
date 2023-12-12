@@ -317,6 +317,14 @@ export const uploadProfilePicture = (blob: Blob, currentUserDoc: IUserDoc) => {
       updateDoc(doc(db, 'users', currentUserDoc.uid.toString()), { profilePic: res })
     })
   })
+}
 
-  console.log(pfpRef.fullPath)
+export const uploadBannerPicture = (blob: Blob, currentUserDoc: IUserDoc) => {
+  const bannerRef = ref(storage, currentUserDoc.username + `/bannerPics/bnr-` + Date.now())
+
+  uploadBytes(bannerRef, blob).then(() => {
+    getDownloadURL(bannerRef).then((res) => {
+      updateDoc(doc(db, 'users', currentUserDoc.uid.toString()), { bannerPic: res })
+    })
+  })
 }
