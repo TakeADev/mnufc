@@ -8,13 +8,15 @@ interface IProfilePhotosTabProps {
 
 const ProfilePhotosTab: FunctionComponent<IProfilePhotosTabProps> = ({ profileUserDoc }) => {
   return (
-    <div className='flex'>
+    <div className='grid grid-cols-3 auto-rows-fr gap-2 '>
       {profileUserDoc.photos &&
         profileUserDoc.photos.map((photo, index) => {
           return (
-            <div className='w-1/3' key={index}>
-              <img src={photo} className='h-full object-cover' />
-            </div>
+            <>
+              <div className='hover:scale-[101%] hover:cursor-pointer' key={index}>
+                <img src={photo} className='h-full w-full object-cover' />
+              </div>
+            </>
           )
         })}
     </div>
