@@ -17,6 +17,7 @@ import ProfilePicBubble from '../Profile/ProfilePicBubble'
 import PostContent from './PostContent'
 import PostInteractionBar from './PostInteractionBar'
 import PostMenu from './PostMenu'
+import { MdOutlineReply } from 'react-icons/md'
 
 interface PostProps {
   post: IUserPost
@@ -66,6 +67,11 @@ function Post({ post, postPage }: PostProps) {
     navigate(`/${originalPost.username}/status/${originalPost.postId}`)
   }
 
+  const navigateToPhotoOnClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    navigate(`/${post.username}/status/${post.postId}/photo`)
+  }
+
   //Displays if post is reply && is not a reply on a posts post page
   if (post.replyTo && !postPage && originalPost && originalPostUser && postUserDoc) {
     return (
@@ -73,7 +79,7 @@ function Post({ post, postPage }: PostProps) {
         <div className='border-b border-l border-r border-slate-700 '>
           <div className='w-full pr-16 relative'>
             <PostMenu post={post} />
-            <PostContainer isLoading={isLoading}>
+            <PostContainer isLoading={isLoading} addedClasses=''>
               <PostInfoContainer>
                 <ProfilePicBubble
                   onClick={navigateToProfileOnClick}
@@ -82,24 +88,44 @@ function Post({ post, postPage }: PostProps) {
                 />
                 <PostInfo post={post} />
               </PostInfoContainer>
+              {post.attachedPhoto && (
+                <div
+                  className='ml-16 text-sm text-gray-500 hover:underline'
+                  onClick={navigateToPostOnClick}
+                >
+                  <MdOutlineReply className='inline text-lg mb-2' />
+                  <span>Replying to {originalPost.username}</span>
+                </div>
+              )}
               <PostContent content={post.content} addedClasses='ml-16' />
-            </PostContainer>
-            <div
-              onClick={navigateToPostOnClick}
-              className='ml-10 mr-0 lg:mr-5 my-5 border border-slate-700 rounded-lg'
-            >
-              <PostContainer isLoading={isLoading} addedClasses=''>
-                <PostInfoContainer>
-                  <ProfilePicBubble
-                    onClick={navigateToProfileOnClick}
-                    profilePic={originalPostUser.profilePic}
-                    addedClasses='mx-5 h-8 w-8 mt-5'
+              {post.attachedPhoto && (
+                <div className='pr-16'>
+                  <img
+                    src={post.attachedPhoto}
+                    className='max-h-[500px] rounded-lg ml-16 mb-5 '
+                    onClick={navigateToPhotoOnClick}
                   />
-                  <PostInfo post={originalPost} />
-                </PostInfoContainer>
-                <PostContent content={originalPost.content} addedClasses='ml-16 mr-8' />
-              </PostContainer>
-            </div>
+                </div>
+              )}
+            </PostContainer>
+            {!post.attachedPhoto && (
+              <div
+                onClick={navigateToPostOnClick}
+                className='ml-10 mr-0 lg:mr-5 my-5 border border-slate-700 rounded-lg'
+              >
+                <PostContainer isLoading={isLoading} addedClasses=''>
+                  <PostInfoContainer>
+                    <ProfilePicBubble
+                      onClick={navigateToProfileOnClick}
+                      profilePic={originalPostUser.profilePic}
+                      addedClasses='mx-5 h-8 w-8 mt-5'
+                    />
+                    <PostInfo post={originalPost} />
+                  </PostInfoContainer>
+                  <PostContent content={originalPost.content} addedClasses='ml-16 mr-8' />
+                </PostContainer>
+              </div>
+            )}
             <PostInteractionBar post={post} />
           </div>
         </div>
@@ -126,6 +152,15 @@ function Post({ post, postPage }: PostProps) {
               <PostInfo post={post} />
             </PostInfoContainer>
             <PostContent content={post.content} addedClasses='ml-16' />
+            {post.attachedPhoto && (
+              <div className='pr-16'>
+                <img
+                  src={post.attachedPhoto}
+                  className='max-h-[500px] rounded-lg ml-16 mb-5'
+                  onClick={navigateToPhotoOnClick}
+                />
+              </div>
+            )}
             <PostInteractionBar post={post} />
           </PostContainer>
         </div>
