@@ -18,6 +18,7 @@ import {
 } from './utils/firebase/firebase-config'
 import { UserContext } from './contexts/User'
 import { UserPostsContext } from './contexts/UserPosts'
+import PhotoPreview from './components/Photos/PhotoPreview'
 
 function App() {
   const { setCurrentAuthUser, currentAuthUser, setCurrentUserDoc } = useContext(UserContext)
@@ -63,6 +64,7 @@ function App() {
         <Route path='signup' element={currentAuthUser ? <Navigate to='/' replace /> : <SignUp />} />
         <Route path=':username' element={<Profile />} />
         <Route path=':username/status/:postId' element={<PostPage />} />
+        <Route path=':username/status/:postId/photo' element={<PhotoPreview />} />
       </Route>
     </Routes>
   )
