@@ -5,6 +5,7 @@ import firebase from 'firebase/compat/app'
 import { User } from 'firebase/auth'
 
 export interface IUserPost {
+  attachedPhoto: string | null
   content: string
   displayName: string
   likes: number
@@ -24,7 +25,12 @@ export interface IUserRepost {
 interface IUserPostsContext {
   userPosts: Array<IUserPost> | null
   setUserPosts: Dispatch<SetStateAction<Array<IUserPost>>>
-  createNewUserPost: (currentAuthUser: User, postContent: string, replyTo: false | string) => void
+  createNewUserPost: (
+    currentAuthUser: User,
+    postContent: string,
+    replyTo: false | string,
+    attachedPhoto?: string
+  ) => void
 }
 
 export const UserPostsContext = createContext<IUserPostsContext>({
@@ -39,10 +45,11 @@ function UserPostsProvider({ children }) {
   const createNewUserPost = async (
     currentAuthUser: firebase.User,
     postContent: string,
-    replyTo: string
+    replyTo: string,
+    attachedPhoto?: string
   ) => {
     try {
-      await createUserPost(currentAuthUser, postContent, replyTo)
+      await createUserPost(currentAuthUser, postContent, replyTo, attachedPhoto)
     } catch (err) {
       console.log(err)
     }
