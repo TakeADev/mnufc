@@ -1,6 +1,6 @@
 function ProfileBannerImage({ user }) {
   return (
-    <div>
+    <div className='border-l border-r border-b border-slate-700'>
       {user.bannerPic ? (
         <img src={user.bannerPic} />
       ) : (
