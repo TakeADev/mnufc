@@ -43,7 +43,6 @@ function Profile() {
   }
 
   if (profileUserDoc) {
-    console.log(profileUserDoc)
     return (
       <FeedContainer>
         <ProfileBanner currentAuthUser={currentAuthUser} profileUserDoc={profileUserDoc} />
