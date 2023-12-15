@@ -61,7 +61,7 @@ function Profile() {
             <span
               className={`${
                 tab === 'photos' && 'underline'
-              } underline-offset-8 decoration-cyan-500 hover:cursor-pointer`}
+              } underline-offset-8 decoration-cyan-500 hover:cursor-pointer pb-5 px-2`}
               onClick={photosTabClickHandler}
             >
               <b>Photos</b>
