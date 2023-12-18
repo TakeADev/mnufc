@@ -62,7 +62,8 @@ function App() {
         />
         <Route path='login' element={currentAuthUser ? <Navigate to='/' replace /> : <Login />} />
         <Route path='signup' element={currentAuthUser ? <Navigate to='/' replace /> : <SignUp />} />
-        <Route path=':username' element={<Profile />} />
+        <Route path=':username' element={<Profile tab={'main'} />} />
+        <Route path=':username/photos' element={<Profile tab={'photos'} />} />
         <Route path=':username/status/:postId' element={<PostPage />} />
         <Route path=':username/status/:postId/photo' element={<PhotoPreview />} />
       </Route>
