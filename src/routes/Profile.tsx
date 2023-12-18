@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 import { getUserDocFromUsername } from '../utils/firebase/firebase-config'
 
@@ -13,14 +13,14 @@ import ProfilePostsTab from '../components/Profile/ProfilePostsTab'
 import LoadingSpinner from '../components/LoadingSpinner'
 import ProfilePhotosTab from '../components/Profile/ProfilePhotosTab'
 
-function Profile() {
+function Profile({ tab }) {
+  const [profileUserDoc, setProfileUserDoc] = useState(null)
+
   const { setIsOpen } = useContext(MenuContext)
   const { currentAuthUser, currentUserDoc } = useContext(UserContext)
   const { setModalIsOpen } = useContext(ModalContext)
 
-  const [profileUserDoc, setProfileUserDoc] = useState(null)
-  const [tab, setTab] = useState('posts')
-
+  const navigate = useNavigate()
   const username = useParams().username.toLowerCase()
 
   useEffect(() => {
@@ -35,11 +35,11 @@ function Profile() {
   }, [username, currentUserDoc])
 
   const postsTabClickHandler = () => {
-    setTab('posts')
+    navigate(`/${profileUserDoc.username}`)
   }
 
   const photosTabClickHandler = () => {
-    setTab('photos')
+    navigate(`/${profileUserDoc.username}/photos`)
   }
 
   if (profileUserDoc) {
@@ -68,7 +68,7 @@ function Profile() {
             </span>
           </div>
         </div>
-        {tab === 'posts' && (
+        {tab === 'main' && (
           <ProfilePostsTab profileUserDoc={profileUserDoc} currentAuthUser={currentAuthUser} />
         )}
         {tab === 'photos' && <ProfilePhotosTab profileUserDoc={profileUserDoc} />}
