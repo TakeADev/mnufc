@@ -94,7 +94,7 @@ export const signInUserWithEmailAndPassword = async (email: string, password: st
     .catch((error) => {
       const errorCode = error.code
       const errorMessage = error.message
-      alert(errorCode + errorMessage)
+      alert(errorCode + ' ' + errorMessage)
     })
 }
 
