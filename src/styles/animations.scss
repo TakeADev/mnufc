@@ -1,20 +1,39 @@
-
 @keyframes slide-from-right {
-	0% {
-		right:-25%;
-	}
-	100% {
-		right: 0%;
-	}
+  0% {
+    right: -25%;
+  }
+  100% {
+    right: 0%;
+  }
 }
 
-.slide-from-right{
-	animation-name: slide-from-right;
-	animation-duration: 0.25s;
+@keyframes fade-in-and-out {
+  0% {
+    opacity: 0%;
+  }
+  33% {
+    opacity: 100%;
+  }
+  66% {
+    opacity: 100%;
+  }
+  100% {
+    opacity: 0%;
+  }
 }
 
-.slide-from-right-reverse{
-	animation-name: slide-from-right;
-	animation-duration: 0.5s;
-	animation-direction: reverse;
+.slide-from-right {
+  animation-name: slide-from-right;
+  animation-duration: 0.25s;
+}
+
+.slide-from-right-reverse {
+  animation-name: slide-from-right;
+  animation-duration: 0.5s;
+  animation-direction: reverse;
+}
+
+.fade-in-and-out {
+  animation-name: fade-in-and-out;
+  animation-duration: 3s;
 }
