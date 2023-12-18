@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 
 import { MdMoreHoriz } from 'react-icons/md'
 import { FaRegTrashAlt } from 'react-icons/fa'
@@ -9,9 +9,13 @@ import { IUserPost } from '../../contexts/UserPosts'
 import { UserContext } from '../../contexts/User'
 import { PostMenuContext } from '../../contexts/PostMenuContext'
 import { ModalContext } from '../../contexts/ModalContext'
+import { FlashMessageContext } from '../../contexts/FlashMessageContext'
 
 import { MODAL_TYPES } from '../../contexts/ModalContext'
 const { deletePostWarning } = MODAL_TYPES
+
+import { FLASH_TYPES } from '../../contexts/FlashMessageContext'
+const { copy } = FLASH_TYPES
 
 interface PostMenuProps {
   post: IUserPost
@@ -23,6 +27,7 @@ const PostMenu = ({ post }: PostMenuProps) => {
   const { setPostMenuIsOpen, setPostMenuPost } = useContext(PostMenuContext)
   const { setModalType, setModalIsOpen } = useContext(ModalContext)
   const { currentAuthUser } = useContext(UserContext)
+  const { setFlashType } = useContext(FlashMessageContext)
 
   const menuIconClickHandler = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -46,6 +51,11 @@ const PostMenu = ({ post }: PostMenuProps) => {
     e.preventDefault()
     setModalType(deletePostWarning)
     setModalIsOpen(true)
+  }
+
+  const shareButtonHandler = () => {
+    setFlashType(copy)
+    navigator.clipboard.writeText(`http://localhost:5173/${post.username}/status/${post.postId}`)
   }
 
   useEffect(() => {
@@ -72,7 +82,7 @@ const PostMenu = ({ post }: PostMenuProps) => {
             <span className='font-bold'>Delete</span>
           </div>
         )}
-        <div className='pl-6 text-slate-300 py-2 hover:bg-slate-900 '>
+        <div className='pl-6 text-slate-300 py-2 hover:bg-slate-900' onClick={shareButtonHandler}>
           <MdOutlineShare className='inline mb-1 text-md mr-3' />
           <span className='font-bold'>Share Post</span>
         </div>
