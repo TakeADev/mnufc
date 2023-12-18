@@ -14,6 +14,7 @@ export interface IUserDoc {
   likedPosts?: Array<String>
   profilePic: string
   reposts?: Array<IUserRepost>
+  photos?: Array<string>
 }
 
 interface IUserContext {

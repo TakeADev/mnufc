@@ -104,7 +104,7 @@ const EditProfileForm = () => {
       const reader = new FileReader()
       reader.readAsDataURL(e.target.files[0])
       reader.addEventListener('load', () => {
-        setPhotoToBeCropped(reader.result.toString())
+        setPhotoToBeCropped(reader.result)
         setPhotoType(profilePic)
       })
       setModalType(photoCrop)

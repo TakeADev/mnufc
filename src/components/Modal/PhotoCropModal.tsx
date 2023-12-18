@@ -11,6 +11,7 @@ import { UserContext } from '../../contexts/User'
 import Button from '../Button'
 
 import { MODAL_TYPES } from '../../contexts/ModalContext'
+import { uploadUserPhoto } from '../../utils/firebase/firebase-config'
 const { editProfile } = MODAL_TYPES
 
 const PhotoCropModal = () => {
@@ -32,15 +33,15 @@ const PhotoCropModal = () => {
   const backButtonClickHandler = (e: React.MouseEvent) => {
     e.preventDefault()
 
-    setPhotoToBeCropped('')
+    setPhotoToBeCropped(null)
     setModalType(editProfile)
   }
 
   const applyButtonClickHandler = () => {
     //Takes cropped image, saves to cloud, stores to userdoc
-    generateCroppedImage(photoToBeCropped, finishedCrop, currentUserDoc, photoType)
+    generateCroppedImage(photoToBeCropped.toString(), finishedCrop, currentUserDoc, photoType)
 
-    setPhotoToBeCropped('')
+    setPhotoToBeCropped(null)
     setModalType(editProfile)
   }
 
