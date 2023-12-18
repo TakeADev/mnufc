@@ -40,7 +40,6 @@ const PhotoCropModal = () => {
   const applyButtonClickHandler = () => {
     //Takes cropped image, saves to cloud, stores to userdoc
     generateCroppedImage(photoToBeCropped.toString(), finishedCrop, currentUserDoc, photoType)
-    uploadUserPhoto(photoToBeCropped, currentUserDoc)
 
     setPhotoToBeCropped(null)
     setModalType(editProfile)
