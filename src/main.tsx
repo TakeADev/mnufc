@@ -11,25 +11,28 @@ import MenuProvider from './contexts/MenuContext.tsx'
 import ModalProvider from './contexts/ModalContext.tsx'
 import PostMenuProvider from './contexts/PostMenuContext.tsx'
 import CropperProvider from './contexts/CropperContext.tsx'
+import FlashMessageProvider from './contexts/FlashMessageContext.tsx'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
-      <UserProvider>
-        <MenuProvider>
-          <FeedProvider>
-            <UserPostsProvider>
-              <PostMenuProvider>
-                <ModalProvider>
-                  <CropperProvider>
-                    <App />
-                  </CropperProvider>
-                </ModalProvider>
-              </PostMenuProvider>
-            </UserPostsProvider>
-          </FeedProvider>
-        </MenuProvider>
-      </UserProvider>
+      <FlashMessageProvider>
+        <UserProvider>
+          <MenuProvider>
+            <FeedProvider>
+              <UserPostsProvider>
+                <PostMenuProvider>
+                  <ModalProvider>
+                    <CropperProvider>
+                      <App />
+                    </CropperProvider>
+                  </ModalProvider>
+                </PostMenuProvider>
+              </UserPostsProvider>
+            </FeedProvider>
+          </MenuProvider>
+        </UserProvider>
+      </FlashMessageProvider>
     </BrowserRouter>
   </React.StrictMode>
 )
