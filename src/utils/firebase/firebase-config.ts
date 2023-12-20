@@ -54,13 +54,24 @@ export const onAuthStateChangedListener = (callback: (user: User) => void) => {
   onAuthStateChanged(auth, callback)
 }
 
-export const createNewUserWithEmailAndPassword = async (email: string, password: string) => {
-  return createUserWithEmailAndPassword(auth, email, password).catch((error) => {
-    const errorCode = error.code
-    const errorMessage = error.message
-
-    alert(errorCode + errorMessage)
+export const createNewUserWithEmailAndPassword = async (
+  email: string,
+  password: string,
+  username: string
+) => {
+  const usernameQ = query(collection(db, 'users'), where('username', '==', username.toLowerCase()))
+  const qSnapshot = await getDocs(usernameQ)
+  let foundUser = false
+  qSnapshot.forEach(() => {
+    foundUser = true
   })
+
+  if (!foundUser) {
+    return createUserWithEmailAndPassword(auth, email, password).catch((err) => {
+      return { err: err.code }
+    })
+  }
+  return { err: 'auth/username-already-in-use' }
 }
 
 export const createUserDocumentFromAuth = async (
@@ -87,14 +98,15 @@ export const createUserDocumentFromAuth = async (
 }
 
 export const signInUserWithEmailAndPassword = async (email: string, password: string) => {
-  signInWithEmailAndPassword(auth, email, password)
+  return signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       return userCredential
     })
-    .catch((error) => {
-      const errorCode = error.code
-      const errorMessage = error.message
-      alert(errorCode + ' ' + errorMessage)
+    .catch((err) => {
+      const errCode = err.code
+      return {
+        err: errCode,
+      }
     })
 }
 
