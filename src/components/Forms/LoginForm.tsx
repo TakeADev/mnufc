@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 
 import { Link } from 'react-router-dom'
 
 import { signInUserWithEmailAndPassword } from '../../utils/firebase/firebase-config'
+
+import { FlashMessageContext } from '../../contexts/FlashMessageContext'
 
 import Button from '../Button'
 
@@ -14,6 +16,8 @@ const defaultFormFields = {
 function LoginForm() {
   const [formValue, setFormValue] = useState(defaultFormFields)
 
+  const { triggerFlashError } = useContext(FlashMessageContext)
+
   const { email, password } = formValue
 
   const resetFormFields = () => {
@@ -22,8 +26,10 @@ function LoginForm() {
 
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    await signInUserWithEmailAndPassword(email, password)
-    resetFormFields()
+    await signInUserWithEmailAndPassword(email, password).then((res) => {
+      res.err && triggerFlashError(res.err)
+      resetFormFields()
+    })
   }
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
