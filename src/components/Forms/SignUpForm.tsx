@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 
 import { Link } from 'react-router-dom'
 
@@ -6,6 +6,8 @@ import {
   createNewUserWithEmailAndPassword,
   createUserDocumentFromAuth,
 } from '../../utils/firebase/firebase-config'
+
+import { FlashMessageContext } from '../../contexts/FlashMessageContext'
 
 import Button from '../Button'
 
@@ -20,6 +22,8 @@ function SignUpForm() {
   const [formFields, setFormFields] = useState(defaultFormFields)
   const { username, email, password, confirmPassword } = formFields
 
+  const { triggerFlashError } = useContext(FlashMessageContext)
+
   const resetFormFields = () => {
     setFormFields(defaultFormFields)
   }
@@ -28,11 +32,17 @@ function SignUpForm() {
     e.preventDefault()
 
     if (password !== confirmPassword) {
-      return alert('Passwords do not match.')
+      return triggerFlashError('Passwords do not match.')
     }
     try {
-      const user = await createNewUserWithEmailAndPassword(email, password)
-      await createUserDocumentFromAuth(user, { username: username })
+      const user = await createNewUserWithEmailAndPassword(email, password, username).then(
+        (res) => {
+          if (res.err) {
+            return triggerFlashError(res.err)
+          }
+          createUserDocumentFromAuth(user, { username: username })
+        }
+      )
     } catch (err) {
       if (err.code === 'auth/email-already-in-use') {
         alert('Cannot create user. Email already in use.')
@@ -86,6 +96,11 @@ function SignUpForm() {
             value={password}
             onChange={onChangeHandler}
           />
+          {password.length > 0 && password.length < 8 && (
+            <span className='text-red-500 text-base block absolute ml-3'>
+              Password must contain 8 characters
+            </span>
+          )}
         </div>
         <div className='mx-auto mt-10 text-center'>
           <input
