@@ -183,6 +183,7 @@ const EditProfileForm = () => {
           name='displayName'
           value={formFields.displayName}
           onChange={onChangeHandler}
+          maxLength={15}
         />
         <FormInput label='Bio' name='bio' value={formFields.bio} onChange={onChangeHandler} />
         <FormInput
