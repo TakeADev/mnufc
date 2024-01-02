@@ -43,13 +43,13 @@ const PhotoPreview = () => {
         <div className='px-5 h-screen flex -mt-20 '>
           <div className='m-auto relative'>
             <MdArrowBack
-              className='absolute ml-3 text-white text-4xl z-50 mr-auto p-1 bg-slate-950 rounded-full mt-5 bg-opacity-70 hover:cursor-pointer hover:bg-slate-900'
+              className='absolute ml-3 text-white text-4xl mr-auto p-1 bg-slate-950 rounded-full mt-5 bg-opacity-70 hover:cursor-pointer hover:bg-slate-900'
               onClick={() => {
                 navigate(-1)
               }}
             />
             <MdMoreHoriz
-              className={`absolute right-3 text-white text-4xl z-50 mr-auto p-1 bg-slate-950 rounded-full mt-5 bg-opacity-70 hover:cursor-pointer hover:bg-slate-900 ${
+              className={`absolute right-3 text-white text-4xl  mr-auto p-1 bg-slate-950 rounded-full mt-5 bg-opacity-70 hover:cursor-pointer hover:bg-slate-900 ${
                 photoMenuIsOpen && 'hidden'
               }`}
               onClick={photoMenuClickHandler}
