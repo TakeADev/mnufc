@@ -20,7 +20,8 @@ function ProfileBanner({ currentAuthUser, profileUserDoc }) {
   return (
     <>
       <Link to='/'>
-        <MdArrowBack className='absolute text-4xl bg-gray-900 rounded-full opacity-50 mt-3 ml-3 ' />
+        <div className='absolute bg-gray-900 rounded-full opacity-50'></div>
+        <MdArrowBack className='absolute text-4xl bg-gray-900 rounded-full z-20 mt-3 ml-3 ' />
       </Link>
       <ProfileBannerImage user={profileUserDoc} />
       <div className='w-full flex-col -mt-20 border-l border-r border-slate-700'>
@@ -34,7 +35,7 @@ function ProfileBanner({ currentAuthUser, profileUserDoc }) {
           {currentAuthUser && currentAuthUser.uid === profileUserDoc.uid && (
             <div className='w-2-5'>
               <Button
-                addedClasses='right-0 bg-slate-950 text-white border border-white px-5 h-10 mt-24 text-sm hover:bg-gray-900'
+                addedClasses='right-0 bg-slate-950 text-mn-blue border border-mn-blue px-5 h-10 mt-24 text-sm hover:bg-gray-900'
                 onClick={() => {
                   setModalIsOpen(true), setModalType(editProfile)
                 }}

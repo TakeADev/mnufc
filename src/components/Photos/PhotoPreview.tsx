@@ -56,7 +56,7 @@ const PhotoPreview = () => {
             />
             <div
               className={`
-        absolute w-1/5 right-0 mt-2 mr-2 border border-slate-700 rounded-lg bg-slate-950 
+        absolute w-2/5 sm:w-1/5 right-0 mt-2 mr-2 border border-slate-700 rounded-lg bg-slate-950 
         outline outline-1 outline-cyan-500 ${!photoMenuIsOpen && 'hidden'}  `}
             >
               <div
