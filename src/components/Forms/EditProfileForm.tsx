@@ -128,7 +128,7 @@ const EditProfileForm = () => {
         <div className='flex py-3'>
           <div
             onClick={modalCloseHandler}
-            className='hover:cursor-pointer text-center text-xl w-1/12 mt-1 ml-1'
+            className='hover:cursor-pointer text-center text-xl w-1/12 ml-1'
           >
             <span className=' '>X</span>
           </div>
@@ -138,7 +138,7 @@ const EditProfileForm = () => {
             </span>
           </div>
           <div className=' w-1/6 text-lg mr-2'>
-            <Button type='submit' addedClasses='w-full mt-2'>
+            <Button type='submit' addedClasses='w-full border'>
               Save
             </Button>
           </div>
@@ -146,7 +146,7 @@ const EditProfileForm = () => {
         <div className='relative '>
           <ProfileBannerImage user={currentUserDoc} />
           <MdCameraAlt
-            className={`absolute bg-opacity-60 bg-gray-700 rounded-full text-6xl -mr-6 -mt-6 p-3 right-1/2 top-1/2 text-cyan-300 z-20 hover:cursor-pointer hover:bg-gray-600 hover:bg-opacity-60`}
+            className={`absolute bg-opacity-60 bg-gray-700 rounded-full text-6xl -mr-6 -mt-6 p-3 right-1/2 top-1/2 text-mn-blue z-20 hover:cursor-pointer hover:bg-gray-600 hover:bg-opacity-60`}
             onClick={inputBannerPicClickHandler}
           />
         </div>
@@ -157,7 +157,7 @@ const EditProfileForm = () => {
               profilePic={currentUserDoc.profilePic}
             />
             <MdCameraAlt
-              className={`absolute bg-opacity-60 bg-gray-700 rounded-full text-6xl -mt-7 ml-5 p-3 top-1/2 text-cyan-300 z-20 hover:cursor-pointer hover:bg-gray-600 hover:bg-opacity-60`}
+              className={`absolute bg-opacity-60 bg-gray-700 rounded-full text-6xl -mt-7 ml-5 p-3 top-1/2 text-mn-blue z-20 hover:cursor-pointer hover:bg-gray-600 hover:bg-opacity-60`}
               onClick={inputProfilePicClickHandler}
             />
             <input
