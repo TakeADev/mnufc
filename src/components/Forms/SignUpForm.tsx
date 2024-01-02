@@ -62,7 +62,9 @@ function SignUpForm() {
 
   return (
     <>
-      <span className='text-3xl'>Sign Up</span>
+      <div className='text-left ml-3'>
+        <span className='text-3xl font-bold'>Sign up</span>
+      </div>
       <form action='post' className='text-left mt-5 text-2xl' onSubmit={onSubmitHandler}>
         <div className='mt-10 text-center'>
           <input
@@ -70,7 +72,7 @@ function SignUpForm() {
             type='text'
             name='email'
             placeholder='Email'
-            className='bg-slate-800 ml-3 rounded-lg focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
+            className='bg-slate-950 ml-3 rounded-lg border border-gray-700 focus:border-mn-blue focus:outline-none focus:ring-0 p-2'
             value={email}
             onChange={onChangeHandler}
           />
@@ -81,7 +83,7 @@ function SignUpForm() {
             type='text'
             name='username'
             placeholder='Username'
-            className='bg-slate-800 ml-3 rounded-lg focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
+            className='bg-slate-950 ml-3 rounded-lg border border-gray-700 focus:border-mn-blue focus:outline-none focus:ring-0 p-2'
             value={username}
             onChange={onChangeHandler}
           />
@@ -92,7 +94,7 @@ function SignUpForm() {
             type='password'
             name='password'
             placeholder='Password'
-            className='bg-slate-800 ml-3 rounded-lg focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
+            className='bg-slate-950 ml-3 rounded-lg border border-gray-700 focus:border-mn-blue focus:outline-none focus:ring-0 p-2'
             value={password}
             onChange={onChangeHandler}
           />
@@ -108,20 +110,23 @@ function SignUpForm() {
             type='password'
             name='confirmPassword'
             placeholder='Confirm Password'
-            className='bg-slate-800 ml-3 rounded-lg focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
+            className='bg-slate-950 ml-3 rounded-lg border border-gray-700 focus:border-mn-blue focus:outline-none focus:ring-0 p-2'
             value={confirmPassword}
             onChange={onChangeHandler}
           />
         </div>
-        <Button type='submit' addedClasses='w-1/2 ml-20 mt-5'>
-          Sign Up
+        <Button
+          type='submit'
+          addedClasses='mt-10 pb-1 border border-mn-blue text-mn-blue ml-3 w-[95%]'
+        >
+          Sign up
         </Button>
       </form>
       <div className='text-center mt-5'>
         <span>
           Already have an account?{' '}
           <Link to='/login'>
-            <span className=' text-cyan-500'>Login!</span>
+            <span className=' text-mn-blue'>Log in</span>
           </Link>
         </span>
       </div>

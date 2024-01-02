@@ -21,6 +21,32 @@ function PostInfo({ post }) {
     navigate(`/${post.username}`)
   }
 
+  let date: string
+
+  const getTime = () => {
+    if ((Date.now() - timestamp) / 1000 / 60 / 60 > 12) {
+      date = new Date(timestamp).toLocaleDateString()
+      return
+    }
+    if (
+      (Date.now() - timestamp) / 1000 / 60 / 60 < 12 &&
+      (Date.now() - timestamp) / 1000 / 60 / 60 > 1
+    ) {
+      date = Math.round((Date.now() - timestamp) / 1000 / 60 / 60) + 'h'
+      return
+    }
+    if ((Date.now() - timestamp) / 1000 > 60) {
+      date = Math.round((Date.now() - timestamp) / 1000 / 60) + 'm'
+      return
+    }
+    if ((Date.now() - timestamp) / 1000 < 60) {
+      date = Math.round((Date.now() - timestamp) / 1000) + 's'
+      return
+    }
+  }
+
+  getTime()
+
   useEffect(() => {
     getUserDocFromUid(uid).then((snap) => {
       setPostUser(snap)
@@ -28,18 +54,16 @@ function PostInfo({ post }) {
     })
   }, [currentUserDoc])
 
-  let date = new Date(timestamp)
-
   if (postUser) {
     return (
-      <div className='w-max mt-5 max-h-10 mb-0 -ml-2'>
+      <div className='w-max mt-1 max-h-10 mb-0 -ml-2'>
         <span onClick={navigateToProfileOnClick} className=''>
           <b>{postUser.displayName}</b>
         </span>
         <span onClick={navigateToProfileOnClick} className='ml-3 text-gray-500 text-sm'>
           @{username}
         </span>
-        <span className='ml-3 text-gray-500 text-xs'>{date.toLocaleString()}</span>
+        <span className='ml-3 text-gray-500 text-xs'>{date}</span>
       </div>
     )
   } else {

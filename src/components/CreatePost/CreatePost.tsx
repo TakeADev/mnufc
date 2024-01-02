@@ -121,7 +121,7 @@ const CreatePost: FunctionComponent<ICreatePostProps> = ({
           </div>
         )}
         <div className='mt-5'>
-          <div className='absolute ml-3 -mt-1 text-3xl text-cyan-500 rounded-lg hover:bg-gray-700 hover:cursor-pointer'>
+          <div className='absolute ml-3 -mt-1 text-3xl text-mn-blue rounded-lg hover:bg-gray-700 hover:cursor-pointer'>
             <MdOutlinePhoto className='' onClick={inputPhotoClickHandler} />
             <input
               type='file'
@@ -134,7 +134,7 @@ const CreatePost: FunctionComponent<ICreatePostProps> = ({
           </div>
         </div>
         <div className='text-right mt-2'>
-          <Button type='submit' addedClasses='w-20'>
+          <Button type='submit' addedClasses='w-20 text-black bg-mn-blue'>
             Post
           </Button>
         </div>

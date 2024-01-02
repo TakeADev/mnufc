@@ -65,13 +65,13 @@ const PostMenu = ({ post }: PostMenuProps) => {
   return (
     <div className='pointer-events-auto' onClick={menuClickHandler}>
       <MdMoreHoriz
-        className='absolute right-5 mt-4 text-3xl text-slate-500 hover:bg-slate-800 rounded-full p-0.5 hover:cursor-pointer'
+        className='absolute right-5 text-3xl text-slate-500 hover:bg-slate-800 rounded-full p-0.5 hover:cursor-pointer'
         onClick={menuIconClickHandler}
       />
       <div
         className={`
         absolute w-2/5 right-0 mt-2 mr-2 border border-slate-700 rounded-lg bg-slate-950 
-        outline outline-1 outline-cyan-500  ${!isOpen && 'hidden '}`}
+        outline outline-1 outline-mn-blue  ${!isOpen && 'hidden '}`}
       >
         {currentAuthUser && post.uid === currentAuthUser.uid && (
           <div

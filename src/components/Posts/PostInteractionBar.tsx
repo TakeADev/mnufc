@@ -54,11 +54,11 @@ const PostInteractionBar = ({ post }) => {
   //Post interaction bar if user is logged in
   if (currentUserDoc) {
     return (
-      <div className='flex w-full text-center mb-3'>
+      <div className='flex w-full text-center mb-3 z-10'>
         <div className='w-1/3'>
           <div
             onClick={postCommentClickHandler}
-            className='hover:bg-slate-900 hover:text-cyan-400 w-14 mx-auto p-1 rounded-full'
+            className='hover:bg-slate-900 hover:text-mn-blue w-14 mx-auto p-1 rounded-full'
           >
             <MdChat className='text-xl inline mr-2' />
             <span className=''>{post.replies.length}</span>

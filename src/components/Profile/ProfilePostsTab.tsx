@@ -54,7 +54,7 @@ const ProfilePostsTab = ({ profileUserDoc, currentAuthUser }) => {
   }
   return (
     <div>
-      {currentAuthUser.uid === profileUserDoc.uid && <CreatePost />}
+      {currentAuthUser && currentAuthUser.uid === profileUserDoc.uid && <CreatePost />}
       {allProfilePosts ? (
         allProfilePosts.reverse().map((post: any) => {
           if (post.isRepost) {
@@ -62,7 +62,7 @@ const ProfilePostsTab = ({ profileUserDoc, currentAuthUser }) => {
               <div>
                 <div className='pl-5 pt-2 border-l border-r border-slate-700 text-gray-500'>
                   <MdRepeat className='inline mr-5 text-lg mt-0' />
-                  <span className='text-sm'>{currentUserDoc.displayName} Reposted</span>
+                  <span className='text-sm'>{profileUserDoc.displayName} Reposted</span>
                 </div>
                 <Post key={post.postId} post={post} postPage={false} />
               </div>

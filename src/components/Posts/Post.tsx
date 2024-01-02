@@ -77,13 +77,13 @@ function Post({ post, postPage }: PostProps) {
     return (
       <Link className={''} to={`/${post.username}/status/${post.postId}`}>
         <div className='border-b border-l border-r border-slate-700 '>
-          <div className='w-full pr-16 relative'>
+          <div className='w-full pr-2 md:pr-16 relative'>
             <PostMenu post={post} />
             <PostContainer isLoading={isLoading} addedClasses=''>
               <PostInfoContainer>
                 <ProfilePicBubble
                   onClick={navigateToProfileOnClick}
-                  addedClasses='mx-5 h-8 w-8 mt-5'
+                  addedClasses='mx-5 h-8 w-8 mt-2'
                   profilePic={postUserDoc.profilePic}
                 />
                 <PostInfo post={post} />
@@ -118,11 +118,11 @@ function Post({ post, postPage }: PostProps) {
                     <ProfilePicBubble
                       onClick={navigateToProfileOnClick}
                       profilePic={originalPostUser.profilePic}
-                      addedClasses='mx-5 h-8 w-8 mt-5'
+                      addedClasses='mx-5 h-8 w-8 mt-2'
                     />
                     <PostInfo post={originalPost} />
                   </PostInfoContainer>
-                  <PostContent content={originalPost.content} addedClasses='ml-16 mr-8' />
+                  <PostContent content={originalPost.content} addedClasses='ml-16 md:mr-8' />
                 </PostContainer>
               </div>
             )}
@@ -141,13 +141,13 @@ function Post({ post, postPage }: PostProps) {
           <PostMenu post={post} />
           <PostContainer
             isLoading={isLoading}
-            addedClasses='border-b border-l border-r border-slate-700 pr-16'
+            addedClasses='border-b border-l border-r border-slate-700 pr-2 md:pr-16'
           >
             <PostInfoContainer>
               <ProfilePicBubble
                 onClick={navigateToProfileOnClick}
                 profilePic={postUserDoc.profilePic}
-                addedClasses='mx-5 h-8 w-8 mt-5'
+                addedClasses='mx-5 h-8 w-8 mt-2'
               />
               <PostInfo post={post} />
             </PostInfoContainer>

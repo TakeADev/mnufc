@@ -41,39 +41,44 @@ function LoginForm() {
 
   return (
     <>
-      <span className='text-3xl'>Login</span>
+      <div className='text-left ml-3 font-bold'>
+        <span className='text-3xl'>Login</span>
+      </div>
       <form action='post' className='text-left mt-5 text-2xl' onSubmit={onSubmitHandler}>
-        <div className='mt-10 text-center'>
+        <div className='mt-10 '>
           <input
             type='text'
             name='email'
             placeholder='Email'
-            className='bg-slate-800 ml-3 rounded-lg focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
+            className='bg-slate-950 ml-3 rounded-lg border border-gray-700 focus:border-mn-blue focus:outline-none focus:ring-0 p-2'
             onChange={onChangeHandler}
             value={email}
             required
           />
         </div>
-        <div className='mx-auto mt-10 text-center'>
+        <div className='mx-auto mt-10 '>
           <input
             type='password'
             name='password'
             placeholder='Password'
-            className='bg-slate-800 ml-3 rounded-lg focus:border focus:border-cyan-300 focus:outline-none focus:ring-0 p-2'
+            className='bg-slate-950 ml-3 rounded-lg border border-gray-700 focus:border-mn-blue focus:outline-none focus:ring-0 p-2'
             onChange={onChangeHandler}
             value={password}
             required
           />
         </div>
-        <Button type='submit' addedClasses='w-1/2 ml-20 mt-5'>
+        <Button
+          type='submit'
+          addedClasses='mt-10 pb-1 border border-mn-blue text-mn-blue ml-3 w-[95%]'
+        >
           Login
         </Button>
       </form>
-      <div className='text-center mt-5'>
+      <div className='text-left mt-16 ml-3'>
         <span>
           Don't have an account?{' '}
           <Link to='/signup'>
-            <span className=' text-cyan-500'>Sign Up!</span>
+            <span className=' text-mn-blue hover:text-sky-600'>Sign Up!</span>
           </Link>
         </span>
       </div>

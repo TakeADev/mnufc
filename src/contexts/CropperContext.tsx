@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, createContext, useState } from 'react'
 
 interface ICropperContext {
   photoToBeCropped: string
-  setPhotoToBeCropped: Dispatch<SetStateAction<ArrayBuffer>>
+  setPhotoToBeCropped: Dispatch<SetStateAction<string | ArrayBuffer>>
   photoType: string
   setPhotoType: Dispatch<SetStateAction<string>>
 }
