@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
 
+import LoonLogo from '../assets/loonltr.png'
+
 import Button from '../components/Button'
 
 function Welcome() {
@@ -8,11 +10,7 @@ function Welcome() {
       <div className='flex h-screen md:items-center'>
         <div className='w-16 md:w-1/2 mt-3 ml-5 mr-20 absolute md:relative'>
           <Link to='/'>
-            <img
-              src='https://gravectory.com/wp-content/uploads/2023/03/minnesota_united_24.png'
-              alt='Loon'
-              className='lg:w-3/4 xl:w-1/2 mx-auto'
-            />
+            <img src={LoonLogo} alt='Loon' className='lg:w-3/4 xl:w-1/2 mx-auto' />
           </Link>
         </div>
         <div

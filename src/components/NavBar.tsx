@@ -1,6 +1,8 @@
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 
+import LoonLogo from '../assets/loonltr.png'
+
 import Button from './Button'
 import Menu from './Menu/Menu'
 
@@ -13,10 +15,7 @@ function NavBar() {
     <div className='dark:bg-slate-950 sticky top-0 flex border-b border-slate-700 mx-auto pb-5 z-10'>
       <div className='w-14 mt-3 ml-5'>
         <Link to='/'>
-          <img
-            src='https://gravectory.com/wp-content/uploads/2023/03/minnesota_united_24.png'
-            alt='Loon'
-          />
+          <img src={LoonLogo} alt='Loon' className='border rounded-full' />
         </Link>
       </div>
 
