@@ -65,7 +65,7 @@ const PostMenu = ({ post }: PostMenuProps) => {
   return (
     <div className='pointer-events-auto' onClick={menuClickHandler}>
       <MdMoreHoriz
-        className='absolute right-5 text-3xl text-slate-500 hover:bg-slate-800 rounded-full p-0.5 hover:cursor-pointer'
+        className='absolute right-5 text-3xl text-slate-500 hover:bg-slate-800 rounded-full p-0.5 hover:cursor-pointer mt-2'
         onClick={menuIconClickHandler}
       />
       <div

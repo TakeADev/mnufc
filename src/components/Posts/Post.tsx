@@ -76,7 +76,7 @@ function Post({ post, postPage }: PostProps) {
   if (post.replyTo && !postPage && originalPost && originalPostUser && postUserDoc) {
     return (
       <Link className={''} to={`/${post.username}/status/${post.postId}`}>
-        <div className='border-b border-l border-r border-slate-700 '>
+        <div className='border-b border-l border-r border-slate-700 pt-2'>
           <div className='w-full pr-2 md:pr-16 relative'>
             <PostMenu post={post} />
             <PostContainer isLoading={isLoading} addedClasses=''>
@@ -141,7 +141,7 @@ function Post({ post, postPage }: PostProps) {
           <PostMenu post={post} />
           <PostContainer
             isLoading={isLoading}
-            addedClasses='border-b border-l border-r border-slate-700 pr-2 md:pr-16'
+            addedClasses='border-b border-l border-r border-slate-700 pr-2 md:pr-16 pt-2 '
           >
             <PostInfoContainer>
               <ProfilePicBubble
