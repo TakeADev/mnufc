@@ -6,7 +6,7 @@ interface IPostContentProps {
 }
 const PostContent: FunctionComponent<IPostContentProps> = ({ content, addedClasses }) => {
   return (
-    <div id='content-container' className={`mb-5 ${addedClasses} z-20 cursor-text`}>
+    <div id='content-container' className={`mb-5 ${addedClasses} z-20 cursor-text break-all`}>
       <span>{content}</span>
     </div>
   )
