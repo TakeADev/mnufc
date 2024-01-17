@@ -12,6 +12,7 @@ import ModalProvider from './contexts/ModalContext.tsx'
 import PostMenuProvider from './contexts/PostMenuContext.tsx'
 import CropperProvider from './contexts/CropperContext.tsx'
 import FlashMessageProvider from './contexts/FlashMessageContext.tsx'
+import TweetsProvider from './contexts/TweetsContext.tsx'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -21,13 +22,15 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           <MenuProvider>
             <FeedProvider>
               <UserPostsProvider>
-                <PostMenuProvider>
-                  <ModalProvider>
-                    <CropperProvider>
-                      <App />
-                    </CropperProvider>
-                  </ModalProvider>
-                </PostMenuProvider>
+                <TweetsProvider>
+                  <PostMenuProvider>
+                    <ModalProvider>
+                      <CropperProvider>
+                        <App />
+                      </CropperProvider>
+                    </ModalProvider>
+                  </PostMenuProvider>
+                </TweetsProvider>
               </UserPostsProvider>
             </FeedProvider>
           </MenuProvider>
