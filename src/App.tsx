@@ -14,15 +14,20 @@ import PostPage from './components/Posts/PostPage'
 import {
   onAuthStateChangedListener,
   onCurrentUserSnapshotListener,
+  onTweetsSnapshotListener,
   onUserPostsSnapshotListener,
 } from './utils/firebase/firebase-config'
+
 import { UserContext } from './contexts/User'
 import { UserPostsContext } from './contexts/UserPosts'
+import { ITweet, TweetContext } from './contexts/TweetsContext'
+
 import PhotoPreview from './components/Photos/PhotoPreview'
 
 function App() {
   const { setCurrentAuthUser, currentAuthUser, setCurrentUserDoc } = useContext(UserContext)
   const { setUserPosts } = useContext(UserPostsContext)
+  const { setTweets } = useContext(TweetContext)
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
@@ -48,6 +53,28 @@ function App() {
         return new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()
       })
       setUserPosts(postsSorted.reverse())
+    })
+    return unsubscribe
+  }, [])
+
+  useEffect(() => {
+    const unsubscribe = onTweetsSnapshotListener((snapshot) => {
+      const tweets: Array<ITweet> = []
+      snapshot.forEach((doc) => {
+        tweets.push({
+          attachedPhotos: doc.data().tweetAttachments,
+          content: doc.data().tweetContent,
+          postId: doc.id,
+          timestamp: doc.data().tweetTimestamp,
+          videoThumbnail: doc.data().tweetVideoThumbnail,
+          link: doc.data().tweetLink,
+        })
+      })
+      const tweetsSorted = tweets.sort((a, b) => {
+        return parseInt(a.timestamp) - parseInt(b.timestamp)
+      })
+      console.log(tweetsSorted)
+      setTweets(tweetsSorted.reverse())
     })
     return unsubscribe
   }, [])

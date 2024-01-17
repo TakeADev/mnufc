@@ -329,6 +329,14 @@ export const toggleRepost = async (repostPost: IUserPost) => {
   }
 }
 
+//-----------------------------TWEETS---------------------------------------
+//
+const tweetsQuery = query(collection(db, 'tweets'))
+
+export const onTweetsSnapshotListener = (callback: (snapshot: QuerySnapshot) => void) => {
+  return onSnapshot(tweetsQuery, callback)
+}
+
 //-----------------------------STORAGE--------------------------------------
 
 export const uploadUserPhoto = async (imgSrc: any, currentUserDoc: IUserDoc) => {
