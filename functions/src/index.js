@@ -41,6 +41,11 @@ exports.scrapeTwitterAndAddToDb = onRequest(
         const tweetContent = e.querySelector('.tweet-content').innerHTML
         const tweetAttachments = Array.from(e.querySelectorAll('.still-image'), (e) => e.toString())
         const tweetTimestamp = e.querySelector('.tweet-date').firstChild.getAttribute('title')
+        const tweetLink =
+          'https://twitter.com' + e.querySelector('.tweet-link').getAttribute('href')
+        const tweetVideoThumbnail =
+          e.querySelector('.video-container') &&
+          e.querySelector('.video-container').firstElementChild.getAttribute('src')
 
         const timeRegex = /\b(\w{3} \d{1,2}, \d{4}) · (\d{1,2}:\d{2} [APMapm]{2}) UTC\b/
         const match = tweetTimestamp.match(timeRegex)
@@ -53,6 +58,8 @@ exports.scrapeTwitterAndAddToDb = onRequest(
           tweetContent: tweetContent,
           tweetAttachments: tweetAttachments,
           tweetTimestamp: utcTimestamp,
+          tweetLink: tweetLink,
+          tweetVideoThumbnail: tweetVideoThumbnail && 'nitter.net' + tweetVideoThumbnail,
         }
       })
     })
