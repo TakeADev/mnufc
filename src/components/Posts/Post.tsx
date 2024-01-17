@@ -83,7 +83,7 @@ function Post({ post, postPage }: PostProps) {
               <PostInfoContainer>
                 <ProfilePicBubble
                   onClick={navigateToProfileOnClick}
-                  addedClasses='mx-5 h-8 w-8 mt-2'
+                  addedClasses='mx-4 h-10 w-10 mt-2'
                   profilePic={postUserDoc.profilePic}
                 />
                 <PostInfo post={post} />
@@ -118,7 +118,7 @@ function Post({ post, postPage }: PostProps) {
                     <ProfilePicBubble
                       onClick={navigateToProfileOnClick}
                       profilePic={originalPostUser.profilePic}
-                      addedClasses='mx-5 h-8 w-8 mt-2'
+                      addedClasses='mx-4 h-10 w-10 mt-2'
                     />
                     <PostInfo post={originalPost} />
                   </PostInfoContainer>
@@ -147,7 +147,7 @@ function Post({ post, postPage }: PostProps) {
               <ProfilePicBubble
                 onClick={navigateToProfileOnClick}
                 profilePic={postUserDoc.profilePic}
-                addedClasses='mx-5 h-8 w-8 mt-2'
+                addedClasses='mx-4 h-10 w-10 mt-2'
               />
               <PostInfo post={post} />
             </PostInfoContainer>
