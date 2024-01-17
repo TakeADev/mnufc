@@ -7,13 +7,30 @@ import { IUserPost, UserPostsContext } from '../../contexts/UserPosts'
 import { FeedContext } from '../../contexts/FeedContext'
 import { MenuContext } from '../../contexts/MenuContext'
 import Post from '../Posts/Post'
+import { TweetContext } from '../../contexts/TweetsContext'
+import Tweet from '../Tweets/Tweet'
 
 function Feed() {
   const [postAmount, setPostAmount] = useState<number>(10)
+  const [allPosts, setAllPosts] = useState([])
 
   const { userPosts } = useContext(UserPostsContext)
+  const { tweets } = useContext(TweetContext)
   const { setIsLoading } = useContext(FeedContext)
   const { setIsOpen } = useContext(MenuContext)
+
+  useEffect(() => {
+    if (tweets && userPosts) {
+      const newTweets = tweets.map((tweet) => {
+        return { ...tweet, tweet: true }
+      })
+      const posts = newTweets.concat(userPosts)
+      const postsSorted = posts.sort((a, b) => {
+        return parseInt(a.timestamp) - parseInt(b.timestamp)
+      })
+      setAllPosts(postsSorted.reverse())
+    }
+  }, [tweets, userPosts])
 
   //When user scrolls to bottom of page, adds 10 to amount of posts being shown
   const handleScroll = () => {
@@ -40,11 +57,13 @@ function Feed() {
   return (
     <FeedContainer>
       <CreatePost isReply={false} />
-      {userPosts ? (
-        userPosts.map((post: IUserPost, index) => {
-          if (index < postAmount) {
-            return <Post key={post.postId} post={post} />
+
+      {allPosts ? (
+        allPosts.map((post) => {
+          if (post.tweet) {
+            return <Tweet tweet={post} />
           }
+          return <Post post={post} />
         })
       ) : (
         <LoadingSpinner />
