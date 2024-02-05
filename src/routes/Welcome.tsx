@@ -19,7 +19,7 @@ function Welcome() {
         >
           <div className='mx-auto w-full ml-10 md:ml-0'>
             <span className='text-5xl font-bold'>
-              Minnesota United <br /> Fan Club
+              Minnesota United <br /> Social Club
             </span>
             <h2 className='text-2xl mt-10 mb-5 font-bold'>Swim with the Loons.</h2>
             <div className=''>
