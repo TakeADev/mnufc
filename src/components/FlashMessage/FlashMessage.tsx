@@ -30,6 +30,7 @@ const FlashMessage = () => {
               {flashError === 'auth/username-already-in-use' && 'Username is not available.'}
               {flashError === 'auth/invalid-email' && 'Invalid email.'}
               {flashError === 'auth/weak-password' && 'Password is too weak.'}
+              {flashError === 'auth/passwords-dont-match' && 'Passwords do not match'}
             </span>
           </div>
         </div>
