@@ -7,6 +7,7 @@ import { MdCameraAlt } from 'react-icons/md'
 import { IUserDoc, UserContext } from '../../contexts/User.jsx'
 import { ModalContext } from '../../contexts/ModalContext'
 import { CropperContext } from '../../contexts/CropperContext.js'
+import { FlashMessageContext } from '../../contexts/FlashMessageContext.js'
 
 import { MODAL_TYPES } from '../../contexts/ModalContext'
 const { photoCrop } = MODAL_TYPES
@@ -30,6 +31,7 @@ const EditProfileForm = () => {
   const { currentAuthUser, setCurrentUserDoc, currentUserDoc } = useContext(UserContext)
   const { modalIsOpen, setModalIsOpen, setModalType } = useContext(ModalContext)
   const { setPhotoToBeCropped, setPhotoType } = useContext(CropperContext)
+  const { triggerFlashError } = useContext(FlashMessageContext)
 
   const defaultFormFields: IEditProfileFormFields = {
     displayName: '',
@@ -101,6 +103,10 @@ const EditProfileForm = () => {
   //Opens photo crop modal when user changes file input w/ current file
   const inputProfilePicChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
+      console.log(e.target.files[0].size)
+      if (e.target.files[0].size > 5242880) {
+        return triggerFlashError('file/exceeds-size')
+      }
       const reader = new FileReader()
       reader.readAsDataURL(e.target.files[0])
       reader.addEventListener('load', () => {
@@ -112,6 +118,9 @@ const EditProfileForm = () => {
   }
   const inputBannerPicChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
+      if (e.target.files[0].size > 5242880) {
+        return triggerFlashError('file/exceeds-size')
+      }
       const reader = new FileReader()
       reader.readAsDataURL(e.target.files[0])
       reader.addEventListener('load', () => {

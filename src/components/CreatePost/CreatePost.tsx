@@ -2,12 +2,16 @@ import { useState, useContext, FunctionComponent, useRef } from 'react'
 
 import { useParams } from 'react-router-dom'
 
-import Button from '../Button'
+import { MdClose, MdOutlinePhoto } from 'react-icons/md'
+
+import { uploadUserPhoto } from '../../utils/firebase/firebase-config'
+
 import { UserContext } from '../../contexts/User'
 import { IUserPost, UserPostsContext } from '../../contexts/UserPosts'
 import { ModalContext } from '../../contexts/ModalContext'
-import { MdClose, MdOutlinePhoto } from 'react-icons/md'
-import { uploadUserPhoto } from '../../utils/firebase/firebase-config'
+import { FlashMessageContext } from '../../contexts/FlashMessageContext'
+
+import Button from '../Button'
 
 interface ICreatePostProps {
   isReply?: boolean
@@ -29,6 +33,7 @@ const CreatePost: FunctionComponent<ICreatePostProps> = ({
   const { currentAuthUser, currentUserDoc } = useContext(UserContext)
   const { createNewUserPost } = useContext(UserPostsContext)
   const { setModalIsOpen } = useContext(ModalContext)
+  const { triggerFlashError } = useContext(FlashMessageContext)
 
   const resetFormValue = () => {
     setPostData('')
@@ -78,6 +83,9 @@ const CreatePost: FunctionComponent<ICreatePostProps> = ({
   }
 
   const inputPhotoChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files[0].size > 5242880) {
+      return triggerFlashError('file/exceeds-size')
+    }
     const reader = new FileReader()
 
     reader.readAsDataURL(e.target.files[0])
