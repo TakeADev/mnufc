@@ -56,14 +56,20 @@ function PostInfo({ post }) {
 
   if (postUser) {
     return (
-      <div className='w-max mt-1 max-h-10 mb-0 -ml-2'>
-        <span onClick={navigateToProfileOnClick} className=''>
-          <b>{postUser.displayName}</b>
-        </span>
-        <span onClick={navigateToProfileOnClick} className='ml-3 text-gray-500 text-sm'>
-          @{username}
-        </span>
-        <span className='ml-3 text-gray-500 text-xs'>{date}</span>
+      <div className='w-full max-w-[82vw] mt-1 max-h-10 mb-0 -ml-2 flex'>
+        <div className='basis-1/3 max-w-fit overflow-hidden inline '>
+          <span onClick={navigateToProfileOnClick} className=''>
+            <b>{postUser.displayName}</b>
+          </span>
+        </div>
+        <div className='basis-1/3 max-w-fit overflow-hidden inline'>
+          <span onClick={navigateToProfileOnClick} className='ml-3 text-gray-500 text-sm'>
+            @{username}
+          </span>
+        </div>
+        <div className='basis-1/3 overflow-hidden inline'>
+          <span className='ml-3 text-gray-500 text-xs'>{date}</span>
+        </div>
       </div>
     )
   } else {
