@@ -10,6 +10,7 @@ import { UserContext } from '../../contexts/User'
 import { IUserPost, UserPostsContext } from '../../contexts/UserPosts'
 import { ModalContext } from '../../contexts/ModalContext'
 import { FlashMessageContext } from '../../contexts/FlashMessageContext'
+import { FeedContext } from '../../contexts/FeedContext'
 
 import Button from '../Button'
 
@@ -34,6 +35,7 @@ const CreatePost: FunctionComponent<ICreatePostProps> = ({
   const { createNewUserPost } = useContext(UserPostsContext)
   const { setModalIsOpen } = useContext(ModalContext)
   const { triggerFlashError } = useContext(FlashMessageContext)
+  const { isLoading, setIsLoading } = useContext(FeedContext)
 
   const resetFormValue = () => {
     setPostData('')
@@ -59,12 +61,14 @@ const CreatePost: FunctionComponent<ICreatePostProps> = ({
     if (postData || attachedPhoto) {
       resetFormValue()
       if (attachedPhoto) {
+        setIsLoading(true)
         await uploadUserPhoto(attachedPhoto, currentUserDoc).then((res) =>
           createNewUserPost(currentAuthUser, postData, replyTo, res)
         )
         setAttachedPhoto(null)
       } else createNewUserPost(currentAuthUser, postData, replyTo)
     }
+    setIsLoading(false)
     setAttachedPhoto(null)
     setModalIsOpen(false)
   }
@@ -142,7 +146,10 @@ const CreatePost: FunctionComponent<ICreatePostProps> = ({
           </div>
         </div>
         <div className='text-right mt-2'>
-          <Button type='submit' addedClasses='w-20 text-black bg-mn-blue'>
+          <Button
+            type='submit'
+            addedClasses={`w-20 text-black bg-mn-blue ${isLoading && 'pointer-events-none'}`}
+          >
             Post
           </Button>
         </div>
