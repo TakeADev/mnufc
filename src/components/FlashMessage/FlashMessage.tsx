@@ -31,6 +31,7 @@ const FlashMessage = () => {
               {flashError === 'auth/invalid-email' && 'Invalid email.'}
               {flashError === 'auth/weak-password' && 'Password is too weak.'}
               {flashError === 'auth/passwords-dont-match' && 'Passwords do not match'}
+              {flashError === 'file/exceeds-size' && 'Maximum file size is 5MB'}
             </span>
           </div>
         </div>
