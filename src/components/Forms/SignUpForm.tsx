@@ -32,17 +32,15 @@ function SignUpForm() {
     e.preventDefault()
 
     if (password !== confirmPassword) {
-      return triggerFlashError('Passwords do not match.')
+      return triggerFlashError('auth/passwords-dont-match')
     }
     try {
-      const user = await createNewUserWithEmailAndPassword(email, password, username).then(
-        (res) => {
-          if (res.err) {
-            return triggerFlashError(res.err)
-          }
-          createUserDocumentFromAuth(user, { username: username })
+      await createNewUserWithEmailAndPassword(email, password, username).then((res) => {
+        if (res.err) {
+          return triggerFlashError(res.err)
         }
-      )
+        createUserDocumentFromAuth(res, { username: username })
+      })
     } catch (err) {
       if (err.code === 'auth/email-already-in-use') {
         alert('Cannot create user. Email already in use.')
