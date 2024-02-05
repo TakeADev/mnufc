@@ -55,7 +55,9 @@ const PostMenu = ({ post }: PostMenuProps) => {
 
   const shareButtonHandler = () => {
     setFlashType(copy)
-    navigator.clipboard.writeText(`http://localhost:5173/${post.username}/status/${post.postId}`)
+    navigator.clipboard.writeText(
+      `https://minnesotaunitedsocialclub.onrender.com/${post.username}/status/${post.postId}`
+    )
   }
 
   useEffect(() => {
