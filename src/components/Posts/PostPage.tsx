@@ -47,7 +47,13 @@ const PostPage = () => {
             </span>
           </div>
           <Post post={pagePost} postPage={false} />
-          {currentAuthUser && <CreatePost isReply={true} />}
+          {currentAuthUser ? (
+            <CreatePost isReply={true} />
+          ) : (
+            <div className='text-center text-xl font-bold mt-3 pb-3 border-b border-slate-700'>
+              Replies
+            </div>
+          )}
           {pagePost.replies &&
             pagePost.replies.map((replyId: string) => {
               const foundPost = userPosts.find((post) => {
