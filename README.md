@@ -14,9 +14,8 @@
 A social media platform dedicated to fans of Minnesota United Football Club. This project was built using TypeScript, React, TailWindCSS and Google Firebase.
 
 <img src=https://github.com/TakeADev/mnufc/assets/106417346/4ba36f27-0d26-40aa-81c5-382aa9049634 style="width:70%;"/>
-<!-- TODO:
-    1. Link to a 'live demo.'
- -->
+
+https://minnesotaunitedsocialclub.onrender.com
  
 ## Features
 
