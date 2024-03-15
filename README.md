@@ -39,4 +39,8 @@ To build the project:
 
 ## Contact
 
-Linkedin: https://www.linkedin.com/in/chance-conway-5b687828b/
+[Portfolio](https://portfolio-v1-wlpm.onrender.com)
+
+[Linkedin](linkedin.com/in/chance-conway-5b687828b)
+
+[email](chanceconwaydev@gmail.com)
